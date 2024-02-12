@@ -1,12 +1,12 @@
 import Architecture
-import Foundation
 import ComposableArchitecture
+import Foundation
 
 struct LikeSideEffect {
   let useCase: DashboardEnvironmentUsable
   let main: AnySchedulerOf<DispatchQueue>
   let navigator: RootNavigatorType
-  
+
   init(
     useCase: DashboardEnvironmentUsable,
     main: AnySchedulerOf<DispatchQueue> = .main,
@@ -17,4 +17,3 @@ struct LikeSideEffect {
     self.navigator = navigator
   }
 }
-
