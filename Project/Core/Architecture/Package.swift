@@ -20,10 +20,10 @@ let package = Package(
     .package(path: "../Functor"),
     .package(
       url: "https://github.com/interactord/LinkNavigator",
-      .upToNextMajor(from: "1.0.2")),
+      .upToNextMajor(from: "1.2.1")),
     .package(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
-      .upToNextMajor(from: "1.5.5")),
+      .upToNextMajor(from: "1.7.3")),
     .package(
       url: "https://github.com/apple/swift-log.git",
       .upToNextMajor(from: "1.5.3")),
