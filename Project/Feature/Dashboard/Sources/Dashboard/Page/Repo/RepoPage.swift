@@ -11,6 +11,13 @@ struct RepoPage {
 
 extension RepoPage: View {
   var body: some View {
-    Text("RepoPage")
+    NavigationStack {
+      Text("RepoPage")
+    }
+    .searchable(text: $store.query)
+    .navigationTitle("Repository")
+    .onAppear {
+      store.send(.search(store.query))
+    }
   }
 }
