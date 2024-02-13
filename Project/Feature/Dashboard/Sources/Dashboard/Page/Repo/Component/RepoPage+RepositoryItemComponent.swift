@@ -5,7 +5,7 @@ import DesignSystem
 extension RepoPage {
   struct RepositoryItemComponent {
     let viewState: ViewState
-    let action: (GithubEntity.Search.Item) -> Void
+    let action: (GithubEntity.Search.Repository.Item) -> Void
   }
 }
 
@@ -93,6 +93,6 @@ extension RepoPage.RepositoryItemComponent: View {
 
 extension RepoPage.RepositoryItemComponent {
   struct ViewState: Equatable {
-    let item: GithubEntity.Search.Item
+    let item: GithubEntity.Search.Repository.Item
   }
 }

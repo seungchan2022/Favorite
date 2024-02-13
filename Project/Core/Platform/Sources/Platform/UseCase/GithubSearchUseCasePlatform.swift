@@ -10,7 +10,7 @@ public struct GithubSearchUseCasePlatform {
 }
 
 extension GithubSearchUseCasePlatform: GithubSearchUseCase {
-  public var search: (GithubEntity.Search.Request) -> AnyPublisher<GithubEntity.Search.Response, CompositeErrorRepository> {
+  public var search: (GithubEntity.Search.Repository.Request) -> AnyPublisher<GithubEntity.Search.Repository.Response, CompositeErrorRepository> {
     {
       Endpoint(
         baseURL: baseURL,

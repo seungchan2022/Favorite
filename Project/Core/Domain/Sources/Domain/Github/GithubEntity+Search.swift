@@ -1,20 +1,27 @@
 extension GithubEntity {
-  public enum Search { }
+  public enum Search { 
+    public enum Repository { }
+    
+    public enum User { }
+  }
 }
 
-extension GithubEntity.Search {
-  public struct Request: Equatable, Codable {
+extension GithubEntity.Search.Repository {
+  public struct Request: Equatable, Codable, Sendable {
     public let query: String
     public let page: Int
+    public let perPage: Int
     
-    public init(query: String, page: Int = 1) {
+    public init(query: String, page: Int = 1, perPage: Int = 30) {
       self.query = query
       self.page = page
+      self.perPage = perPage
     }
     
     private enum CodingKeys: String, CodingKey {
       case query = "q"
       case page
+      case perPage = "per_page"
     }
   }
   
@@ -60,5 +67,20 @@ extension GithubEntity.Search {
       case id
       case avatarUrl = "avatar_url"
     }
+  }
+}
+
+extension GithubEntity.Search.Repository {
+  public struct Composite: Equatable, Sendable {
+    public let request: GithubEntity.Search.Repository.Request
+    public let response: GithubEntity.Search.Repository.Response
+    
+    public init(
+      request: GithubEntity.Search.Repository.Request,
+      response: GithubEntity.Search.Repository.Response)
+    {
+        self.request = request
+        self.response = response
+      }
   }
 }
