@@ -21,10 +21,10 @@ struct RepoSideEffect {
 }
 
 extension RepoSideEffect {
-  var search: (GithubEntity.Search.Repository.Request) -> Effect<RepoStore.Action> {
+  var searchRepository: (GithubEntity.Search.Repository.Request) -> Effect<RepoStore.Action> {
     { item in
         .publisher {
-          useCase.githubSearchUsecase.search(item)
+          useCase.githubSearchUsecase.searchRepository(item)
             .receive(on: main)
             .map {
               GithubEntity.Search.Repository.Composite(

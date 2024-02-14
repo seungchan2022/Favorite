@@ -64,7 +64,7 @@ struct RepoStore {
         
         let page = Int(state.itemList.count / state.perPage) + 1
         state.fetchSearchItem.isLoading = true
-        return sideEffect.search(.init(query: query, page: page, perPage: state.perPage))
+        return sideEffect.searchRepository(.init(query: query, page: page, perPage: state.perPage))
           .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
         
       case .fetchSearchItem(let result):
