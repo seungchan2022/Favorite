@@ -22,7 +22,7 @@ struct UserStore {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-    var query: String = "mbrandonw"
+    var query: String = "s"
     var itemList: [GithubEntity.Search.User.Item] = []
     var fetchSearchItem: FetchState.Data<GithubEntity.Search.User.Composite?> = .init(isLoading: false, value: .none)
 

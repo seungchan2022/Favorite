@@ -13,6 +13,12 @@ extension UserPage {
   private var searchViewState: SearchBar.ViewState {
     .init(text: $store.query)
   }
+  
+  private var gridColumnList: [GridItem] {
+    Array(
+      repeating: .init(.flexible()),
+      count: UIDevice.current.userInterfaceIdiom == .pad ? 6 : 3)
+  }
 }
 
 // MARK: View
@@ -30,7 +36,7 @@ extension UserPage: View {
       }
       
       ScrollView {
-        LazyVStack {
+        LazyVGrid(columns: gridColumnList, spacing: .zero) {
           ForEach(store.itemList, id: \.id) { item in
             UserItemComponent(
               viewState: .init(item: item),

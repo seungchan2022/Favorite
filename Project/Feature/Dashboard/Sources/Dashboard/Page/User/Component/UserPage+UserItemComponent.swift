@@ -24,20 +24,23 @@ extension UserPage.UserItemComponent: View {
           Rectangle()
             .fill(DesignSystemColor.palette(.gray(.lv100)).color)
         })
-      .frame(width: 50, height: 50)
+      .frame(width: 80, height: 80)
       .clipShape(RoundedRectangle(cornerRadius: 10))
       
       Text(viewState.item.loginName)
         .font(.system(size: 14, weight: .bold))
         .foregroundStyle(DesignSystemColor.system(.black).color)
     }
+//    .background(.red)
+    .frame(width: 80, height: 120)
+    .padding(4)
+//    .frame(maxWidth: .infinity)
+//    .background(.gray)
     .onTapGesture {
       action(viewState.item)
     }
   }
-  
 }
-
 
 extension UserPage.UserItemComponent {
   struct ViewState: Equatable {
