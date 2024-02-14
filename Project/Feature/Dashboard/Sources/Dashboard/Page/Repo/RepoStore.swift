@@ -51,6 +51,7 @@ struct RepoStore {
       switch action {
       case .binding:
         return .none
+        
       case .search(let query):
         guard !query.isEmpty else {
           state.itemList = []
@@ -73,15 +74,17 @@ struct RepoStore {
           state.itemList = []
           return .none
         }
+        
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
-//          state.itemList = state.itemList + item.itemList
+//          state.itemList = state.itemList + item.response.itemList
           state.itemList = state.itemList.merge(item.response.itemList)
           if state.itemList.isEmpty {
             sideEffect.useCase.toastViewModel.send(message: "검색결과가 없습니다.")
           }
           return .none
+          
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
