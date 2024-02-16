@@ -21,5 +21,14 @@ struct ProfileSideEffect {
 }
 
 extension ProfileSideEffect {
-  
+  var userProfile: (String) -> Effect<ProfileStore.Action> {
+    { item in
+        .publisher {
+          useCase.githubSearchUsecase.userProfile(item)
+            .receive(on: main)
+            .mapToResult()
+            .map(ProfileStore.Action.fetchProfileItem)
+        }
+    }
+  }
 }
