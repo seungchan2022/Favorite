@@ -43,13 +43,13 @@ struct ShareWebStore {
 
   var body: some Reducer<State, Action> {
     BindingReducer()
-    Reduce { _, action in
+    Reduce { state, action in
       switch action {
       case .binding:
-        .none
+        return .none
 
       case .teardown:
-        .concatenate(
+        return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
       }
     }

@@ -7,19 +7,32 @@ struct ShareWebPage {
   @Bindable var store: StoreOf<ShareWebStore>
 }
 
+extension ShareWebPage {
+  var shareURL: URL? {
+    guard let str = store.item.htmlURL else { return .none }
+    return .init(string: str)
+  }
+}
+
 // MARK: View
 
 extension ShareWebPage: View {
   var body: some View {
     VStack {
-      Text("ShareWebPage \(store.item.desc ?? "")")
+      WebContent(viewState: .init(item: store.item))
     }
+    .navigationTitle(store.item.fullName)
+    .navigationBarTitleDisplayMode(.inline)
     .toolbar {
-      ToolbarItem(placement: .topBarTrailing) {
-        Button(action: { }) {
-          Image(systemName: "square.and.arrow.up")
+      if let shareURL {
+        ToolbarItem(placement: .topBarTrailing) {
+          ShareLink(item: shareURL) {
+            Image(systemName: "square.and.arrow.up")
+          }
         }
       }
     }
+
+    
   }
 }
