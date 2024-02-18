@@ -22,7 +22,7 @@ let package = Package(
     .target(
       name: "DesignSystem",
       dependencies: [
-        "SDWebImageSwiftUI"
+        "SDWebImageSwiftUI",
       ]),
     .testTarget(
       name: "DesignSystemTests",

@@ -1,8 +1,8 @@
+import Architecture
 import ComposableArchitecture
 import Dispatch
-import Foundation
-import Architecture
 import Domain
+import Foundation
 
 @Reducer
 struct UserStore {
@@ -22,7 +22,7 @@ struct UserStore {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-    var query: String = "s"
+    var query = ""
     var itemList: [GithubEntity.Search.User.Item] = []
     var fetchSearchItem: FetchState.Data<GithubEntity.Search.User.Composite?> = .init(isLoading: false, value: .none)
 
@@ -56,25 +56,24 @@ struct UserStore {
           state.itemList = []
           return .none
         }
-        
+
         if state.query != state.fetchSearchItem.value?.request.query { state.itemList = [] }
         if let totalCount = state.fetchSearchItem.value?.response.totalCount, totalCount < state.itemList.count {
           return .none
         }
-        
+
         let page = Int(state.itemList.count / 30) + 1
         state.fetchSearchItem.isLoading = true
         return sideEffect.searchUser(.init(query: query, page: page))
           .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
-        
+
       case .fetchSearchItem(let result):
-        print(result)
         state.fetchSearchItem.isLoading = false
         guard !state.query.isEmpty else {
           state.itemList = []
           return .none
         }
-        
+
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
@@ -83,17 +82,16 @@ struct UserStore {
             sideEffect.useCase.toastViewModel.send(message: "검색 결과가 없습니다.")
           }
           return .none
-         
+
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
-        
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         Logger.error(.init(stringLiteral: error.displayMessage))
         return .none
-        
+
       case .teardown:
         return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })

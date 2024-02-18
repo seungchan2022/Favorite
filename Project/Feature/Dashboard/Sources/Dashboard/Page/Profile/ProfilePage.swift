@@ -1,11 +1,15 @@
-import SwiftUI
+import Architecture
 import ComposableArchitecture
 import Domain
-import Architecture
+import SwiftUI
+
+// MARK: - ProfilePage
 
 struct ProfilePage {
   @Bindable var store: Store<ProfileStore.State, ProfileStore.Action>
 }
+
+// MARK: View
 
 extension ProfilePage: View {
   var body: some View {

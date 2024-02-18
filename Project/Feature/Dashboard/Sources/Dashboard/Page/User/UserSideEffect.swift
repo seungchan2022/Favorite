@@ -1,8 +1,10 @@
 import Architecture
-import ComposableArchitecture
-import Foundation
-import Domain
 import CombineExt
+import ComposableArchitecture
+import Domain
+import Foundation
+
+// MARK: - UserSideEffect
 
 struct UserSideEffect {
   let useCase: DashboardEnvironmentUsable
@@ -23,17 +25,17 @@ struct UserSideEffect {
 extension UserSideEffect {
   var searchUser: (GithubEntity.Search.User.Request) -> Effect<UserStore.Action> {
     { item in
-        .publisher {
-          useCase.githubSearchUsecase.searchUser(item)
-            .receive(on: main)
-            .map {
-              GithubEntity.Search.User.Composite(
-                request: item,
-                response: $0)
-            }
-            .mapToResult()
-            .map(UserStore.Action.fetchSearchItem)
-        }
+      .publisher {
+        useCase.githubSearchUsecase.searchUser(item)
+          .receive(on: main)
+          .map {
+            GithubEntity.Search.User.Composite(
+              request: item,
+              response: $0)
+          }
+          .mapToResult()
+          .map(UserStore.Action.fetchSearchItem)
+      }
     }
   }
 }

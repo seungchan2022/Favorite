@@ -1,9 +1,16 @@
+// MARK: - GithubEntity.Profile
+
 extension GithubEntity {
   public enum Profile { }
 }
 
+// MARK: - GithubEntity.Profile.Item
+
 extension GithubEntity.Profile {
   public struct Item: Equatable, Codable, Sendable {
+
+    // MARK: Public
+
     public let id: Int
     public let avatarUrl: String
     public let name: String?
@@ -15,7 +22,9 @@ extension GithubEntity.Profile {
     public let followers: Int
     public let following: Int
     public let created: String
-    
+
+    // MARK: Private
+
     private enum CodingKeys: String, CodingKey {
       case id
       case avatarUrl = "avatar_url"

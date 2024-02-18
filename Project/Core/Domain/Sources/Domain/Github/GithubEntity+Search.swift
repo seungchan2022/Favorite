@@ -1,3 +1,5 @@
+// MARK: - GithubEntity.Search
+
 extension GithubEntity {
   public enum Search {
     public enum Repository { }
@@ -10,31 +12,34 @@ extension GithubEntity.Search.Repository {
     public let query: String
     public let page: Int
     public let perPage: Int
-    
+
     public init(query: String, page: Int = 1, perPage: Int = 30) {
       self.query = query
       self.page = page
       self.perPage = perPage
     }
-    
+
     private enum CodingKeys: String, CodingKey {
       case query = "q"
       case page
       case perPage = "per_page"
     }
   }
-  
+
   public struct Response: Equatable, Codable, Sendable {
     public let totalCount: Int
     public let itemList: [Item]
-    
+
     private enum CodingKeys: String, CodingKey {
       case totalCount = "total_count"
       case itemList = "items"
     }
   }
-  
+
   public struct Item: Equatable, Codable, Identifiable, Sendable {
+
+    // MARK: Public
+
     public let id: Int
     public let fullName: String
     public let desc: String?
@@ -44,7 +49,9 @@ extension GithubEntity.Search.Repository {
     public let topicList: [String]
     public let lastUpdate: String
     public let owner: Owner
-    
+
+    // MARK: Private
+
     private enum CodingKeys: String, CodingKey {
       case id
       case fullName = "full_name"
@@ -57,11 +64,11 @@ extension GithubEntity.Search.Repository {
       case owner
     }
   }
-  
+
   public struct Owner: Equatable, Codable, Sendable {
     public let id: Int
     public let avatarUrl: String
-    
+
     private enum CodingKeys: String, CodingKey {
       case id
       case avatarUrl = "avatar_url"
@@ -69,11 +76,13 @@ extension GithubEntity.Search.Repository {
   }
 }
 
+// MARK: - GithubEntity.Search.Repository.Composite
+
 extension GithubEntity.Search.Repository {
   public struct Composite: Equatable, Sendable {
     public let request: GithubEntity.Search.Repository.Request
     public let response: GithubEntity.Search.Repository.Response
-    
+
     public init(
       request: GithubEntity.Search.Repository.Request,
       response: GithubEntity.Search.Repository.Response)
@@ -88,33 +97,33 @@ extension GithubEntity.Search.User {
   public struct Request: Equatable, Codable, Sendable {
     public let query: String
     public let page: Int
-    
+
     public init(query: String, page: Int = 1) {
       self.query = query
       self.page = page
     }
-    
+
     private enum CodingKeys: String, CodingKey {
       case query = "q"
       case page
     }
   }
-  
+
   public struct Response: Equatable, Codable, Sendable {
     public let totalCount: Int
     public let itemList: [Item]
-    
+
     private enum CodingKeys: String, CodingKey {
       case totalCount = "total_count"
       case itemList = "items"
     }
   }
-  
+
   public struct Item: Equatable, Codable, Identifiable, Sendable {
     public let id: Int
     public let loginName: String
     public let avatarUrl: String
-    
+
     private enum CodingKeys: String, CodingKey {
       case id
       case loginName = "login"
@@ -123,11 +132,13 @@ extension GithubEntity.Search.User {
   }
 }
 
+// MARK: - GithubEntity.Search.User.Composite
+
 extension GithubEntity.Search.User {
   public struct Composite: Equatable, Sendable {
     public let request: GithubEntity.Search.User.Request
     public let response: GithubEntity.Search.User.Response
-    
+
     public init(
       request: GithubEntity.Search.User.Request,
       response: GithubEntity.Search.User.Response)
@@ -137,4 +148,3 @@ extension GithubEntity.Search.User {
     }
   }
 }
-

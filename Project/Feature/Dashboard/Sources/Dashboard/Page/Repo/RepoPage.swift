@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import DesignSystem
+import SwiftUI
 
 // MARK: - RepoPage
 
@@ -26,18 +26,18 @@ extension RepoPage: View {
             store.send(.search(store.query))
           })
       }
-      
+
       ScrollView {
         LazyVStack(spacing: .zero) {
           ForEach(store.itemList, id: \.id) { item in
             RepositoryItemComponent(
               viewState: .init(item: item),
-              action: { _ in print(item) })
-            .onAppear {
-              guard let last = store.itemList.last, last.id == item.id else { return }
-              guard !store.fetchSearchItem.isLoading else { return }
-              store.send(.search(store.query))
-            }
+              action: { _ in })
+              .onAppear {
+                guard let last = store.itemList.last, last.id == item.id else { return }
+                guard !store.fetchSearchItem.isLoading else { return }
+                store.send(.search(store.query))
+              }
           }
         }
       }

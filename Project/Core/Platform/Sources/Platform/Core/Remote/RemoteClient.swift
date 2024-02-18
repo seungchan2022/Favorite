@@ -45,7 +45,7 @@ extension URLSession {
             if let remoteError = try? JSONDecoder().decode(RemoteError.self, from: data) {
               throw CompositeErrorRepository.remoteError(remoteError)
             }
-            
+
             throw CompositeErrorRepository.networkUnknown
           }
 
