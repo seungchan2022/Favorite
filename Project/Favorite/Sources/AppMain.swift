@@ -49,9 +49,12 @@ extension AppMain: View {
             title: "Profile",
             image: .init(systemName: "person.crop.rectangle"),
             tag: 3),
-          linkItem: .init(path: Link.Dashboard.Path.profile.rawValue),
+          linkItem: .init(path: Link.Dashboard.Path.userDetail.rawValue),
           prefersLargeTitles: true),
       ])
-      .ignoresSafeArea()
+    .ignoresSafeArea()
+    .onAppear {
+      viewModel.linkNavigator.moveTab(targetPath: Link.Dashboard.Path.user.rawValue)
+    }
   }
 }

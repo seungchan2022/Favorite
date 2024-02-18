@@ -1,12 +1,16 @@
 // MARK: - GithubEntity.Profile
 
 extension GithubEntity {
-  public enum Profile { }
+  public enum Detail {
+    
+    public enum Profile { }
+  }
+  
 }
 
 // MARK: - GithubEntity.Profile.Item
 
-extension GithubEntity.Profile {
+extension GithubEntity.Detail.Profile {
   public struct Item: Equatable, Codable, Sendable {
 
     // MARK: Public

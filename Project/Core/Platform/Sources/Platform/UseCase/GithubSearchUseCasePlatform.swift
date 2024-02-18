@@ -41,15 +41,4 @@ extension GithubSearchUseCasePlatform: GithubSearchUseCase {
         .fetch(isDebug: true)
     }
   }
-
-  public var userProfile: (String) -> AnyPublisher<GithubEntity.Profile.Item, CompositeErrorRepository> {
-    {
-      Endpoint(
-        baseURL: baseURL,
-        pathList: ["users", $0],
-        httpMethod: .get,
-        content: .queryItemPath($0))
-        .fetch(isDebug: true)
-    }
-  }
 }

@@ -26,7 +26,7 @@ extension RepoSideEffect {
   var searchRepository: (GithubEntity.Search.Repository.Request) -> Effect<RepoStore.Action> {
     { item in
       .publisher {
-        useCase.githubSearchUsecase.searchRepository(item)
+        useCase.githubSearchUseCase.searchRepository(item)
           .receive(on: main)
           .map {
             GithubEntity.Search.Repository.Composite(

@@ -9,5 +9,6 @@ import Platform
 
 struct AppSideEffect: DependencyType, DashboardEnvironmentUsable {
   let toastViewModel: ToastViewModel
-  let githubSearchUsecase: GithubSearchUseCase
+  let githubSearchUseCase: GithubSearchUseCase
+  let githubDetailUseCase: GithubDetailUseCase
 }
