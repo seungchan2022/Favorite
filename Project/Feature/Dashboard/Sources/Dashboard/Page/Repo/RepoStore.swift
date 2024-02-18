@@ -25,7 +25,7 @@ struct RepoStore {
   struct State: Equatable, Identifiable {
     let id: UUID
     let perPage = 40
-    var query = ""
+    var query = "swift"
     var itemList: [GithubEntity.Search.Repository.Item] = []
     var fetchSearchItem: FetchState.Data<GithubEntity.Search.Repository.Composite?> = .init(isLoading: false, value: .none)
 
@@ -38,6 +38,9 @@ struct RepoStore {
     case binding(BindingAction<State>)
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.Repository.Composite, CompositeErrorRepository>)
+    
+    case routeToDetail(GithubEntity.Search.Repository.Item)
+    
     case throwError(CompositeErrorRepository)
     case teardown
   }
@@ -90,6 +93,10 @@ struct RepoStore {
           return .run { await $0(.throwError(error)) }
         }
 
+      case .routeToDetail(let item):
+        sideEffect.routeToDeatil(item)
+        return .none
+        
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         Logger.error(Logger.Message(stringLiteral: error.displayMessage))

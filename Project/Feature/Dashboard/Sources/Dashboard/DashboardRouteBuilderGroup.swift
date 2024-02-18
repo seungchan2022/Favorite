@@ -14,6 +14,7 @@ extension DashboardRouteBuilderGroup {
       UserRouteBuilder.generate(),
       LikeRouteBuilder.generate(),
       ProfileRouteBuilder.generate(),
+      ShareWebRouteBuilder.generate(),
     ]
   }
 }

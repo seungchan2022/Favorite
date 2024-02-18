@@ -14,5 +14,6 @@ extension Link.Dashboard {
     case user
     case like
     case profile
+    case shareWeb
   }
 }
