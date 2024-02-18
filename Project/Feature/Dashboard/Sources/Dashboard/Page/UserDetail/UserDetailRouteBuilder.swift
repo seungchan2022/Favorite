@@ -1,19 +1,19 @@
 import Architecture
 import LinkNavigator
 
-struct ProfileRouteBuilder<RootNavigator: RootNavigatorType> {
+struct UserDetailRouteBuilder<RootNavigator: RootNavigatorType> {
   static func generate() -> RouteBuilderOf<RootNavigator> {
-    let matchPath = Link.Dashboard.Path.profile.rawValue
+    let matchPath = Link.Dashboard.Path.userDetail.rawValue
 
     return .init(matchPath: matchPath) { navigator, _, diConatiner -> RouteViewController? in
 
       guard let env: DashboardEnvironmentUsable = diConatiner.resolve() else { return .none }
 
       return DebugWrappingController(matchPath: matchPath) {
-        ProfilePage(store: .init(
-          initialState: ProfileStore.State(),
+        UserDetailPage(store: .init(
+          initialState: UserDetailStore.State(),
           reducer: {
-            ProfileStore(sideEffect: .init(
+            UserDetailStore(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

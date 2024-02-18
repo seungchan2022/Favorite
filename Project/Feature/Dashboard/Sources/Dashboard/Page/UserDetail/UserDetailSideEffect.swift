@@ -4,9 +4,9 @@ import ComposableArchitecture
 import Domain
 import Foundation
 
-// MARK: - ProfileSideEffect
+// MARK: - UserDetailSideEffect
 
-struct ProfileSideEffect {
+struct UserDetailSideEffect {
   let useCase: DashboardEnvironmentUsable
   let main: AnySchedulerOf<DispatchQueue>
   let navigator: RootNavigatorType
@@ -22,14 +22,14 @@ struct ProfileSideEffect {
   }
 }
 
-extension ProfileSideEffect {
-  var userProfile: (String) -> Effect<ProfileStore.Action> {
+extension UserDetailSideEffect {
+  var userUserDetail: (String) -> Effect<UserDetailStore.Action> {
     { item in
       .publisher {
-        useCase.githubSearchUsecase.userProfile(item)
+        useCase.githubDetailUseCase.userProfile(item)
           .receive(on: main)
           .mapToResult()
-          .map(ProfileStore.Action.fetchProfileItem)
+          .map(UserDetailStore.Action.fetchUserDetailItem)
       }
     }
   }

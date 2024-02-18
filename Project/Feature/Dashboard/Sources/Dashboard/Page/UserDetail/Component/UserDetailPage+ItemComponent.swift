@@ -2,16 +2,16 @@ import DesignSystem
 import Domain
 import SwiftUI
 
-// MARK: - ProfilePage.ItemComponent
+// MARK: - UserDetailPage.ItemComponent
 
-extension ProfilePage {
+extension UserDetailPage {
   struct ItemComponent {
     let viewState: ViewState
     //    let action: ()
   }
 }
 
-extension ProfilePage.ItemComponent {
+extension UserDetailPage.ItemComponent {
   func formattedDateString(_ dateString: String) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -24,9 +24,9 @@ extension ProfilePage.ItemComponent {
   }
 }
 
-// MARK: - ProfilePage.ItemComponent + View
+// MARK: - UserDetailPage.ItemComponent + View
 
-extension ProfilePage.ItemComponent: View {
+extension UserDetailPage.ItemComponent: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       HStack(spacing: 8) {
@@ -112,7 +112,7 @@ extension ProfilePage.ItemComponent: View {
           .padding(.horizontal, 16)
 
           Button(action: { }) {
-            Text("Github Profile")
+            Text("Github UserDetail")
               .font(.headline)
               .frame(width: 300)
           }
@@ -182,10 +182,10 @@ extension ProfilePage.ItemComponent: View {
   }
 }
 
-// MARK: - ProfilePage.ItemComponent.ViewState
+// MARK: - UserDetailPage.ItemComponent.ViewState
 
-extension ProfilePage.ItemComponent {
+extension UserDetailPage.ItemComponent {
   struct ViewState: Equatable {
-    let item: GithubEntity.Profile.Item
+    let item: GithubEntity.Detail.Profile.Item
   }
 }

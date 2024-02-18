@@ -5,13 +5,13 @@ import Domain
 import Foundation
 
 @Reducer
-struct ProfileStore {
+struct UserDetailStore {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: ProfileSideEffect)
+    sideEffect: UserDetailSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -23,9 +23,9 @@ struct ProfileStore {
   struct State: Equatable, Identifiable {
     let id: UUID
     var name = "seungchan2022"
-    var profileItem: GithubEntity.Profile.Item? = .none
+    var UserDetailItem: GithubEntity.Detail.Profile.Item? = .none
 
-    var fetchProfileItem: FetchState.Data<GithubEntity.Profile.Item?> = .init(isLoading: false, value: .none)
+    var fetchUserDetailItem: FetchState.Data<GithubEntity.Detail.Profile.Item?> = .init(isLoading: false, value: .none)
 
     init(id: UUID = UUID()) {
       self.id = id
@@ -34,8 +34,8 @@ struct ProfileStore {
 
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
-    case getProfileItem(String)
-    case fetchProfileItem(Result<GithubEntity.Profile.Item, CompositeErrorRepository>)
+    case getUserDetailItem(String)
+    case fetchUserDetailItem(Result<GithubEntity.Detail.Profile.Item, CompositeErrorRepository>)
     case throwError(CompositeErrorRepository)
 
     case teardown
@@ -43,7 +43,7 @@ struct ProfileStore {
 
   enum CancelID: Equatable, CaseIterable {
     case teardown
-    case requestProfile
+    case requestUserDetail
   }
 
   var body: some Reducer<State, Action> {
@@ -53,18 +53,18 @@ struct ProfileStore {
       case .binding:
         return .none
 
-      case .getProfileItem(let user):
-        state.fetchProfileItem.isLoading = true
-        return sideEffect.userProfile(user)
-          .cancellable(pageID: pageID, id: CancelID.requestProfile, cancelInFlight: true)
+      case .getUserDetailItem(let user):
+        state.fetchUserDetailItem.isLoading = true
+        return sideEffect.userUserDetail(user)
+          .cancellable(pageID: pageID, id: CancelID.requestUserDetail, cancelInFlight: true)
 
-      case .fetchProfileItem(let result):
-        state.fetchProfileItem.isLoading = false
+      case .fetchUserDetailItem(let result):
+        state.fetchUserDetailItem.isLoading = false
 
         switch result {
         case .success(let item):
-          state.fetchProfileItem.value = item
-          state.profileItem = item
+          state.fetchUserDetailItem.value = item
+          state.UserDetailItem = item
 
           return .none
 
@@ -86,5 +86,5 @@ struct ProfileStore {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: ProfileSideEffect
+  private let sideEffect: UserDetailSideEffect
 }
