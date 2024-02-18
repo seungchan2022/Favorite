@@ -2,13 +2,35 @@
 
 extension GithubEntity {
   public enum Detail {
-    
+    public enum Repository { }
     public enum Profile { }
   }
   
 }
 
 // MARK: - GithubEntity.Profile.Item
+
+extension GithubEntity.Detail.Repository {
+  public struct Request: Equatable, Codable, Sendable {
+    public let ownerName: String
+    public let repositoryname: String
+    
+    public init(ownerName: String, repositoryname: String) {
+      self.ownerName = ownerName
+      self.repositoryname = repositoryname
+    }
+  }
+  
+  public struct Response: Equatable, Codable, Sendable {
+    public let fullName: String
+    public let htmlURL: String
+    
+    private enum CodingKeys: String, CodingKey {
+      case fullName = "full_name"
+      case htmlURL = "html_url"
+    }
+  }
+}
 
 extension GithubEntity.Detail.Profile {
   public struct Item: Equatable, Codable, Sendable {

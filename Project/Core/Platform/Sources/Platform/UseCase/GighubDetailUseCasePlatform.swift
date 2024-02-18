@@ -14,6 +14,17 @@ public struct GithubdetailUseCasePlatform {
 // MARK: GithubSearchUseCase
 
 extension GithubdetailUseCasePlatform: GithubDetailUseCase {
+  public var repository: (GithubEntity.Detail.Repository.Request) -> AnyPublisher<GithubEntity.Detail.Repository.Response, CompositeErrorRepository> {
+    { item in
+      Endpoint(
+        baseURL: baseURL,
+        pathList: ["repos", item.ownerName, item.repositoryname],
+        httpMethod: .get,
+        content: .none)
+      .fetch(isDebug: true)
+    }
+  }
+  
   public var userProfile: (String) -> AnyPublisher<GithubEntity.Detail.Profile.Item, CompositeErrorRepository> {
     {
       Endpoint(
