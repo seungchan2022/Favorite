@@ -22,7 +22,8 @@ extension AppMain: View {
           tabItem: .init(
             title: "Repository",
             image: .init(systemName: "shippingbox.fill"), tag: .zero),
-          linkItem: .init(path: Link.Dashboard.Path.repo.rawValue)),
+          linkItem: .init(path: Link.Dashboard.Path.repo.rawValue),
+        prefersLargeTitles: true),
 
         .init(
           tag: 1,
@@ -30,7 +31,8 @@ extension AppMain: View {
             title: "User",
             image: .init(systemName: "person.3.fill"),
             tag: 1),
-          linkItem: .init(path: Link.Dashboard.Path.user.rawValue)),
+          linkItem: .init(path: Link.Dashboard.Path.user.rawValue),
+          prefersLargeTitles: true),
 
         .init(
           tag: 2,
@@ -38,7 +40,8 @@ extension AppMain: View {
             title: "Like",
             image: .init(systemName: "heart.rectangle"),
             tag: 2),
-          linkItem: .init(path: Link.Dashboard.Path.like.rawValue)),
+          linkItem: .init(path: Link.Dashboard.Path.like.rawValue),
+          prefersLargeTitles: true),
 
         .init(
           tag: 3,
@@ -46,7 +49,8 @@ extension AppMain: View {
             title: "Profile",
             image: .init(systemName: "person.crop.rectangle"),
             tag: 3),
-          linkItem: .init(path: Link.Dashboard.Path.profile.rawValue)),
+          linkItem: .init(path: Link.Dashboard.Path.profile.rawValue),
+          prefersLargeTitles: true),
       ])
       .ignoresSafeArea()
   }
