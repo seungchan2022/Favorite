@@ -2,11 +2,13 @@ import Architecture
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import Functor
 
 // MARK: - UserPage
 
 struct UserPage {
   @Bindable var store: StoreOf<UserStore>
+  @State private var throttleEvent: ThrottleEvent = .init(value: "", delaySeconds: 1.5)
 }
 
 extension UserPage {
@@ -25,15 +27,6 @@ extension UserPage {
 
 extension UserPage: View {
   var body: some View {
-    NavigationStack {
-      VStack {
-        SearchBar(
-          viewState: .init(text: $store.query),
-          throttleAction: {
-            store.send(.search(store.query))
-          })
-      }
-
       ScrollView {
         LazyVGrid(columns: gridColumnList, spacing: .zero) {
           ForEach(store.itemList, id: \.id) { item in
@@ -48,11 +41,20 @@ extension UserPage: View {
           }
         }
       }
-      .scrollDismissesKeyboard(.immediately)
-    }
+    .scrollDismissesKeyboard(.immediately)
     .navigationTitle("User")
+    .searchable(text: $store.query)
+    .onChange(of: store.query, { _, new in
+      throttleEvent.update(value: new)
+    })
     .onAppear {
-      store.send(.search(store.query))
+      throttleEvent.apply { _ in
+        store.send(.search(store.query))
+      }
+    }
+    .onDisappear {
+      throttleEvent.reset()
+      store.send(.teardown)
     }
   }
 }
