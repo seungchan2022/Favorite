@@ -1,11 +1,13 @@
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import Functor
 
 // MARK: - RepoPage
 
 struct RepoPage {
   @Bindable var store: StoreOf<RepoStore>
+  @State var throttleEvent: ThrottleEvent = .init(value: "", delaySeconds: 1.5)
 }
 
 extension RepoPage {
@@ -18,34 +20,34 @@ extension RepoPage {
 
 extension RepoPage: View {
   var body: some View {
-    NavigationStack {
-      VStack {
-        SearchBar(
-          viewState: searchViewState,
-          throttleAction: {
+    ScrollView {
+      LazyVStack(spacing: .zero) {
+        ForEach(store.itemList, id: \.id) { item in
+          RepositoryItemComponent(
+            viewState: .init(item: item),
+            action: { store.send(.routeToDetail($0)) })
+          .onAppear {
+            guard let last = store.itemList.last, last.id == item.id else { return }
+            guard !store.fetchSearchItem.isLoading else { return }
             store.send(.search(store.query))
-          })
-      }
-
-      ScrollView {
-        LazyVStack(spacing: .zero) {
-          ForEach(store.itemList, id: \.id) { item in
-            RepositoryItemComponent(
-              viewState: .init(item: item),
-              action: { store.send(.routeToDetail($0)) })
-              .onAppear {
-                guard let last = store.itemList.last, last.id == item.id else { return }
-                guard !store.fetchSearchItem.isLoading else { return }
-                store.send(.search(store.query))
-              }
           }
         }
       }
-      .scrollDismissesKeyboard(.immediately)
     }
+    .scrollDismissesKeyboard(.immediately)
     .navigationTitle("Repository")
+    .searchable(text: $store.query)
+    .onChange(of: store.query) { _, new in
+      throttleEvent.update(value: new)
+    }
     .onAppear {
-      store.send(.search(store.query))
+      throttleEvent.apply { _ in
+        store.send(.search(store.query))
+      }
+    }
+    .onDisappear {
+      throttleEvent.reset()
+      store.send(.teardown)
     }
   }
 }
