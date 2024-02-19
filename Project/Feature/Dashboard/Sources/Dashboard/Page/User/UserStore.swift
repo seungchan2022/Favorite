@@ -77,7 +77,7 @@ struct UserStore {
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
-          state.itemList = state.itemList + item.response.itemList
+          state.itemList = state.itemList.merge(item.response.itemList)
           if state.itemList.isEmpty {
             sideEffect.useCase.toastViewModel.send(message: "검색 결과가 없습니다.")
           }
@@ -103,4 +103,15 @@ struct UserStore {
 
   private let pageID: String
   private let sideEffect: UserSideEffect
+}
+
+extension [GithubEntity.Search.User.Item] {
+  fileprivate func merge(_ targer: Self) -> Self {
+    let new = targer.reduce(self) { curr, next in
+      guard !self.contains(where: { $0.id == next.id }) else { return curr }
+      return curr + [next]
+    }
+    
+    return new
+  }
 }
