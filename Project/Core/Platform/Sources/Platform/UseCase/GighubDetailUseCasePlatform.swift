@@ -1,7 +1,7 @@
 import Combine
 import Domain
 
-// MARK: - GithubdetailUseCasePlatform
+// MARK: - GithubDetailUseCasePlatform
 
 public struct GithubDetailUseCasePlatform {
   let baseURL: String
@@ -27,15 +27,18 @@ extension GithubDetailUseCasePlatform: GithubDetailUseCase {
         .fetch(isDebug: true)
     }
   }
-  
-  public var user: (GithubEntity.Detail.User.Request) -> AnyPublisher<GithubEntity.Detail.User.Response, CompositeErrorRepository> {
+
+  public var user: (GithubEntity.Detail.User.Request) -> AnyPublisher<
+    GithubEntity.Detail.User.Response,
+    CompositeErrorRepository
+  > {
     { item in
       Endpoint(
         baseURL: baseURL,
         pathList: ["users", item.login],
         httpMethod: .get,
         content: .none)
-      .fetch(isDebug: true)
+        .fetch(isDebug: true)
     }
   }
 }

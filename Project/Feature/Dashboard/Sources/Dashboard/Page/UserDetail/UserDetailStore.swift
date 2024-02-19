@@ -39,7 +39,7 @@ struct UserDetailStore {
 
     case getDetail
     case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
-    
+
     case throwError(CompositeErrorRepository)
 
     case teardown
@@ -61,16 +61,16 @@ struct UserDetailStore {
         state.fetchDetailItem.isLoading = true
         return sideEffect.detail(state.item)
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
-        
+
       case .fetchDetailItem(let result):
         state.fetchDetailItem.isLoading = false
         switch result {
         case .success(let item):
           state.fetchDetailItem.value = item
           return .none
-          
+
         case .failure(let error):
-          return .run { await $0(.throwError(error))}
+          return .run { await $0(.throwError(error)) }
         }
 
       case .throwError(let error):

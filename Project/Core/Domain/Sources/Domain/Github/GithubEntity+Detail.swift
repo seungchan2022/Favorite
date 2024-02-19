@@ -34,20 +34,19 @@ extension GithubEntity.Detail.Repository {
 extension GithubEntity.Detail.User {
   public struct Request: Equatable, Codable, Sendable {
     public let login: String
-    
+
     public init(login: String) {
       self.login = login
     }
   }
-  
+
   public struct Response: Equatable, Codable, Sendable {
     public let name: String
     public let htmlURL: String
-    
+
     private enum CodingKeys: String, CodingKey {
       case name
       case htmlURL = "html_url"
     }
   }
 }
-

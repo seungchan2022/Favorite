@@ -37,9 +37,9 @@ struct UserStore {
     case binding(BindingAction<State>)
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.User.Composite, CompositeErrorRepository>)
-    
+
     case routeToDetail(GithubEntity.Search.User.Item)
-    
+
     case throwError(CompositeErrorRepository)
     case teardown
   }
@@ -95,7 +95,7 @@ struct UserStore {
       case .routeToDetail(let item):
         sideEffect.routeToDetail(item)
         return .none
-        
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         Logger.error(.init(stringLiteral: error.displayMessage))

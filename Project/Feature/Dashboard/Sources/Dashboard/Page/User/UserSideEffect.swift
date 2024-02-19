@@ -38,8 +38,8 @@ extension UserSideEffect {
       }
     }
   }
-  
-  var routeToDetail: (GithubEntity.Search.User.Item) ->  Void {
+
+  var routeToDetail: (GithubEntity.Search.User.Item) -> Void {
     { item in
       navigator.next(
         linkItem: .init(

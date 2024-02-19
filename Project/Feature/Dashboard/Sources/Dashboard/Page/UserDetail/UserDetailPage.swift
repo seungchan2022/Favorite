@@ -12,22 +12,22 @@ extension UserDetailPage {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
   }
-  
+
   var navigationTitle: String {
     store.fetchDetailItem.value?.name ?? ""
   }
 }
 
+// MARK: View
+
 extension UserDetailPage: View {
   var body: some View {
-    
     VStack {
       if let item = store.fetchDetailItem.value {
         WebContent(viewState: .init(item: item))
       } else {
         Text("로딩 중")
       }
-      
     }
     .navigationTitle(navigationTitle)
     .navigationBarTitleDisplayMode(.inline)
