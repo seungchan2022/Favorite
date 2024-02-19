@@ -42,15 +42,6 @@ extension AppMain: View {
             tag: 2),
           linkItem: .init(path: Link.Dashboard.Path.like.rawValue),
           prefersLargeTitles: true),
-
-        .init(
-          tag: 3,
-          tabItem: .init(
-            title: "Profile",
-            image: .init(systemName: "person.crop.rectangle"),
-            tag: 3),
-          linkItem: .init(path: Link.Dashboard.Path.userDetail.rawValue),
-          prefersLargeTitles: true),
       ])
       .ignoresSafeArea()
       .onAppear {

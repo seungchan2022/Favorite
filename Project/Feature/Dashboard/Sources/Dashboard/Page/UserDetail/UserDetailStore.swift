@@ -22,20 +22,24 @@ struct UserDetailStore {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-    var name = "seungchan2022"
-    var UserDetailItem: GithubEntity.Detail.Profile.Item? = .none
+    var item: GithubEntity.Detail.User.Request
+    var fetchDetailItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
 
-    var fetchUserDetailItem: FetchState.Data<GithubEntity.Detail.Profile.Item?> = .init(isLoading: false, value: .none)
-
-    init(id: UUID = UUID()) {
+    init(
+      id: UUID = UUID(),
+      item: GithubEntity.Detail.User.Request)
+    {
       self.id = id
+      self.item = item
     }
   }
 
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
-    case getUserDetailItem(String)
-    case fetchUserDetailItem(Result<GithubEntity.Detail.Profile.Item, CompositeErrorRepository>)
+
+    case getDetail
+    case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
+    
     case throwError(CompositeErrorRepository)
 
     case teardown
@@ -43,7 +47,7 @@ struct UserDetailStore {
 
   enum CancelID: Equatable, CaseIterable {
     case teardown
-    case requestUserDetail
+    case requestDetail
   }
 
   var body: some Reducer<State, Action> {
@@ -53,23 +57,20 @@ struct UserDetailStore {
       case .binding:
         return .none
 
-      case .getUserDetailItem(let user):
-        state.fetchUserDetailItem.isLoading = true
-        return sideEffect.userUserDetail(user)
-          .cancellable(pageID: pageID, id: CancelID.requestUserDetail, cancelInFlight: true)
-
-      case .fetchUserDetailItem(let result):
-        state.fetchUserDetailItem.isLoading = false
-
+      case .getDetail:
+        state.fetchDetailItem.isLoading = true
+        return sideEffect.detail(state.item)
+          .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
+        
+      case .fetchDetailItem(let result):
+        state.fetchDetailItem.isLoading = false
         switch result {
         case .success(let item):
-          state.fetchUserDetailItem.value = item
-          state.UserDetailItem = item
-
+          state.fetchDetailItem.value = item
           return .none
-
+          
         case .failure(let error):
-          return .run { await $0(.throwError(error)) }
+          return .run { await $0(.throwError(error))}
         }
 
       case .throwError(let error):

@@ -3,7 +3,7 @@ import Domain
 
 // MARK: - GithubdetailUseCasePlatform
 
-public struct GithubdetailUseCasePlatform {
+public struct GithubDetailUseCasePlatform {
   let baseURL: String
 
   public init(baseURL: String = "https://api.github.com") {
@@ -13,7 +13,7 @@ public struct GithubdetailUseCasePlatform {
 
 // MARK: GithubDetailUseCase
 
-extension GithubdetailUseCasePlatform: GithubDetailUseCase {
+extension GithubDetailUseCasePlatform: GithubDetailUseCase {
   public var repository: (GithubEntity.Detail.Repository.Request) -> AnyPublisher<
     GithubEntity.Detail.Repository.Response,
     CompositeErrorRepository
@@ -27,15 +27,15 @@ extension GithubdetailUseCasePlatform: GithubDetailUseCase {
         .fetch(isDebug: true)
     }
   }
-
-  public var userProfile: (String) -> AnyPublisher<GithubEntity.Detail.Profile.Item, CompositeErrorRepository> {
-    {
+  
+  public var user: (GithubEntity.Detail.User.Request) -> AnyPublisher<GithubEntity.Detail.User.Response, CompositeErrorRepository> {
+    { item in
       Endpoint(
         baseURL: baseURL,
-        pathList: ["users", $0],
+        pathList: ["users", item.login],
         httpMethod: .get,
-        content: .queryItemPath($0))
-        .fetch(isDebug: true)
+        content: .none)
+      .fetch(isDebug: true)
     }
   }
 }

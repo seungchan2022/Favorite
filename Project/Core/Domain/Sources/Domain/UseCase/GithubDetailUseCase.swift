@@ -5,7 +5,7 @@ public protocol GithubDetailUseCase {
     GithubEntity.Detail.Repository.Response,
     CompositeErrorRepository
   > { get }
-
-  var userProfile: (String) -> AnyPublisher<GithubEntity.Detail.Profile.Item, CompositeErrorRepository> { get }
+  
+  var user: (GithubEntity.Detail.User.Request) -> AnyPublisher<GithubEntity.Detail.User.Response, CompositeErrorRepository> { get }
 
 }

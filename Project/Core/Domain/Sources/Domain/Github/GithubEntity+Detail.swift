@@ -3,9 +3,8 @@
 extension GithubEntity {
   public enum Detail {
     public enum Repository { }
-    public enum Profile { }
+    public enum User { }
   }
-
 }
 
 // MARK: - GithubEntity.Profile.Item
@@ -32,39 +31,23 @@ extension GithubEntity.Detail.Repository {
   }
 }
 
-// MARK: - GithubEntity.Detail.Profile.Item
-
-extension GithubEntity.Detail.Profile {
-  public struct Item: Equatable, Codable, Sendable {
-
-    // MARK: Public
-
-    public let id: Int
-    public let avatarUrl: String
-    public let name: String?
-    public let loginName: String
-    public let location: String?
-    public let bio: String?
-    public let repos: Int
-    public let gists: Int
-    public let followers: Int
-    public let following: Int
-    public let created: String
-
-    // MARK: Private
-
+extension GithubEntity.Detail.User {
+  public struct Request: Equatable, Codable, Sendable {
+    public let login: String
+    
+    public init(login: String) {
+      self.login = login
+    }
+  }
+  
+  public struct Response: Equatable, Codable, Sendable {
+    public let name: String
+    public let htmlURL: String
+    
     private enum CodingKeys: String, CodingKey {
-      case id
-      case avatarUrl = "avatar_url"
       case name
-      case loginName = "login"
-      case location
-      case bio
-      case repos = "public_repos"
-      case gists = "public_gists"
-      case followers
-      case following
-      case created = "created_at"
+      case htmlURL = "html_url"
     }
   }
 }
+

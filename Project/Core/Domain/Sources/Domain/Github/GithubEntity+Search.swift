@@ -127,12 +127,12 @@ extension GithubEntity.Search.User {
 
   public struct Item: Equatable, Codable, Identifiable, Sendable {
     public let id: Int
-    public let loginName: String
+    public let login: String
     public let avatarUrl: String
 
     private enum CodingKeys: String, CodingKey {
       case id
-      case loginName = "login"
+      case login
       case avatarUrl = "avatar_url"
     }
   }

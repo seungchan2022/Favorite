@@ -27,15 +27,12 @@ extension UserPage.UserItemComponent: View {
         .frame(width: 80, height: 80)
         .clipShape(RoundedRectangle(cornerRadius: 10))
 
-      Text(viewState.item.loginName)
+      Text(viewState.item.login)
         .font(.system(size: 14, weight: .bold))
         .foregroundStyle(DesignSystemColor.system(.black).color)
     }
-//    .background(.red)
     .frame(width: 80, height: 120)
     .padding(4)
-//    .frame(maxWidth: .infinity)
-//    .background(.gray)
     .onTapGesture {
       action(viewState.item)
     }

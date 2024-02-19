@@ -1,6 +1,4 @@
-import Architecture
 import ComposableArchitecture
-import Domain
 import SwiftUI
 
 // MARK: - UserDetailPage
@@ -9,21 +7,44 @@ struct UserDetailPage {
   @Bindable var store: Store<UserDetailStore.State, UserDetailStore.Action>
 }
 
-// MARK: View
+extension UserDetailPage {
+  var shareURL: URL? {
+    guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
+    return .init(string: str)
+  }
+  
+  var navigationTitle: String {
+    store.fetchDetailItem.value?.name ?? ""
+  }
+}
 
 extension UserDetailPage: View {
   var body: some View {
-    ScrollView {
-      VStack {
-        if let UserDetailItem = store.UserDetailItem {
-          ItemComponent(viewState: .init(item: UserDetailItem))
-        } else {
-          Text("Loading...")
+    
+    VStack {
+      if let item = store.fetchDetailItem.value {
+        WebContent(viewState: .init(item: item))
+      } else {
+        Text("로딩 중")
+      }
+      
+    }
+    .navigationTitle(navigationTitle)
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      if let shareURL {
+        ToolbarItem(placement: .topBarTrailing) {
+          ShareLink(item: shareURL) {
+            Image(systemName: "square.and.arrow.up")
+          }
         }
       }
     }
     .onAppear {
-      store.send(.getUserDetailItem(store.name))
+      store.send(.getDetail)
+    }
+    .onDisappear {
+      store.send(.teardown)
     }
   }
 }
