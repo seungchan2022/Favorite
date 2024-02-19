@@ -23,7 +23,7 @@ extension AppMain: View {
             title: "Repository",
             image: .init(systemName: "shippingbox.fill"), tag: .zero),
           linkItem: .init(path: Link.Dashboard.Path.repo.rawValue),
-        prefersLargeTitles: true),
+          prefersLargeTitles: true),
 
         .init(
           tag: 1,
@@ -52,9 +52,9 @@ extension AppMain: View {
           linkItem: .init(path: Link.Dashboard.Path.userDetail.rawValue),
           prefersLargeTitles: true),
       ])
-    .ignoresSafeArea()
-    .onAppear {
-      viewModel.linkNavigator.moveTab(targetPath: Link.Dashboard.Path.user.rawValue)
-    }
+      .ignoresSafeArea()
+      .onAppear {
+        viewModel.linkNavigator.moveTab(targetPath: Link.Dashboard.Path.user.rawValue)
+      }
   }
 }

@@ -58,22 +58,22 @@ struct RepoDetailStore {
         state.fetchDetailItem.isLoading = true
         return sideEffect.detail(state.item)
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
-        
+
       case .fetchDetailItem(let result):
         state.fetchDetailItem.isLoading = false
         switch result {
         case .success(let item):
           state.fetchDetailItem.value = item
           return .none
-          
+
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none
-        
+
       case .teardown:
         return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })

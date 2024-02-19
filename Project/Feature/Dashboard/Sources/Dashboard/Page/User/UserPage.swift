@@ -1,8 +1,8 @@
 import Architecture
 import ComposableArchitecture
 import DesignSystem
-import SwiftUI
 import Functor
+import SwiftUI
 
 // MARK: - UserPage
 
@@ -27,26 +27,26 @@ extension UserPage {
 
 extension UserPage: View {
   var body: some View {
-      ScrollView {
-        LazyVGrid(columns: gridColumnList, spacing: .zero) {
-          ForEach(store.itemList, id: \.id) { item in
-            UserItemComponent(
-              viewState: .init(item: item),
-              action: { _ in })
-              .onAppear {
-                guard let last = store.itemList.last, last.id == item.id else { return }
-                guard !store.fetchSearchItem.isLoading else { return }
-                store.send(.search(store.query))
-              }
-          }
+    ScrollView {
+      LazyVGrid(columns: gridColumnList, spacing: .zero) {
+        ForEach(store.itemList, id: \.id) { item in
+          UserItemComponent(
+            viewState: .init(item: item),
+            action: { _ in })
+            .onAppear {
+              guard let last = store.itemList.last, last.id == item.id else { return }
+              guard !store.fetchSearchItem.isLoading else { return }
+              store.send(.search(store.query))
+            }
         }
       }
+    }
     .scrollDismissesKeyboard(.immediately)
     .navigationTitle("User")
     .searchable(text: $store.query)
-    .onChange(of: store.query, { _, new in
+    .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
-    })
+    }
     .onAppear {
       throttleEvent.apply { _ in
         store.send(.search(store.query))

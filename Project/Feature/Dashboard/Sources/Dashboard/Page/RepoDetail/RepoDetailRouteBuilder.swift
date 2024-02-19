@@ -1,6 +1,6 @@
 import Architecture
-import LinkNavigator
 import Domain
+import LinkNavigator
 
 struct RepoDetailRouteBuilder<RootNavigator: RootNavigatorType> {
   static func generate() -> RouteBuilderOf<RootNavigator> {

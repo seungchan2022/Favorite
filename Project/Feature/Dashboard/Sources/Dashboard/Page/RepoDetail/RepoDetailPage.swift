@@ -9,11 +9,10 @@ struct RepoDetailPage {
 
 extension RepoDetailPage {
   var shareURL: URL? {
-
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
   }
-  
+
   var navigationtitle: String {
     store.fetchDetailItem.value?.fullName ?? ""
   }
@@ -23,16 +22,13 @@ extension RepoDetailPage {
 
 extension RepoDetailPage: View {
   var body: some View {
-    
-    
     VStack {
       if let item = store.fetchDetailItem.value {
         WebContent(viewState: .init(item: item))
-        
+
       } else {
         Text("로딩중...")
       }
-      
     }
     .navigationTitle(navigationtitle)
     .navigationBarTitleDisplayMode(.inline)
@@ -51,7 +47,5 @@ extension RepoDetailPage: View {
     .onDisappear {
       store.send(.teardown)
     }
-
-    
   }
 }

@@ -1,7 +1,9 @@
-import Domain
 import Architecture
 import ComposableArchitecture
+import Domain
 import Foundation
+
+// MARK: - RepoDetailSideEffect
 
 struct RepoDetailSideEffect {
   let useCase: DashboardEnvironmentUsable
@@ -22,12 +24,12 @@ struct RepoDetailSideEffect {
 extension RepoDetailSideEffect {
   var detail: (GithubEntity.Detail.Repository.Request) -> Effect<RepoDetailStore.Action> {
     { item in
-        .publisher {
-          useCase.githubDetailUseCase.repository(item)
-            .receive(on: main)
-            .mapToResult()
-            .map(RepoDetailStore.Action.fetchDetailItem)
-          }
+      .publisher {
+        useCase.githubDetailUseCase.repository(item)
+          .receive(on: main)
+          .mapToResult()
+          .map(RepoDetailStore.Action.fetchDetailItem)
+      }
     }
   }
 }

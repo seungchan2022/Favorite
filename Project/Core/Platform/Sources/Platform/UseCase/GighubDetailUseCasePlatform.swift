@@ -1,7 +1,7 @@
 import Combine
 import Domain
 
-// MARK: - GithubSearchUseCasePlatform
+// MARK: - GithubdetailUseCasePlatform
 
 public struct GithubdetailUseCasePlatform {
   let baseURL: String
@@ -11,20 +11,23 @@ public struct GithubdetailUseCasePlatform {
   }
 }
 
-// MARK: GithubSearchUseCase
+// MARK: GithubDetailUseCase
 
 extension GithubdetailUseCasePlatform: GithubDetailUseCase {
-  public var repository: (GithubEntity.Detail.Repository.Request) -> AnyPublisher<GithubEntity.Detail.Repository.Response, CompositeErrorRepository> {
+  public var repository: (GithubEntity.Detail.Repository.Request) -> AnyPublisher<
+    GithubEntity.Detail.Repository.Response,
+    CompositeErrorRepository
+  > {
     { item in
       Endpoint(
         baseURL: baseURL,
         pathList: ["repos", item.ownerName, item.repositoryname],
         httpMethod: .get,
         content: .none)
-      .fetch(isDebug: true)
+        .fetch(isDebug: true)
     }
   }
-  
+
   public var userProfile: (String) -> AnyPublisher<GithubEntity.Detail.Profile.Item, CompositeErrorRepository> {
     {
       Endpoint(

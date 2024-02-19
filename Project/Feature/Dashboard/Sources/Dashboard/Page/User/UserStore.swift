@@ -4,6 +4,8 @@ import Dispatch
 import Domain
 import Foundation
 
+// MARK: - UserStore
+
 @Reducer
 struct UserStore {
 
@@ -111,7 +113,7 @@ extension [GithubEntity.Search.User.Item] {
       guard !self.contains(where: { $0.id == next.id }) else { return curr }
       return curr + [next]
     }
-    
+
     return new
   }
 }

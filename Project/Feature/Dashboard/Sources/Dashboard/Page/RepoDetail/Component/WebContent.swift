@@ -1,7 +1,9 @@
-import SwiftUI
 import Domain
+import SwiftUI
 import UIKit
 import WebKit
+
+// MARK: - RepoDetailPage.WebContent
 
 extension RepoDetailPage {
   struct WebContent {
@@ -9,19 +11,22 @@ extension RepoDetailPage {
   }
 }
 
+// MARK: - RepoDetailPage.WebContent + UIViewRepresentable
+
 extension RepoDetailPage.WebContent: UIViewRepresentable {
-  func makeUIView(context: Context) -> some UIView {
+  func makeUIView(context _: Context) -> some UIView {
     let webView = WKWebView(frame: .zero, configuration: .init())
-    
+
     if let url = URL(string: viewState.item.htmlURL) {
       webView.load(.init(url: url))
     }
     return webView
   }
-  
-  func updateUIView(_ uiView: UIViewType, context: Context) {
-  }
+
+  func updateUIView(_: UIViewType, context _: Context) { }
 }
+
+// MARK: - RepoDetailPage.WebContent.ViewState
 
 extension RepoDetailPage.WebContent {
   struct ViewState: Equatable {

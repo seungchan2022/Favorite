@@ -1,17 +1,24 @@
-import SwiftUI
 import Combine
+import SwiftUI
+
+// MARK: - ThrottleEvent
 
 @Observable
 public final class ThrottleEvent<T: Hashable> {
-  private var anyCancellable: Set<AnyCancellable> = .init()
-  
-  private let valueSubject: CurrentValueSubject<T, Never>
-  private let delaySeconds: Double
-  
+
+  // MARK: Lifecycle
+
   public init(value: T, delaySeconds: Double) {
     valueSubject = .init(value)
     self.delaySeconds = delaySeconds
   }
+
+  // MARK: Private
+
+  private var anyCancellable: Set<AnyCancellable> = .init()
+
+  private let valueSubject: CurrentValueSubject<T, Never>
+  private let delaySeconds: Double
 }
 
 extension ThrottleEvent {
@@ -27,11 +34,11 @@ extension ThrottleEvent {
       }
       .store(in: &anyCancellable)
   }
-  
+
   public func update(value: T) {
     valueSubject.send(value)
   }
-  
+
   public func reset() {
     anyCancellable = .init()
   }

@@ -38,7 +38,7 @@ extension RepoSideEffect {
       }
     }
   }
-  
+
   var routeToDeatil: (GithubEntity.Search.Repository.Item) -> Void {
     { item in
       navigator.next(
@@ -52,6 +52,6 @@ extension RepoSideEffect {
 
 extension GithubEntity.Search.Repository.Item {
   fileprivate func serialized() -> GithubEntity.Detail.Repository.Request {
-    return .init(ownerName: owner.login, repositoryname: name)
+    .init(ownerName: owner.login, repositoryname: name)
   }
 }

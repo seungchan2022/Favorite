@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import DesignSystem
-import SwiftUI
 import Functor
+import SwiftUI
 
 // MARK: - RepoPage
 
@@ -26,11 +26,11 @@ extension RepoPage: View {
           RepositoryItemComponent(
             viewState: .init(item: item),
             action: { store.send(.routeToDetail($0)) })
-          .onAppear {
-            guard let last = store.itemList.last, last.id == item.id else { return }
-            guard !store.fetchSearchItem.isLoading else { return }
-            store.send(.search(store.query))
-          }
+            .onAppear {
+              guard let last = store.itemList.last, last.id == item.id else { return }
+              guard !store.fetchSearchItem.isLoading else { return }
+              store.send(.search(store.query))
+            }
         }
       }
     }
