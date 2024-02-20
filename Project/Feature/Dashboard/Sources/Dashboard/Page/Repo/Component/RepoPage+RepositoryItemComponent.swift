@@ -54,74 +54,92 @@ extension RepoPage.RepositoryItemComponent {
 
 extension RepoPage.RepositoryItemComponent: View {
   var body: some View {
-    HStack(alignment: .top, spacing: 8) {
-      RemoteImage(
-        url: viewState.item.owner.avatarUrl,
-        placeholder: {
-          Rectangle()
-            .fill(DesignSystemColor.palette(.gray(.lv100)).color)
-        })
-        .frame(width: 30, height: 30)
-        .clipShape(Circle())
+    VStack {
+      HStack(alignment: .top, spacing: 8) {
+        RemoteImage(
+          url: viewState.item.owner.avatarUrl,
+          placeholder: {
+            Rectangle()
+              .fill(DesignSystemColor.palette(.gray(.lv100)).color)
+          })
+          .frame(width: 30, height: 30)
+          .clipShape(Circle())
 
-      VStack(alignment: .leading, spacing: 4) {
-        Text(viewState.item.fullName)
-          .font(.system(size: 14, weight: .bold))
-          .foregroundStyle(DesignSystemColor.system(.black).color)
-
-        if let desc = viewState.item.desc {
-          Text(desc)
-            .font(.system(size: 12, weight: .bold))
+        VStack(alignment: .leading, spacing: 4) {
+          Text(viewState.item.fullName)
+            .font(.system(size: 14, weight: .bold))
             .foregroundStyle(DesignSystemColor.system(.black).color)
-        }
 
-        if !isEmptyRankCount {
-          HStack {
-            if viewState.item.starCount > .zero {
-              HStack(spacing: 4) {
-                Image(systemName: "star")
-                  .resizable()
-                  .frame(width: 8, height: 8)
+          if let desc = viewState.item.desc {
+            Text(desc)
+              .font(.system(size: 12, weight: .bold))
+              .foregroundStyle(DesignSystemColor.system(.black).color)
+          }
 
-                Text("\(viewState.item.starCount)")
-                  .font(.system(size: 8))
+          if !isEmptyRankCount {
+            HStack {
+              if viewState.item.starCount > .zero {
+                HStack(spacing: 4) {
+                  Image(systemName: "star")
+                    .resizable()
+                    .frame(width: 8, height: 8)
+
+                  Text("\(viewState.item.starCount)")
+                    .font(.system(size: 8))
+                }
               }
-            }
 
-            if viewState.item.watcherCount > .zero {
-              HStack(spacing: 4) {
-                Image(systemName: "eye")
-                  .resizable()
-                  .frame(width: 8, height: 8)
+              if viewState.item.watcherCount > .zero {
+                HStack(spacing: 4) {
+                  Image(systemName: "eye")
+                    .resizable()
+                    .frame(width: 8, height: 8)
 
-                Text("\(viewState.item.watcherCount)")
-                  .font(.system(size: 8))
+                  Text("\(viewState.item.watcherCount)")
+                    .font(.system(size: 8))
+                }
               }
-            }
 
-            if viewState.item.forkCount > .zero {
-              HStack(spacing: 4) {
-                Image(systemName: "tuningfork")
-                  .resizable()
-                  .frame(width: 8, height: 8)
+              if viewState.item.forkCount > .zero {
+                HStack(spacing: 4) {
+                  Image(systemName: "tuningfork")
+                    .resizable()
+                    .frame(width: 8, height: 8)
 
-                Text("\(viewState.item.forkCount)")
-                  .font(.system(size: 8))
+                  Text("\(viewState.item.forkCount)")
+                    .font(.system(size: 8))
+                }
               }
             }
           }
         }
+
+        Spacer()
+
+        Text("\(formattedTimeDifference(viewState.item.lastUpdate))")
+          .font(.system(size: 14))
       }
 
-      Spacer()
-
-      Text("\(formattedTimeDifference(viewState.item.lastUpdate))")
-        .font(.system(size: 14))
+      if !viewState.item.topicList.isEmpty {
+        HStack {
+          TagLayout(alignment: .leading, spacing: 10) {
+            ForEach(viewState.item.topicList, id: \.self) { item in
+              Button(action: { }) {
+                Text(item)
+                  .font(.system(size: 12))
+              }
+            }
+            .frame(height: 12)
+            .padding(6)
+            .background(
+              Capsule()
+                .fill(.blue.opacity(0.1)))
+          }
+        }
+      }
     }
-
     .frame(minWidth: .zero, maxWidth: .infinity)
     .padding(16)
-
     .onTapGesture {
       action(viewState.item)
     }
