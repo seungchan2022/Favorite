@@ -42,10 +42,19 @@ extension AppMain: View {
             tag: 2),
           linkItem: .init(path: Link.Dashboard.Path.like.rawValue),
           prefersLargeTitles: true),
+
+        .init(
+          tag: 3,
+          tabItem: .init(
+            title: "Topic",
+            image: .init(systemName: "heart.rectangle"),
+            tag: 3),
+          linkItem: .init(path: Link.Dashboard.Path.topic.rawValue),
+          prefersLargeTitles: true),
       ])
       .ignoresSafeArea()
       .onAppear {
-        viewModel.linkNavigator.moveTab(targetPath: Link.Dashboard.Path.user.rawValue)
+        viewModel.linkNavigator.moveTab(targetPath: Link.Dashboard.Path.topic.rawValue)
       }
   }
 }

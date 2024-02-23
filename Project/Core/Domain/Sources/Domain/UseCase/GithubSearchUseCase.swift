@@ -9,4 +9,8 @@ public protocol GithubSearchUseCase {
   var searchUser: (GithubEntity.Search.User.Request)
     -> AnyPublisher<GithubEntity.Search.User.Response, CompositeErrorRepository> { get }
 
+  var searchTopic: (GithubEntity.Search.Topic.Request) -> AnyPublisher<
+    GithubEntity.Search.Topic.Response,
+    CompositeErrorRepository
+  > { get }
 }
