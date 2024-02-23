@@ -4,6 +4,7 @@ extension GithubEntity {
   public enum Search {
     public enum Repository { }
     public enum User { }
+    public enum Topic { }
   }
 }
 
@@ -151,6 +152,43 @@ extension GithubEntity.Search.User {
     {
       self.request = request
       self.response = response
+    }
+  }
+}
+
+extension GithubEntity.Search.Topic {
+  public struct Request: Equatable, Codable, Sendable {
+    public let query: String
+    public let page: Int
+
+    public init(query: String, page: Int = 1) {
+      self.query = query
+      self.page = page
+    }
+
+    private enum CodingKeys: String, CodingKey {
+      case query = "q"
+      case page
+    }
+  }
+
+  public struct Response: Equatable, Codable, Sendable {
+    public let totalCount: Int
+    public let itemList: [Item]
+
+    private enum CodingKeys: String, CodingKey {
+      case totalCount = "total_count"
+      case itemList = "items"
+    }
+  }
+
+  public struct Item: Equatable, Codable, Sendable {
+    public let displayName: String?
+    public let description: String?
+
+    private enum CodingKeys: String, CodingKey {
+      case displayName = "display_name"
+      case description
     }
   }
 }
