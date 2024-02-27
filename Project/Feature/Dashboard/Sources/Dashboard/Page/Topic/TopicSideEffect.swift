@@ -28,7 +28,8 @@ extension TopicSideEffect {
       .publisher {
         useCase.githubSearchUseCase.searchTopic(item)
           .receive(on: main)
-          .map {GithubEntity.Search.Topic.Composite(
+          .map {
+            GithubEntity.Search.Topic.Composite(
             request: item,
             response: $0)
           }

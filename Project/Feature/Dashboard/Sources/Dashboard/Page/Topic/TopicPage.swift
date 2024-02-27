@@ -1,10 +1,12 @@
 import ComposableArchitecture
 import SwiftUI
+import Functor
 
 // MARK: - TopicPage
 
 struct TopicPage {
   @Bindable var store: StoreOf<TopicStore>
+  @State private var throttleEvent: ThrottleEvent = .init(value: "", delaySeconds: 1.5)
 }
 
 // MARK: View
@@ -21,10 +23,16 @@ extension TopicPage: View {
     .navigationTitle("Topic")
     .searchable(text: $store.query)
     .onChange(of: store.query, { _, new in
-      store.send(.search(new))
+      throttleEvent.update(value: store.query)
     })
     .onAppear {
-      store.send(.search(store.query))
+      throttleEvent.apply { _ in
+        store.send(.search(store.query))
+      }
+    }
+    .onDisappear {
+      throttleEvent.reset()
+      store.send(.teardown)
     }
   }
 }
