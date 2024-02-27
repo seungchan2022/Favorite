@@ -17,10 +17,12 @@ extension TopicPage: View {
           TopicItemComponent(viewState: .init(item: item))
         }
       }
-      
     }
     .navigationTitle("Topic")
     .searchable(text: $store.query)
+    .onChange(of: store.query, { _, new in
+      store.send(.search(new))
+    })
     .onAppear {
       store.send(.search(store.query))
     }

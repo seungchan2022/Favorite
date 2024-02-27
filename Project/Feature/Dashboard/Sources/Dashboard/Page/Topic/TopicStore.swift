@@ -25,7 +25,7 @@ struct TopicStore {
     var query = "swift"
     var itemList: [GithubEntity.Search.Topic.Item] = []
     
-    var fetchSearchItem: FetchState.Data<GithubEntity.Search.Topic.Response?> = .init(isLoading: false, value: .none)
+    var fetchSearchItem: FetchState.Data<GithubEntity.Search.Topic.Composite?> = .init(isLoading: false, value: .none)
     
     init(id: UUID = UUID()) {
       self.id = id
@@ -35,7 +35,7 @@ struct TopicStore {
   enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
     case search(String)
-    case fetchSearchItem(Result<GithubEntity.Search.Topic.Response, CompositeErrorRepository>)
+    case fetchSearchItem(Result<GithubEntity.Search.Topic.Composite, CompositeErrorRepository>)
     
     case throwError(CompositeErrorRepository)
     case teardown
@@ -54,20 +54,38 @@ struct TopicStore {
         return .none
         
       case .search(let query):
-        state.fetchSearchItem.isLoading = true
-        let page = Int(state.itemList.count / 30) + 1
+        guard !query.isEmpty else {
+          state.itemList = []
+          return .none
+        }
         
+        if state.query != state.fetchSearchItem.value?.request.query { state.itemList = [] }
+        if let totalCount = state.fetchSearchItem.value?.response.totalCount, totalCount < state.itemList.count {
+          return .none
+        }
+        
+        let page = Int(state.itemList.count / 30) + 1
+        state.fetchSearchItem.isLoading = true
         return sideEffect.searchTopic(.init(query: query, page: page))
+          .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
         
       case .fetchSearchItem(let result):
         state.fetchSearchItem.isLoading = false
+        guard !state.query.isEmpty else {
+          state.itemList = []
+          return .none
+        }
         
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
-          let mergedItemList = state.itemList.merge(item.itemList)
+          let mergedItemList = state.itemList.merge(item.response.itemList)
           state.itemList = mergedItemList
-          state.itemList = mergedItemList.filter { $0.displayName != nil }
+          state.itemList = mergedItemList.filter { $0.displayName != .none }
+          
+          if state.itemList.isEmpty {
+            sideEffect.useCase.toastViewModel.send(message: "검색결과가 없습니다.")
+          }
           return .none
           
         case .failure(let error):

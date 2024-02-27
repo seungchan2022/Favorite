@@ -194,3 +194,16 @@ extension GithubEntity.Search.Topic {
     }
   }
 }
+
+extension GithubEntity.Search.Topic {
+  public struct Composite: Equatable, Sendable {
+    public let request: GithubEntity.Search.Topic.Request
+    public let response: GithubEntity.Search.Topic.Response
+    
+    public init(request: GithubEntity.Search.Topic.Request, response: GithubEntity.Search.Topic.Response)
+    {
+      self.request = request
+      self.response = response
+    }
+  }
+}
