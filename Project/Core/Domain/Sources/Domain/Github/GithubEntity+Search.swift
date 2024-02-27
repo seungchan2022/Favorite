@@ -183,10 +183,12 @@ extension GithubEntity.Search.Topic {
   }
 
   public struct Item: Equatable, Codable, Sendable {
+    public let name: String
     public let displayName: String?
     public let description: String?
-
+    
     private enum CodingKeys: String, CodingKey {
+      case name
       case displayName = "display_name"
       case description
     }

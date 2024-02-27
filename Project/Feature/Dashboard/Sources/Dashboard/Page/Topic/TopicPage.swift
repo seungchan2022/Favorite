@@ -12,9 +12,12 @@ struct TopicPage {
 extension TopicPage: View {
   var body: some View {
     ScrollView {
-      VStack {
-        Text("topic page")
+      LazyVStack {
+        ForEach(store.itemList, id: \.name) { item in
+          TopicItemComponent(viewState: .init(item: item))
+        }
       }
+      
     }
     .navigationTitle("Topic")
     .searchable(text: $store.query)
