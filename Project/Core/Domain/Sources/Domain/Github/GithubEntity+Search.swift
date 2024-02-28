@@ -186,11 +186,13 @@ extension GithubEntity.Search.Topic {
     public let name: String
     public let displayName: String?
     public let description: String?
+    public let shortDescription: String?
     
     private enum CodingKeys: String, CodingKey {
       case name
       case displayName = "display_name"
       case description
+      case shortDescription = "short_description"
     }
   }
 }

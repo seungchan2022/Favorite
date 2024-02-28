@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import SwiftUI
 import Functor
+import DesignSystem
 
 // MARK: - TopicPage
 
@@ -17,13 +18,18 @@ extension TopicPage: View {
       LazyVStack {
         ForEach(store.itemList, id: \.name) { item in
           TopicItemComponent(viewState: .init(item: item))
+            .onAppear {
+              guard let last = store.itemList.last, last.name == item.name else { return }
+              guard !store.fetchSearchItem.isLoading else { return }
+              store.send(.search(store.query))
+            }
         }
       }
     }
     .navigationTitle("Topic")
     .searchable(text: $store.query)
     .onChange(of: store.query, { _, new in
-      throttleEvent.update(value: store.query)
+      throttleEvent.update(value: new)
     })
     .onAppear {
       throttleEvent.apply { _ in

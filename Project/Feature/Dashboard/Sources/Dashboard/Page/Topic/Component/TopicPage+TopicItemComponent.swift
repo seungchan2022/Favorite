@@ -14,18 +14,15 @@ extension TopicPage.TopicItemComponent {
 
 extension TopicPage.TopicItemComponent: View {
   var body: some View {
-    VStack(spacing: 16) {
-      if let displayName = viewState.item.displayName {
-        Text(displayName)
-          .font(.system(size: 48, weight: .bold))
-      }
+    VStack(alignment:.leading, spacing: 8) {
+        Text(viewState.item.displayName ?? viewState.item.name)
       
-      if let description = viewState.item.description {
-        Text(description)
+      if let shortDec = viewState.item.shortDescription {
+        Text(shortDec)
       }
     }
-    .padding(16)
-    .frame(minWidth: .zero, maxWidth: .infinity)
+    .padding(8)
+    .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
     .background(
       RoundedRectangle(cornerRadius: 5)
         .stroke(lineWidth: 1)

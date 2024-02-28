@@ -79,9 +79,7 @@ struct TopicStore {
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
-          let mergedItemList = state.itemList.merge(item.response.itemList)
-          state.itemList = mergedItemList
-          state.itemList = mergedItemList.filter { $0.displayName != .none }
+          state.itemList =  state.itemList.merge(item.response.itemList)
           
           if state.itemList.isEmpty {
             sideEffect.useCase.toastViewModel.send(message: "검색결과가 없습니다.")
@@ -112,7 +110,7 @@ struct TopicStore {
 extension [GithubEntity.Search.Topic.Item] {
   fileprivate func merge(_ target: Self) -> Self {
     let new = target.reduce(self) { curr, next in
-      guard !self.contains(where: { $0.displayName == next.displayName })
+      guard !self.contains(where: { $0.name == next.name })
       else { return curr }
       return curr + [next]
     }
