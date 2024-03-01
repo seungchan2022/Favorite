@@ -187,7 +187,7 @@ extension GithubEntity.Search.Topic {
     public let displayName: String?
     public let description: String?
     public let shortDescription: String?
-    
+
     private enum CodingKeys: String, CodingKey {
       case name
       case displayName = "display_name"
@@ -197,13 +197,14 @@ extension GithubEntity.Search.Topic {
   }
 }
 
+// MARK: - GithubEntity.Search.Topic.Composite
+
 extension GithubEntity.Search.Topic {
   public struct Composite: Equatable, Sendable {
     public let request: GithubEntity.Search.Topic.Request
     public let response: GithubEntity.Search.Topic.Response
-    
-    public init(request: GithubEntity.Search.Topic.Request, response: GithubEntity.Search.Topic.Response)
-    {
+
+    public init(request: GithubEntity.Search.Topic.Request, response: GithubEntity.Search.Topic.Response) {
       self.request = request
       self.response = response
     }

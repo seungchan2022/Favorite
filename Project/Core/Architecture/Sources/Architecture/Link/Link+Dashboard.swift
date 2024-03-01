@@ -16,5 +16,6 @@ extension Link.Dashboard {
     case userDetail
     case like
     case topic
+    case topicDetail
   }
 }

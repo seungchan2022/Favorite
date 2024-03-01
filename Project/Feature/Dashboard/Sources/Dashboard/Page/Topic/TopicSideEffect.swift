@@ -30,12 +30,20 @@ extension TopicSideEffect {
           .receive(on: main)
           .map {
             GithubEntity.Search.Topic.Composite(
-            request: item,
-            response: $0)
+              request: item,
+              response: $0)
           }
           .mapToResult()
           .map(TopicStore.Action.fetchSearchItem)
       }
+    }
+  }
+
+  var routeToDetail: () -> Void {
+    {
+      navigator.next(
+        linkItem: .init(path: Link.Dashboard.Path.topicDetail.rawValue),
+        isAnimated: true)
     }
   }
 }

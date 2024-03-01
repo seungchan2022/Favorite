@@ -47,10 +47,11 @@ extension AppMain: View {
           tag: 3,
           tabItem: .init(
             title: "Topic",
-            image: .init(systemName: "heart.rectangle"),
+            image: .init(systemName: "signpost.right"),
             tag: 3),
           linkItem: .init(path: Link.Dashboard.Path.topic.rawValue),
           prefersLargeTitles: true),
+
       ])
       .ignoresSafeArea()
       .onAppear {
