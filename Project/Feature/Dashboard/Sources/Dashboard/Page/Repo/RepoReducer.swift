@@ -57,6 +57,10 @@ struct RepoReducer {
       case .binding:
         return .none
 
+      case .teardown:
+        return .concatenate(
+          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
+
       case .search(let query):
         guard !query.isEmpty else {
           state.itemList = []
@@ -101,10 +105,6 @@ struct RepoReducer {
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         Logger.error(Logger.Message(stringLiteral: error.displayMessage))
         return .none
-
-      case .teardown:
-        return .concatenate(
-          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
       }
     }
   }

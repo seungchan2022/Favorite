@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import Domain
+import SwiftUI
 
 // MARK: - RepoDetailPage
 
@@ -43,7 +43,7 @@ extension RepoDetailPage: View {
             likeAction: { store.send(.updateIsLike($0)) })
         }
       }
-      
+
       if let shareURL {
         ToolbarItem(placement: .topBarTrailing) {
           ShareLink(item: shareURL) {

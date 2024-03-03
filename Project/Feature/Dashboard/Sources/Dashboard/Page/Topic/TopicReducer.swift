@@ -57,6 +57,10 @@ struct TopicReducer {
       case .binding:
         return .none
 
+      case .teardown:
+        return .concatenate(
+          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
+
       case .search(let query):
         guard !query.isEmpty else {
           state.itemList = []
@@ -101,10 +105,6 @@ struct TopicReducer {
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none
-
-      case .teardown:
-        return .concatenate(
-          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
       }
     }
   }

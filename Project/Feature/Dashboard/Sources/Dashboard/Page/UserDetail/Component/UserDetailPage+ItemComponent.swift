@@ -1,10 +1,12 @@
-import SwiftUI
 import DesignSystem
 import Domain
+import SwiftUI
+
+// MARK: - UserDetailPage.ItemComponent
 
 extension UserDetailPage {
   struct ItemComponent {
-    let  viewState: ViewState
+    let viewState: ViewState
     //    let action: ()
   }
 }
@@ -15,6 +17,8 @@ extension UserDetailPage.ItemComponent {
   }
 }
 
+// MARK: - UserDetailPage.ItemComponent + View
+
 extension UserDetailPage.ItemComponent: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
@@ -24,15 +28,15 @@ extension UserDetailPage.ItemComponent: View {
           placeholder: {
             Rectangle().fill(DesignSystemColor.palette(.gray(.lv100)).color)
           })
-        .frame(width: 80, height: 80)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+          .frame(width: 80, height: 80)
+          .clipShape(RoundedRectangle(cornerRadius: 10))
 
         VStack(alignment: .leading, spacing: 4) {
           Text(viewState.item.loginName)
             .font(.system(size: 20, weight: .bold))
 
           // if/else를 해주지 않으면 해당 아이템이 없을때 위 loginName이 아래로 내려옴 (아이템이 없어도 항상 같은자리에 있기르 원함)
-          if  let name = viewState.item.name {
+          if let name = viewState.item.name {
             Text(name)
               .font(.system(size: 16))
               .foregroundStyle(DesignSystemColor.palette(.gray(.lv300)).color)
@@ -161,7 +165,6 @@ extension UserDetailPage.ItemComponent: View {
       .padding(.bottom, 12)
       .frame(maxWidth: .infinity)
 
-
       Text("Github since \(createdDate)")
         .frame(maxWidth: .infinity, alignment: .center) // 추가
 
@@ -171,6 +174,8 @@ extension UserDetailPage.ItemComponent: View {
     .frame(minWidth: .zero, maxWidth: .infinity, alignment: .leading)
   }
 }
+
+// MARK: - UserDetailPage.ItemComponent.ViewState
 
 extension UserDetailPage.ItemComponent {
   struct ViewState: Equatable {

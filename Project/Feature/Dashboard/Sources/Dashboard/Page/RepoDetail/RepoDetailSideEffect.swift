@@ -32,34 +32,34 @@ extension RepoDetailSideEffect {
       }
     }
   }
-  
+
   var isLike: (GithubEntity.Detail.Repository.Response) -> Effect<RepoDetailReducer.Action> {
     { item in
-        .publisher {
-          useCase.githubLikeUseCase
-            .getLike()
-            .map {
-              $0.repoList.first(where: { $0 == item }) != .none
-            }
-            .receive(on: main)
-            .mapToResult()
-            .map(RepoDetailReducer.Action.fetchIsLike)
-        }
+      .publisher {
+        useCase.githubLikeUseCase
+          .getLike()
+          .map {
+            $0.repoList.first(where: { $0 == item }) != .none
+          }
+          .receive(on: main)
+          .mapToResult()
+          .map(RepoDetailReducer.Action.fetchIsLike)
+      }
     }
   }
-  
+
   var updateIsLike: (GithubEntity.Detail.Repository.Response) -> Effect<RepoDetailReducer.Action> {
     { item in
-        .publisher {
-          useCase.githubLikeUseCase
-            .saveRepository(item)
-            .map {
-              $0.repoList.first(where: { $0 == item }) != .none
-            }
-            .receive(on: main)
-            .mapToResult()
-            .map(RepoDetailReducer.Action.fetchIsLike)
-        }
+      .publisher {
+        useCase.githubLikeUseCase
+          .saveRepository(item)
+          .map {
+            $0.repoList.first(where: { $0 == item }) != .none
+          }
+          .receive(on: main)
+          .mapToResult()
+          .map(RepoDetailReducer.Action.fetchIsLike)
+      }
     }
   }
 }

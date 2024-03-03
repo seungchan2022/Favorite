@@ -57,6 +57,10 @@ struct UserDetailReducer {
       case .binding:
         return .none
 
+      case .teardown:
+        return .concatenate(
+          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
+
       case .getDetail(let requestModel):
         state.fetchDetailItem.isLoading = true
         return sideEffect.user(requestModel)
@@ -76,10 +80,6 @@ struct UserDetailReducer {
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none
-
-      case .teardown:
-        return .concatenate(
-          CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
       }
     }
   }

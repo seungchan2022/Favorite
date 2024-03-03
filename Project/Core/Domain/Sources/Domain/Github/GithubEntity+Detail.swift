@@ -41,7 +41,9 @@ extension GithubEntity.Detail.User {
   }
 
   public struct Response: Equatable, Codable, Sendable {
-    
+
+    // MARK: Public
+
     public let avatarUrl: String
     public let htmlURL: String
     public let name: String?
@@ -53,7 +55,9 @@ extension GithubEntity.Detail.User {
     public let followerListCount: Int
     public let followingListCount: Int
     public let created: String
-    
+
+    // MARK: Private
+
     private enum CodingKeys: String, CodingKey {
       case avatarUrl = "avatar_url"
       case htmlURL = "html_url"

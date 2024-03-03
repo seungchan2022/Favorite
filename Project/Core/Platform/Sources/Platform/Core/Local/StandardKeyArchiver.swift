@@ -11,9 +11,9 @@ struct StandardKeyArchiver<T: Codable> {
   init(defaultValue: T) {
     key = String(describing: T.self)
     self.defaultValue =
-    (try? KeyArchiver().load(name: key))
-    ?? (try? KeyArchiver().saved(model: defaultValue, name: key))
-    ?? defaultValue
+      (try? KeyArchiver().load(name: key))
+        ?? (try? KeyArchiver().saved(model: defaultValue, name: key))
+        ?? defaultValue
   }
 
   // MARK: Internal

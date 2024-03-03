@@ -1,5 +1,7 @@
-import SwiftUI
 import Domain
+import SwiftUI
+
+// MARK: - RepoDetailPage.LikeComponent
 
 extension RepoDetailPage {
   struct LikeComponent {
@@ -14,6 +16,8 @@ extension RepoDetailPage.LikeComponent {
   }
 }
 
+// MARK: - RepoDetailPage.LikeComponent + View
+
 extension RepoDetailPage.LikeComponent: View {
   var body: some View {
     Button(action: { likeAction(viewState.item) }) {
@@ -23,10 +27,11 @@ extension RepoDetailPage.LikeComponent: View {
   }
 }
 
+// MARK: - RepoDetailPage.LikeComponent.ViewState
+
 extension RepoDetailPage.LikeComponent {
   struct ViewState: Equatable {
     let isLike: Bool
     let item: GithubEntity.Detail.Repository.Response
   }
 }
-
