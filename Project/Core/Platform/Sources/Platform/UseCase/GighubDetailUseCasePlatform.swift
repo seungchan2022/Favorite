@@ -35,7 +35,7 @@ extension GithubDetailUseCasePlatform: GithubDetailUseCase {
     { item in
       Endpoint(
         baseURL: baseURL,
-        pathList: ["users", item.login],
+        pathList: ["users", item.ownerName],
         httpMethod: .get,
         content: .none)
         .fetch(isDebug: true)

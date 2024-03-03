@@ -52,6 +52,6 @@ extension UserSideEffect {
 
 extension GithubEntity.Search.User.Item {
   fileprivate func serialized() -> GithubEntity.Detail.User.Request {
-    .init(login: login)
+    .init(ownerName: login)
   }
 }

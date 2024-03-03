@@ -33,20 +33,41 @@ extension GithubEntity.Detail.Repository {
 
 extension GithubEntity.Detail.User {
   public struct Request: Equatable, Codable, Sendable {
-    public let login: String
+    public let ownerName: String
 
-    public init(login: String) {
-      self.login = login
+    public init(ownerName: String) {
+      self.ownerName = ownerName
     }
   }
 
   public struct Response: Equatable, Codable, Sendable {
-    public let name: String
+    
+    public let id: Int
+    public let avatarUrl: String
     public let htmlURL: String
-
+    public let name: String?
+    public let loginName: String
+    public let location: String?
+    public let bio: String?
+    public let repoListCount: Int
+    public let gistListCount: Int
+    public let followerListCount: Int
+    public let followingListCount: Int
+    public let created: String
+    
     private enum CodingKeys: String, CodingKey {
-      case name
+      case id
+      case avatarUrl = "avatar_url"
       case htmlURL = "html_url"
+      case name
+      case loginName = "login"
+      case location
+      case bio
+      case repoListCount = "public_repos"
+      case gistListCount = "public_gists"
+      case followerListCount = "followers"
+      case followingListCount = "following"
+      case created = "created_at"
     }
   }
 }
