@@ -5,13 +5,13 @@ import Domain
 import Foundation
 
 @Reducer
-struct RepoDetailStore {
+struct UserDetailReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: RepoDetailSideEffect)
+    sideEffect: UserDetailSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -22,12 +22,12 @@ struct RepoDetailStore {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-    let item: GithubEntity.Detail.Repository.Request
-    var fetchDetailItem: FetchState.Data<GithubEntity.Detail.Repository.Response?> = .init(isLoading: false, value: .none)
+    var item: GithubEntity.Detail.User.Request
+    var fetchDetailItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
 
     init(
       id: UUID = UUID(),
-      item: GithubEntity.Detail.Repository.Request)
+      item: GithubEntity.Detail.User.Request)
     {
       self.id = id
       self.item = item
@@ -36,9 +36,12 @@ struct RepoDetailStore {
 
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
+
     case getDetail
-    case fetchDetailItem(Result<GithubEntity.Detail.Repository.Response, CompositeErrorRepository>)
+    case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
+
     case throwError(CompositeErrorRepository)
+
     case teardown
   }
 
@@ -84,5 +87,5 @@ struct RepoDetailStore {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: RepoDetailSideEffect
+  private let sideEffect: UserDetailSideEffect
 }

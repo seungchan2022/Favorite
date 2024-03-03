@@ -23,7 +23,7 @@ struct TopicSideEffect {
 }
 
 extension TopicSideEffect {
-  var searchTopic: (GithubEntity.Search.Topic.Request) -> Effect<TopicStore.Action> {
+  var searchTopic: (GithubEntity.Search.Topic.Request) -> Effect<TopicReducer.Action> {
     { item in
       .publisher {
         useCase.githubSearchUseCase.searchTopic(item)
@@ -34,7 +34,7 @@ extension TopicSideEffect {
               response: $0)
           }
           .mapToResult()
-          .map(TopicStore.Action.fetchSearchItem)
+          .map(TopicReducer.Action.fetchSearchItem)
       }
     }
   }

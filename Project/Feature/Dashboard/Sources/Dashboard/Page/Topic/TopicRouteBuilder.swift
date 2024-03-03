@@ -9,9 +9,9 @@ struct TopicRouteBuilder<RootNavigator: RootNavigatorType> {
       guard let env: DashboardEnvironmentUsable = diContainer.resolve() else { return .none }
       return DebugWrappingController(matchPath: matchPath) {
         TopicPage(store: .init(
-          initialState: TopicStore.State(),
+          initialState: TopicReducer.State(),
           reducer: {
-            TopicStore(sideEffect: .init(
+            TopicReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

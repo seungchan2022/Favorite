@@ -10,9 +10,9 @@ struct LikeRouteBuilder<RootNavigator: RootNavigatorType> {
 
       return DebugWrappingController(matchPath: matchPath) {
         LikePage(store: .init(
-          initialState: LikeStore.State(),
+          initialState: LikeReducer.State(),
           reducer: {
-            LikeStore(sideEffect: .init(
+            LikeReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

@@ -10,9 +10,9 @@ struct UserRouteBuilder<RootNavigator: RootNavigatorType> {
 
       return DebugWrappingController(matchPath: matchPath) {
         UserPage(store: .init(
-          initialState: UserStore.State(),
+          initialState: UserReducer.State(),
           reducer: {
-            UserStore(sideEffect: .init(
+            UserReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

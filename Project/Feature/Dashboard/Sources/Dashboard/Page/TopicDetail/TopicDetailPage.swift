@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - TopicDetailPage
 
 struct TopicDetailPage {
-  @Bindable var store: StoreOf<TopicDetailStore>
+  @Bindable var store: StoreOf<TopicDetailReducer>
 }
 
 // MARK: View

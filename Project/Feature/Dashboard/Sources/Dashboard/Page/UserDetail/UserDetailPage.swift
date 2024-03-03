@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - UserDetailPage
 
 struct UserDetailPage {
-  @Bindable var store: Store<UserDetailStore.State, UserDetailStore.Action>
+  @Bindable var store: Store<UserDetailReducer.State, UserDetailReducer.Action>
 }
 
 extension UserDetailPage {

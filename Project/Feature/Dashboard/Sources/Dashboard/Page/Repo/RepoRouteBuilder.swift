@@ -9,9 +9,9 @@ struct RepoRouteBuilder<RootNavigator: RootNavigatorType> {
       guard let env: DashboardEnvironmentUsable = diContainer.resolve() else { return .none }
       return DebugWrappingController(matchPath: matchPath) {
         RepoPage(store: .init(
-          initialState: RepoStore.State(),
+          initialState: RepoReducer.State(),
           reducer: {
-            RepoStore(sideEffect: .init(
+            RepoReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

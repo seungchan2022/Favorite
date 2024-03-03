@@ -4,16 +4,16 @@ import Dispatch
 import Domain
 import Foundation
 
-// MARK: - TopicStore
+// MARK: - RepoReducer
 
 @Reducer
-struct TopicStore {
+struct RepoReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: TopicSideEffect)
+    sideEffect: RepoSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -24,10 +24,10 @@ struct TopicStore {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
+    let perPage = 40
     var query = "swift"
-    var itemList: [GithubEntity.Search.Topic.Item] = []
-
-    var fetchSearchItem: FetchState.Data<GithubEntity.Search.Topic.Composite?> = .init(isLoading: false, value: .none)
+    var itemList: [GithubEntity.Search.Repository.Item] = []
+    var fetchSearchItem: FetchState.Data<GithubEntity.Search.Repository.Composite?> = .init(isLoading: false, value: .none)
 
     init(id: UUID = UUID()) {
       self.id = id
@@ -37,9 +37,9 @@ struct TopicStore {
   enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
     case search(String)
-    case fetchSearchItem(Result<GithubEntity.Search.Topic.Composite, CompositeErrorRepository>)
+    case fetchSearchItem(Result<GithubEntity.Search.Repository.Composite, CompositeErrorRepository>)
 
-    case routeToDetail
+    case routeToDetail(GithubEntity.Search.Repository.Item)
 
     case throwError(CompositeErrorRepository)
     case teardown
@@ -68,9 +68,9 @@ struct TopicStore {
           return .none
         }
 
-        let page = Int(state.itemList.count / 30) + 1
+        let page = Int(state.itemList.count / state.perPage) + 1
         state.fetchSearchItem.isLoading = true
-        return sideEffect.searchTopic(.init(query: query, page: page))
+        return sideEffect.searchRepository(.init(query: query, page: page, perPage: state.perPage))
           .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
 
       case .fetchSearchItem(let result):
@@ -84,7 +84,6 @@ struct TopicStore {
         case .success(let item):
           state.fetchSearchItem.value = item
           state.itemList = state.itemList.merge(item.response.itemList)
-
           if state.itemList.isEmpty {
             sideEffect.useCase.toastViewModel.send(message: "검색결과가 없습니다.")
           }
@@ -94,12 +93,13 @@ struct TopicStore {
           return .run { await $0(.throwError(error)) }
         }
 
-      case .routeToDetail:
-        sideEffect.routeToDetail()
+      case .routeToDetail(let item):
+        sideEffect.routeToDeatil(item)
         return .none
 
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
+        Logger.error(Logger.Message(stringLiteral: error.displayMessage))
         return .none
 
       case .teardown:
@@ -112,14 +112,14 @@ struct TopicStore {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: TopicSideEffect
+  private let sideEffect: RepoSideEffect
 }
 
-extension [GithubEntity.Search.Topic.Item] {
+extension [GithubEntity.Search.Repository.Item] {
+  // 중복된게 올라옴
   fileprivate func merge(_ target: Self) -> Self {
     let new = target.reduce(self) { curr, next in
-      guard !self.contains(where: { $0.name == next.name })
-      else { return curr }
+      guard !self.contains(where: { $0.id == next.id }) else { return curr }
       return curr + [next]
     }
 

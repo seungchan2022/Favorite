@@ -1,15 +1,17 @@
+import Architecture
 import ComposableArchitecture
 import Dispatch
+import Domain
 import Foundation
 
 @Reducer
-struct LikeStore {
+struct TopicDetailReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: LikeSideEffect)
+    sideEffect: TopicDetailSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -52,5 +54,6 @@ struct LikeStore {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: LikeSideEffect
+  private let sideEffect: TopicDetailSideEffect
+
 }

@@ -6,7 +6,7 @@ import SwiftUI
 // MARK: - TopicPage
 
 struct TopicPage {
-  @Bindable var store: StoreOf<TopicStore>
+  @Bindable var store: StoreOf<TopicReducer>
   @State private var throttleEvent: ThrottleEvent = .init(value: "", delaySeconds: 1.5)
 }
 

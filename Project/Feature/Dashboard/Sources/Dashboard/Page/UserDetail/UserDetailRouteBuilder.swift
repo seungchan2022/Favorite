@@ -13,9 +13,9 @@ struct UserDetailRouteBuilder<RootNavigator: RootNavigatorType> {
 
       return DebugWrappingController(matchPath: matchPath) {
         UserDetailPage(store: .init(
-          initialState: UserDetailStore.State(item: query),
+          initialState: UserDetailReducer.State(item: query),
           reducer: {
-            UserDetailStore(sideEffect: .init(
+            UserDetailReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))

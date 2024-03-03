@@ -10,9 +10,9 @@ struct TopicDetailRouteBuilder<RootNavigator: RootNavigatorType> {
 
       return DebugWrappingController(matchPath: matchPath) {
         TopicDetailPage(store: .init(
-          initialState: TopicDetailStore.State(),
+          initialState: TopicDetailReducer.State(),
           reducer: {
-            TopicDetailStore(sideEffect: .init(
+            TopicDetailReducer(sideEffect: .init(
               useCase: env,
               navigator: navigator))
           }))
