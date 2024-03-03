@@ -42,7 +42,6 @@ extension GithubEntity.Detail.User {
 
   public struct Response: Equatable, Codable, Sendable {
     
-    public let id: Int
     public let avatarUrl: String
     public let htmlURL: String
     public let name: String?
@@ -56,7 +55,6 @@ extension GithubEntity.Detail.User {
     public let created: String
     
     private enum CodingKeys: String, CodingKey {
-      case id
       case avatarUrl = "avatar_url"
       case htmlURL = "html_url"
       case name

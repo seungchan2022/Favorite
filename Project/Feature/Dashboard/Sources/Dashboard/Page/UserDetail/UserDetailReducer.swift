@@ -37,7 +37,7 @@ struct UserDetailReducer {
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
 
-    case getDetail
+    case getDetail(GithubEntity.Detail.User.Request)
     case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
 
     case throwError(CompositeErrorRepository)
@@ -57,9 +57,9 @@ struct UserDetailReducer {
       case .binding:
         return .none
 
-      case .getDetail:
+      case .getDetail(let requestModel):
         state.fetchDetailItem.isLoading = true
-        return sideEffect.detail(state.item)
+        return sideEffect.user(requestModel)
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
 
       case .fetchDetailItem(let result):

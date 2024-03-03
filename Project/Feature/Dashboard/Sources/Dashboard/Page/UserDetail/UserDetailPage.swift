@@ -24,9 +24,7 @@ extension UserDetailPage: View {
   var body: some View {
     VStack {
       if let item = store.fetchDetailItem.value {
-        WebContent(viewState: .init(item: item))
-      } else {
-        Text("로딩 중")
+        ItemComponent(viewState: .init(item: item))
       }
     }
     .navigationTitle(navigationTitle)
@@ -41,7 +39,7 @@ extension UserDetailPage: View {
       }
     }
     .onAppear {
-      store.send(.getDetail)
+      store.send(.getDetail(store.item))
     }
     .onDisappear {
       store.send(.teardown)

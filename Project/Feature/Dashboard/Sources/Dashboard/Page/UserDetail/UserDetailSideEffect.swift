@@ -23,10 +23,10 @@ struct UserDetailSideEffect {
 }
 
 extension UserDetailSideEffect {
-  var detail: (GithubEntity.Detail.User.Request) -> Effect<UserDetailReducer.Action> {
-    { item in
+  var user: (GithubEntity.Detail.User.Request) -> Effect<UserDetailReducer.Action> {
+    { request in
       .publisher {
-        useCase.githubDetailUseCase.user(item)
+        useCase.githubDetailUseCase.user(request)
           .receive(on: main)
           .mapToResult()
           .map(UserDetailReducer.Action.fetchDetailItem)
