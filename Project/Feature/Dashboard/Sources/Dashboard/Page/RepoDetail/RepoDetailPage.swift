@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import Domain
 
 // MARK: - RepoDetailPage
 
@@ -33,6 +34,16 @@ extension RepoDetailPage: View {
     .navigationTitle(navigationtitle)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
+      if let detailItem = store.fetchDetailItem.value {
+        ToolbarItem(placement: .topBarTrailing) {
+          LikeComponent(
+            viewState: .init(
+              isLike: store.fetchIsLike.value,
+              item: detailItem),
+            likeAction: { store.send(.updateIsLike($0)) })
+        }
+      }
+      
       if let shareURL {
         ToolbarItem(placement: .topBarTrailing) {
           ShareLink(item: shareURL) {
@@ -40,6 +51,9 @@ extension RepoDetailPage: View {
           }
         }
       }
+    }
+    .onChange(of: store.fetchDetailItem.value) { _, new in
+      store.send(.getIsLike(new))
     }
     .onAppear {
       store.send(.getDetail)
