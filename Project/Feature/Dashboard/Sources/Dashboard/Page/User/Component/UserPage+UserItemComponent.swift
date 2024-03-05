@@ -8,6 +8,7 @@ extension UserPage {
   struct UserItemComponent {
     let viewState: ViewState
     let action: (GithubEntity.Search.User.Item) -> Void
+    @Environment(\.colorScheme) var colorScheme
   }
 }
 
@@ -29,7 +30,7 @@ extension UserPage.UserItemComponent: View {
 
       Text(viewState.item.login)
         .font(.system(size: 14, weight: .bold))
-        .foregroundStyle(DesignSystemColor.system(.black).color)
+        .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
     }
     .frame(width: 80, height: 120)
     .padding(4)

@@ -8,6 +8,8 @@ extension RepoPage {
   struct RepositoryItemComponent {
     let viewState: ViewState
     let action: (GithubEntity.Search.Repository.Item) -> Void
+    
+    @Environment(\.colorScheme) var colorScheme
   }
 }
 
@@ -15,38 +17,8 @@ extension RepoPage.RepositoryItemComponent {
   private var isEmptyRankCount: Bool {
     (
       viewState.item.starCount
-        + viewState.item.forkCount
-        + viewState.item.watcherCount) == .zero
-  }
-
-  private func formattedTimeDifference(_ lastUpdateString: String) -> String {
-    let dateFormatter = ISO8601DateFormatter()
-    guard let lastUpdate = dateFormatter.date(from: lastUpdateString) else { return "" }
-
-    // 현재 시간 가져오기
-    let now = Date()
-    // 현재 시간과 주어진 날짜 간의 차이 계산
-    let calendar = Calendar.current
-    let componentList = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: lastUpdate, to: now)
-
-    // 시간 차이에 따라 적절한 TimeDifference 케이스를 반환
-    switch componentList {
-    // where절: 0인 경우에는 해당 케이스를 무시하고 다음 케이스로 진행하도록 하는 추가적인 필터 역할을 합니다. => 이걸 설정하지 않으면 1년 아래에 있는 모든 아이템이 0 year 로 표현됌 => 다음 case로 넘어가지 않음
-    case let years where years.year ?? 0 > 0:
-      return TimeDifference.years(years.year ?? .zero).description
-    case let months where months.month ?? 0 > 0:
-      return TimeDifference.months(months.month!).description
-    case let weeks where weeks.weekOfYear ?? 0 > 0:
-      return TimeDifference.weeks(weeks.weekOfYear ?? .zero).description
-    case let days where days.day ?? 0 > 0:
-      return TimeDifference.days(days.day ?? .zero).description
-    case let hours where hours.hour ?? 0 > 0:
-      return TimeDifference.hours(hours.hour ?? .zero).description
-    case let minutes where minutes.minute ?? 0 > 0:
-      return TimeDifference.minutes(minutes.minute ?? .zero).description
-    default:
-      return TimeDifference.now.description
-    }
+      + viewState.item.forkCount
+      + viewState.item.watcherCount) == .zero
   }
 }
 
@@ -68,12 +40,10 @@ extension RepoPage.RepositoryItemComponent: View {
         VStack(alignment: .leading, spacing: 4) {
           Text(viewState.item.fullName)
             .font(.system(size: 14, weight: .bold))
-            .foregroundStyle(DesignSystemColor.system(.black).color)
 
           if let desc = viewState.item.desc {
             Text(desc)
               .font(.system(size: 12, weight: .bold))
-              .foregroundStyle(DesignSystemColor.system(.black).color)
           }
 
           if !isEmptyRankCount {
@@ -113,11 +83,13 @@ extension RepoPage.RepositoryItemComponent: View {
             }
           }
         }
+        .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
 
         Spacer()
 
-        Text("\(formattedTimeDifference(viewState.item.lastUpdate))")
+        Text(viewState.item.lastUpdate.formattedTimeDifference)
           .font(.system(size: 14))
+          .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
       }
 
       if !viewState.item.topicList.isEmpty {
@@ -127,13 +99,16 @@ extension RepoPage.RepositoryItemComponent: View {
               Button(action: { }) {
                 Text(item)
                   .font(.system(size: 12))
+                  .foregroundStyle(DesignSystemColor.label(.default).color)
+                  
               }
             }
             .frame(height: 12)
             .padding(6)
             .background(
               Capsule()
-                .fill(.blue.opacity(0.1)))
+                .fill(DesignSystemColor.background(.blue).color)
+            )
           }
         }
       }
@@ -185,6 +160,39 @@ enum TimeDifference {
       "\(minute) minute\(minute > 1 ? "s" : "") ago"
     case .now:
       "Now"
+    }
+  }
+}
+
+
+extension String {
+  fileprivate var formattedTimeDifference: String {
+    let dateFormatter = ISO8601DateFormatter()
+    guard let lastUpdate = dateFormatter.date(from: self) else { return "" }
+    
+    // 현재 시간 가져오기
+    let now = Date()
+    // 현재 시간과 주어진 날짜 간의 차이 계산
+    let calendar = Calendar.current
+    let componentList = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: lastUpdate, to: now)
+    
+    // 시간 차이에 따라 적절한 TimeDifference 케이스를 반환
+    switch componentList {
+      // where절: 0인 경우에는 해당 케이스를 무시하고 다음 케이스로 진행하도록 하는 추가적인 필터 역할을 합니다. => 이걸 설정하지 않으면 1년 아래에 있는 모든 아이템이 0 year 로 표현됌 => 다음 case로 넘어가지 않음
+    case let years where years.year ?? 0 > 0:
+      return TimeDifference.years(years.year ?? .zero).description
+    case let months where months.month ?? 0 > 0:
+      return TimeDifference.months(months.month!).description
+    case let weeks where weeks.weekOfYear ?? 0 > 0:
+      return TimeDifference.weeks(weeks.weekOfYear ?? .zero).description
+    case let days where days.day ?? 0 > 0:
+      return TimeDifference.days(days.day ?? .zero).description
+    case let hours where hours.hour ?? 0 > 0:
+      return TimeDifference.hours(hours.hour ?? .zero).description
+    case let minutes where minutes.minute ?? 0 > 0:
+      return TimeDifference.minutes(minutes.minute ?? .zero).description
+    default:
+      return TimeDifference.now.description
     }
   }
 }

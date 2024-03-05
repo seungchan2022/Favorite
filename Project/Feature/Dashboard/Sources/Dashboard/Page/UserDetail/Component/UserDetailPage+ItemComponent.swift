@@ -7,7 +7,8 @@ import SwiftUI
 extension UserDetailPage {
   struct ItemComponent {
     let viewState: ViewState
-    //    let action: ()
+    
+    @Environment(\.colorScheme) var colorScheme
   }
 }
 
@@ -33,7 +34,8 @@ extension UserDetailPage.ItemComponent: View {
 
         VStack(alignment: .leading, spacing: 4) {
           Text(viewState.item.loginName)
-            .font(.system(size: 20, weight: .bold))
+            .font(.system(size: 24, weight: .bold))
+            .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
 
           // if/else를 해주지 않으면 해당 아이템이 없을때 위 loginName이 아래로 내려옴 (아이템이 없어도 항상 같은자리에 있기르 원함)
           if let name = viewState.item.name {
@@ -43,7 +45,6 @@ extension UserDetailPage.ItemComponent: View {
           } else {
             Text("")
               .font(.system(size: 16))
-              .foregroundStyle(DesignSystemColor.palette(.gray(.lv300)).color)
           }
 
           HStack {
@@ -51,6 +52,7 @@ extension UserDetailPage.ItemComponent: View {
               Image(systemName: "mappin.and.ellipse")
                 .resizable()
                 .frame(width: 12, height: 12)
+                .foregroundStyle(DesignSystemColor.tint(.purple).color)
 
               Text(location)
                 .font(.system(size: 16))
@@ -58,7 +60,6 @@ extension UserDetailPage.ItemComponent: View {
             } else {
               Text("")
                 .font(.system(size: 16))
-                .foregroundStyle(DesignSystemColor.palette(.gray(.lv300)).color)
             }
           }
         }
@@ -102,14 +103,15 @@ extension UserDetailPage.ItemComponent: View {
                 .font(.system(size: 16))
             }
           }
+          .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
           .padding(.horizontal, 16)
 
           Button(action: { }) {
             Text("Github Profile")
               .font(.headline)
-              .frame(width: 300)
+              .frame(width: 280)
           }
-          .tint(.purple)
+          .tint(DesignSystemColor.tint(.purple).color)
           .buttonStyle(.bordered)
           .controlSize(.large)
         }
@@ -150,14 +152,15 @@ extension UserDetailPage.ItemComponent: View {
                 .font(.system(size: 16))
             }
           }
+          .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
           .padding(.horizontal, 16)
 
           Button(action: { }) {
             Text("Get Followers")
               .font(.headline)
-              .frame(width: 300)
+              .frame(width: 280)
           }
-          .tint(.green)
+          .tint(DesignSystemColor.tint(.green).color)
           .buttonStyle(.bordered)
           .controlSize(.large)
         }
