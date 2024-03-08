@@ -11,6 +11,22 @@ struct LikePage {
 
 extension LikePage: View {
   var body: some View {
-    Text("LikePage")
+    VStack {
+      Text("LikePage")
+      
+      ForEach(store.itemList.repoList, id: \.id) { item in
+        Text(item.fullName)
+      }
+      
+      ForEach(store.itemList.userList, id: \.loginName) { item in
+        Text(item.loginName)
+      }
+    }
+    .onAppear {
+      store.send(.getItemList)
+    }
+    .onDisappear {
+      store.send(.teardown)
+    }
   }
 }

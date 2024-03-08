@@ -17,3 +17,16 @@ struct LikeSideEffect {
     self.navigator = navigator
   }
 }
+
+extension LikeSideEffect {
+  var getItemList: () -> Effect<LikeReducer.Action> {
+    {
+      .publisher {
+        useCase.githubLikeUseCase.getItemList()
+          .receive(on: main)
+          .mapToResult()
+          .map(LikeReducer.Action.fetchItemList)
+      }
+    }
+  }
+}

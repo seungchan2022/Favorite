@@ -6,7 +6,7 @@ import Domain
 public struct GithubLikeUseCasePlatform {
   @StandardKeyArchiver(defaultValue: GithubEntity.Like())
   private var store: GithubEntity.Like
-
+  
   public init() { }
 }
 
@@ -20,7 +20,7 @@ extension GithubLikeUseCasePlatform: GithubLikeUseCase {
         .eraseToAnyPublisher()
     }
   }
-
+  
   public var saveRepository: (GithubEntity.Detail.Repository.Response) -> AnyPublisher<
     GithubEntity.Like,
     CompositeErrorRepository
@@ -41,6 +41,14 @@ extension GithubLikeUseCasePlatform: GithubLikeUseCase {
         .eraseToAnyPublisher()
     }
   }
+  
+  public var getItemList: () -> AnyPublisher<GithubEntity.Like, CompositeErrorRepository> {
+    {
+      return Just(store)
+        .setFailureType(to: CompositeErrorRepository.self)
+        .eraseToAnyPublisher()
+    }
+  }
 }
 
 extension GithubEntity.Like {
@@ -50,7 +58,7 @@ extension GithubEntity.Like {
         repoList: repoList + [item],
         userList: userList)
     }
-
+    
     return .init(
       repoList: repoList.filter { $0.htmlURL != item.htmlURL },
       userList: userList)
