@@ -86,6 +86,7 @@ extension GithubEntity.Detail.User {
     public let followerListCount: Int
     public let followingListCount: Int
     public let created: String
+    public let lastUpdate: String
 
     // MARK: Private
 
@@ -101,6 +102,7 @@ extension GithubEntity.Detail.User {
       case followerListCount = "followers"
       case followingListCount = "following"
       case created = "created_at"
+      case lastUpdate = "updated_at"
     }
   }
 }

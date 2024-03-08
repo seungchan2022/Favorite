@@ -4,6 +4,11 @@ import Foundation
 import Architecture
 import Domain
 
+enum LikeList: String {
+  case repoList = "RepoList"
+  case userList = "UserList"
+}
+
 @Reducer
 struct LikeReducer {
 
@@ -22,6 +27,7 @@ struct LikeReducer {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
+    var selectedLikeList: LikeList = .repoList
     var itemList: GithubEntity.Like = .init()
     var fetchItemList: FetchState.Data<GithubEntity.Like?> = .init(isLoading: false, value: .none)
 

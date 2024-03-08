@@ -44,6 +44,8 @@ extension GithubLikeUseCasePlatform: GithubLikeUseCase {
   
   public var getItemList: () -> AnyPublisher<GithubEntity.Like, CompositeErrorRepository> {
     {
+      print("AAA: ", store.repoList)
+      print("BBB: ", store.userList)
       return Just(store)
         .setFailureType(to: CompositeErrorRepository.self)
         .eraseToAnyPublisher()

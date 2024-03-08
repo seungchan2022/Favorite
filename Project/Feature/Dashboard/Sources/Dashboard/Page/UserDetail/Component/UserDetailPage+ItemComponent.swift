@@ -144,7 +144,7 @@ extension UserDetailPage.ItemComponent: View {
                   .resizable()
                   .frame(width: 14, height: 14)
 
-                Text("Public gists")
+                Text("Following")
                   .font(.system(size: 16))
               }
 
