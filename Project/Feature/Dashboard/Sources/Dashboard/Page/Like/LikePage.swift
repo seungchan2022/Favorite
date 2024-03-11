@@ -18,48 +18,46 @@ extension LikePage {
 extension LikePage: View {
   var body: some View {
     ScrollView {
-      
       VStack {
         Picker("", selection: $store.state.selectedLikeList) {
           Text(LikeList.repoList.rawValue)
             .tag(LikeList.repoList)
-          
+
           Text(LikeList.userList.rawValue)
             .tag(LikeList.userList)
         }
         .pickerStyle(.segmented)
         .padding(.horizontal, 12)
-        
+
         switch store.state.selectedLikeList {
         case .repoList:
           if store.itemList.repoList.isEmpty {
             Text(emptyItemMessage)
               .padding(16)
           }
-          
+
           LazyVStack(spacing: .zero) {
             ForEach(store.itemList.repoList, id: \.id) { item in
               RepoItemComponent(
                 viewState: .init(item: item),
-                action: { print($0) })
-              
+                action: { store.send(.routeToRepoDetail($0)) })
+
               Divider()
             }
           }
-          
+
         case .userList:
           LazyVStack(spacing: .zero) {
-            
             if store.itemList.userList.isEmpty {
               Text(emptyItemMessage)
                 .padding(16)
             }
-            
+
             ForEach(store.itemList.userList, id: \.loginName) { item in
               UserItemComponent(
                 viewState: .init(item: item),
-                action: { print($0) })
-              
+                action: { store.send(.routeToUserDetail($0)) })
+
               Divider()
             }
           }
@@ -75,6 +73,3 @@ extension LikePage: View {
     }
   }
 }
-
-
-

@@ -1,13 +1,17 @@
+import Architecture
 import ComposableArchitecture
 import Dispatch
-import Foundation
-import Architecture
 import Domain
+import Foundation
+
+// MARK: - LikeList
 
 enum LikeList: String {
   case repoList = "RepoList"
   case userList = "UserList"
 }
+
+// MARK: - LikeReducer
 
 @Reducer
 struct LikeReducer {
@@ -39,10 +43,13 @@ struct LikeReducer {
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case teardown
-    
+
     case getItemList
     case fetchItemList(Result<GithubEntity.Like, CompositeErrorRepository>)
-    
+
+    case routeToRepoDetail(GithubEntity.Detail.Repository.Response)
+    case routeToUserDetail(GithubEntity.Detail.User.Response)
+
     case throwError(CompositeErrorRepository)
   }
 
@@ -61,12 +68,12 @@ struct LikeReducer {
       case .teardown:
         return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
-        
+
       case .getItemList:
         state.fetchItemList.isLoading = true
         return sideEffect.getItemList()
           .cancellable(pageID: pageID, id: CancelID.requestRepoList, cancelInFlight: true)
-        
+
       case .fetchItemList(let result):
         state.fetchItemList.isLoading = false
         switch result {
@@ -74,11 +81,19 @@ struct LikeReducer {
           state.fetchItemList.value = list
           state.itemList = list
           return .none
-          
+
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
+
+      case .routeToRepoDetail(let item):
+        sideEffect.routeToRepoDetail(item)
+        return .none
+
+      case .routeToUserDetail(let item):
+        sideEffect.routeToUserDetail(item)
+        return .none
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none
