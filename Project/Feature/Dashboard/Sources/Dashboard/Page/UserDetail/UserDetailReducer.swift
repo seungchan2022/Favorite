@@ -70,13 +70,13 @@ struct UserDetailReducer {
         state.fetchDetailItem.isLoading = true
         return sideEffect.user(requestModel)
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
-        
+
       case .getIsLike(let item):
         guard let item else { return .none }
         state.fetchIsLike.isLoading = true
         return sideEffect.isLike(item)
           .cancellable(pageID: pageID, id: CancelID.requestIsLike, cancelInFlight: true)
-        
+
       case .updateIsLike(let item):
         state.fetchIsLike.isLoading = true
         return sideEffect.updateIsLike(item)
@@ -92,16 +92,16 @@ struct UserDetailReducer {
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
+
       case .fetchIsLike(let result):
         state.fetchIsLike.isLoading = false
         switch result {
         case .success(let item):
           state.fetchIsLike.value = item
           return .none
-          
+
         case .failure(let error):
-          return .run { await $0(.throwError(error))}
+          return .run { await $0(.throwError(error)) }
         }
 
       case .throwError(let error):

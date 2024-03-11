@@ -8,7 +8,7 @@ extension RepoPage {
   struct RepositoryItemComponent {
     let viewState: ViewState
     let action: (GithubEntity.Search.Repository.Item) -> Void
-    
+
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -17,8 +17,8 @@ extension RepoPage.RepositoryItemComponent {
   private var isEmptyRankCount: Bool {
     (
       viewState.item.starCount
-      + viewState.item.forkCount
-      + viewState.item.watcherCount) == .zero
+        + viewState.item.forkCount
+        + viewState.item.watcherCount) == .zero
   }
 }
 
@@ -100,15 +100,13 @@ extension RepoPage.RepositoryItemComponent: View {
                 Text(item)
                   .font(.system(size: 12))
                   .foregroundStyle(DesignSystemColor.label(.default).color)
-                  
               }
             }
             .frame(height: 12)
             .padding(6)
             .background(
               Capsule()
-                .fill(DesignSystemColor.background(.blue).color)
-            )
+                .fill(DesignSystemColor.background(.blue).color))
           }
         }
       }
@@ -141,7 +139,7 @@ public enum TimeDifference {
   case minutes(Int)
   case now // 현재 시간을 나타내는 케이스
 
-  // MARK: Internal
+  // MARK: Public
 
   // 각 케이스에 대한 설명을 반환하는 연산 프로퍼티
   public var description: String {
@@ -164,21 +162,20 @@ public enum TimeDifference {
   }
 }
 
-
 extension String {
   public var formattedTimeDifference: String {
     let dateFormatter = ISO8601DateFormatter()
     guard let lastUpdate = dateFormatter.date(from: self) else { return "" }
-    
+
     // 현재 시간 가져오기
     let now = Date()
     // 현재 시간과 주어진 날짜 간의 차이 계산
     let calendar = Calendar.current
     let componentList = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: lastUpdate, to: now)
-    
+
     // 시간 차이에 따라 적절한 TimeDifference 케이스를 반환
     switch componentList {
-      // where절: 0인 경우에는 해당 케이스를 무시하고 다음 케이스로 진행하도록 하는 추가적인 필터 역할을 합니다. => 이걸 설정하지 않으면 1년 아래에 있는 모든 아이템이 0 year 로 표현됌 => 다음 case로 넘어가지 않음
+    // where절: 0인 경우에는 해당 케이스를 무시하고 다음 케이스로 진행하도록 하는 추가적인 필터 역할을 합니다. => 이걸 설정하지 않으면 1년 아래에 있는 모든 아이템이 0 year 로 표현됌 => 다음 case로 넘어가지 않음
     case let years where years.year ?? 0 > 0:
       return TimeDifference.years(years.year ?? .zero).description
     case let months where months.month ?? 0 > 0:

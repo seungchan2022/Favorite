@@ -21,7 +21,9 @@ extension GithubEntity.Detail.Repository {
   }
 
   public struct Response: Equatable, Codable, Sendable {
-    
+
+    // MARK: Public
+
     public let id: Int
     public let fullName: String
     public let name: String
@@ -33,6 +35,8 @@ extension GithubEntity.Detail.Repository {
     public let lastUpdate: String
     public let owner: Owner
     public let htmlURL: String?
+
+    // MARK: Private
 
     private enum CodingKeys: String, CodingKey {
       case id
@@ -48,7 +52,7 @@ extension GithubEntity.Detail.Repository {
       case htmlURL = "html_url"
     }
   }
-  
+
   public struct Owner: Equatable, Codable, Sendable {
     public let id: Int
     public let avatarUrl: String

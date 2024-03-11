@@ -1,12 +1,14 @@
-import SwiftUI
 import DesignSystem
 import Domain
+import SwiftUI
+
+// MARK: - LikePage.RepoItemComponent
 
 extension LikePage {
   struct RepoItemComponent {
     let viewState: ViewState
     let action: (GithubEntity.Detail.Repository.Response) -> Void
-    
+
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -15,10 +17,12 @@ extension LikePage.RepoItemComponent {
   private var isEmptyRankCount: Bool {
     (
       viewState.item.starCount
-      + viewState.item.forkCount
-      + viewState.item.watcherCount) == .zero
+        + viewState.item.forkCount
+        + viewState.item.watcherCount) == .zero
   }
 }
+
+// MARK: - LikePage.RepoItemComponent + View
 
 extension LikePage.RepoItemComponent: View {
   var body: some View {
@@ -96,15 +100,13 @@ extension LikePage.RepoItemComponent: View {
                 Text(item)
                   .font(.system(size: 12))
                   .foregroundStyle(DesignSystemColor.label(.default).color)
-                  
               }
             }
             .frame(height: 12)
             .padding(6)
             .background(
               Capsule()
-                .fill(DesignSystemColor.background(.blue).color)
-            )
+                .fill(DesignSystemColor.background(.blue).color))
           }
         }
       }
@@ -114,9 +116,10 @@ extension LikePage.RepoItemComponent: View {
     .onTapGesture {
       action(viewState.item)
     }
-
   }
 }
+
+// MARK: - LikePage.RepoItemComponent.ViewState
 
 extension LikePage.RepoItemComponent {
   struct ViewState: Equatable {

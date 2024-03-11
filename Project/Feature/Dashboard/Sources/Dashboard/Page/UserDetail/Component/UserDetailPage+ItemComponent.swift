@@ -7,7 +7,7 @@ import SwiftUI
 extension UserDetailPage {
   struct ItemComponent {
     let viewState: ViewState
-    
+
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -35,7 +35,10 @@ extension UserDetailPage.ItemComponent: View {
         VStack(alignment: .leading, spacing: 4) {
           Text(viewState.item.loginName)
             .font(.system(size: 24, weight: .bold))
-            .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
+            .foregroundStyle(
+              colorScheme == .dark
+                ? DesignSystemColor.system(.white).color
+                : DesignSystemColor.system(.black).color)
 
           // if/else를 해주지 않으면 해당 아이템이 없을때 위 loginName이 아래로 내려옴 (아이템이 없어도 항상 같은자리에 있기르 원함)
           if let name = viewState.item.name {

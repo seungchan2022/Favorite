@@ -15,10 +15,12 @@ extension RepoDetailPage {
 
 extension RepoDetailPage.WebContent: UIViewRepresentable {
   func makeUIView(context _: Context) -> some UIView {
-    let webView = WKWebView(frame: .zero, configuration: .init())    
-    
-    if let htmlURL = viewState.item.htmlURL,
-      let url = URL(string: htmlURL) {
+    let webView = WKWebView(frame: .zero, configuration: .init())
+
+    if
+      let htmlURL = viewState.item.htmlURL,
+      let url = URL(string: htmlURL)
+    {
       webView.load(.init(url: url))
     }
     return webView

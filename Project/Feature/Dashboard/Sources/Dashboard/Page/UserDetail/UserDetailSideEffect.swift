@@ -33,34 +33,34 @@ extension UserDetailSideEffect {
       }
     }
   }
-  
+
   var isLike: (GithubEntity.Detail.User.Response) -> Effect<UserDetailReducer.Action> {
     { item in
-        .publisher {
-          useCase.githubLikeUseCase
-            .getLike()
-            .map {
-              $0.userList.first(where: { $0 == item }) != .none
-            }
-            .receive(on: main)
-            .mapToResult()
-            .map(UserDetailReducer.Action.fetchIsLike)
-        }
+      .publisher {
+        useCase.githubLikeUseCase
+          .getLike()
+          .map {
+            $0.userList.first(where: { $0 == item }) != .none
+          }
+          .receive(on: main)
+          .mapToResult()
+          .map(UserDetailReducer.Action.fetchIsLike)
+      }
     }
   }
-  
+
   var updateIsLike: (GithubEntity.Detail.User.Response) -> Effect<UserDetailReducer.Action> {
     { item in
-        .publisher {
-          useCase.githubLikeUseCase
-            .saveUser(item)
-            .map {
-              $0.userList.first(where: { $0 == item }) != .none
-            }
-            .receive(on: main)
-            .mapToResult()
-            .map(UserDetailReducer.Action.fetchIsLike)
-        }
+      .publisher {
+        useCase.githubLikeUseCase
+          .saveUser(item)
+          .map {
+            $0.userList.first(where: { $0 == item }) != .none
+          }
+          .receive(on: main)
+          .mapToResult()
+          .map(UserDetailReducer.Action.fetchIsLike)
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
-import SwiftUI
 import Domain
+import SwiftUI
+
+// MARK: - UserDetailPage.LikeComponent
 
 extension UserDetailPage {
   struct LikeComponent {
@@ -14,6 +16,8 @@ extension UserDetailPage.LikeComponent {
   }
 }
 
+// MARK: - UserDetailPage.LikeComponent + View
+
 extension UserDetailPage.LikeComponent: View {
   var body: some View {
     Button(action: { likeAction(viewState.item) }) {
@@ -22,6 +26,8 @@ extension UserDetailPage.LikeComponent: View {
     }
   }
 }
+
+// MARK: - UserDetailPage.LikeComponent.ViewState
 
 extension UserDetailPage.LikeComponent {
   struct ViewState: Equatable {
