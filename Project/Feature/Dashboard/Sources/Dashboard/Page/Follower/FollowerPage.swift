@@ -10,15 +10,12 @@ extension FollowerPage: View {
     ScrollView {
       VStack {
         ForEach(store.itemList) { item in
-          Text(item.login)
+          ItemComponent(viewState: .init(item: item))
         }
-        
-        Text("\(store.itemList.count)")
       }
     }
     .onAppear {
       store.send(.getItem(store.item))
-      print(store.itemList)
     }
     .onDisappear {
       store.send(.teardown)
