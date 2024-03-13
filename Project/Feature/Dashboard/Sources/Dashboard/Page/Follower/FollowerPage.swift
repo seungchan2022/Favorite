@@ -1,9 +1,13 @@
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
+
+// MARK: - FollowerPage
 
 struct FollowerPage {
   @Bindable var store: StoreOf<FollowerReducer>
 }
+
+// MARK: View
 
 extension FollowerPage: View {
   var body: some View {

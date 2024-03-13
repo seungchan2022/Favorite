@@ -1,3 +1,5 @@
+// MARK: - GithubEntity.User
+
 extension GithubEntity {
   public enum User {
     public enum Follower { }
@@ -7,12 +9,12 @@ extension GithubEntity {
 extension GithubEntity.User.Follower {
   public struct Request: Equatable, Codable, Sendable {
     public let ownerName: String
-    
+
     public init(ownerName: String) {
       self.ownerName = ownerName
     }
   }
-  
+
   public struct Response: Equatable, Codable, Sendable, Identifiable {
 
     public let id: Int

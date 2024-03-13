@@ -63,7 +63,7 @@ extension UserDetailSideEffect {
       }
     }
   }
-  
+
   var routeToProfile: (GithubEntity.Detail.User.Response) -> Void {
     { item in
       navigator.next(

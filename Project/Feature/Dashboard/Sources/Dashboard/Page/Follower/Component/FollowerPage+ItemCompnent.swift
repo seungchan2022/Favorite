@@ -1,16 +1,20 @@
-import SwiftUI
-import Domain
 import DesignSystem
+import Domain
+import SwiftUI
+
+// MARK: - FollowerPage.ItemComponent
 
 extension FollowerPage {
   struct ItemComponent {
     let viewState: ViewState
-    
+
     @Environment(\.colorScheme) var colorScheme
   }
 }
 
 extension FollowerPage.ItemComponent { }
+
+// MARK: - FollowerPage.ItemComponent + View
 
 extension FollowerPage.ItemComponent: View {
   var body: some View {
@@ -34,11 +38,11 @@ extension FollowerPage.ItemComponent: View {
     }
     .frame(maxWidth: .infinity)
     .padding(8)
-    .onTapGesture {
-      
-    }
+    .onTapGesture { }
   }
 }
+
+// MARK: - FollowerPage.ItemComponent.ViewState
 
 extension FollowerPage.ItemComponent {
   struct ViewState: Equatable {

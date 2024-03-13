@@ -27,7 +27,7 @@ extension AppContainer {
       githubSearchUseCase: GithubSearchUseCasePlatform(),
       githubDetailUseCase: GithubDetailUseCasePlatform(),
       githubLikeUseCase: GithubLikeUseCasePlatform(),
-    githubUserUseCase: GithubUserUseCasePlatform())
+      githubUserUseCase: GithubUserUseCasePlatform())
 
     return .init(
       dependency: sideEffect,

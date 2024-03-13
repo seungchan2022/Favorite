@@ -24,7 +24,7 @@ struct UserReducer {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-    var query = ""
+    var query = "s"
     var itemList: [GithubEntity.Search.User.Item] = []
     var fetchSearchItem: FetchState.Data<GithubEntity.Search.User.Composite?> = .init(isLoading: false, value: .none)
 

@@ -1,13 +1,15 @@
 import Architecture
 import ComposableArchitecture
-import Foundation
 import Domain
+import Foundation
+
+// MARK: - FollowerSideEffect
 
 struct FollowerSideEffect {
   let useCase: DashboardEnvironmentUsable
   let main: AnySchedulerOf<DispatchQueue>
   let navigator: RootNavigatorType
-  
+
   init(
     useCase: DashboardEnvironmentUsable,
     main: AnySchedulerOf<DispatchQueue> = .main,
@@ -22,12 +24,12 @@ struct FollowerSideEffect {
 extension FollowerSideEffect {
   var follower: (GithubEntity.User.Follower.Request) -> Effect<FollowerReducer.Action> {
     { request in
-        .publisher {
-          useCase.githubUserUseCase.getFollower(request)
-            .receive(on: main)
-            .mapToResult()
-            .map(FollowerReducer.Action.fetchItem)
-        }
+      .publisher {
+        useCase.githubUserUseCase.getFollower(request)
+          .receive(on: main)
+          .mapToResult()
+          .map(FollowerReducer.Action.fetchItem)
+      }
     }
   }
 }
