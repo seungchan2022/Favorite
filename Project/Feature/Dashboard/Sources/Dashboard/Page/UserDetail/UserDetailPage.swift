@@ -24,7 +24,9 @@ extension UserDetailPage: View {
   var body: some View {
     VStack {
       if let item = store.fetchDetailItem.value {
-        ItemComponent(viewState: .init(item: item))
+        ItemComponent(
+          viewState: .init(item: item),
+          followerAction: { store.send(.routeToProfile($0)) })
       }
     }
     .navigationTitle(navigationTitle)

@@ -7,7 +7,7 @@ import SwiftUI
 extension UserDetailPage {
   struct ItemComponent {
     let viewState: ViewState
-
+    let followerAction: (GithubEntity.Detail.User.Response) -> Void
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -158,7 +158,7 @@ extension UserDetailPage.ItemComponent: View {
           .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
           .padding(.horizontal, 16)
 
-          Button(action: { }) {
+          Button(action: { followerAction(viewState.item) }) {
             Text("Get Followers")
               .font(.headline)
               .frame(width: 280)

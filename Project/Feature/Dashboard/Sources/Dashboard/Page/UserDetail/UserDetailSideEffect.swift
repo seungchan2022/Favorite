@@ -63,4 +63,20 @@ extension UserDetailSideEffect {
       }
     }
   }
+  
+  var routeToProfile: (GithubEntity.Detail.User.Response) -> Void {
+    { item in
+      navigator.next(
+        linkItem: .init(
+          path: Link.Dashboard.Path.follower.rawValue,
+          items: item.serialized()),
+        isAnimated: true)
+    }
+  }
+}
+
+extension GithubEntity.Detail.User.Response {
+  fileprivate func serialized() -> GithubEntity.User.Follower.Request {
+    .init(ownerName: loginName)
+  }
 }
