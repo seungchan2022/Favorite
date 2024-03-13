@@ -44,7 +44,8 @@ struct UserDetailReducer {
     case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
 
-    case routeToProfile(GithubEntity.Detail.User.Response)
+    case rouetToProfile(GithubEntity.Detail.User.Response)
+    case routeToFollower(GithubEntity.Detail.User.Response)
 
     case throwError(CompositeErrorRepository)
 
@@ -106,8 +107,12 @@ struct UserDetailReducer {
           return .run { await $0(.throwError(error)) }
         }
 
-      case .routeToProfile(let item):
-        sideEffect.routeToProfile(item)
+      case .rouetToProfile(let item):
+        sideEffect.rouetToProfile(item)
+        return .none
+
+      case .routeToFollower(let item):
+        sideEffect.routeToFollower(item)
         return .none
 
       case .throwError(let error):

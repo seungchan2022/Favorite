@@ -64,7 +64,17 @@ extension UserDetailSideEffect {
     }
   }
 
-  var routeToProfile: (GithubEntity.Detail.User.Response) -> Void {
+  var rouetToProfile: (GithubEntity.Detail.User.Response) -> Void {
+    { item in
+      navigator.next(
+        linkItem: .init(
+          path: Link.Dashboard.Path.profile.rawValue,
+          items: item),
+        isAnimated: true)
+    }
+  }
+
+  var routeToFollower: (GithubEntity.Detail.User.Response) -> Void {
     { item in
       navigator.next(
         linkItem: .init(

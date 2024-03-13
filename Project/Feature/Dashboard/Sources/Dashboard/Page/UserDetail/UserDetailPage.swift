@@ -26,7 +26,8 @@ extension UserDetailPage: View {
       if let item = store.fetchDetailItem.value {
         ItemComponent(
           viewState: .init(item: item),
-          followerAction: { store.send(.routeToProfile($0)) })
+          profileAction: { store.send(.rouetToProfile($0)) },
+          followerAction: { store.send(.routeToFollower($0)) })
       }
     }
     .navigationTitle(navigationTitle)

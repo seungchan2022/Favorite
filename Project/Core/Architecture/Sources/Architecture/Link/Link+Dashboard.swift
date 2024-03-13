@@ -14,6 +14,7 @@ extension Link.Dashboard {
     case repoDetail
     case user
     case userDetail
+    case profile
     case follower
     case like
     case topic

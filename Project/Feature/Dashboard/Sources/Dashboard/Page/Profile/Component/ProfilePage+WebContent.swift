@@ -3,17 +3,17 @@ import SwiftUI
 import UIKit
 import WebKit
 
-// MARK: - UserDetailPage.WebContent
+// MARK: - ProfilePage.WebContent
 
-extension UserDetailPage {
+extension ProfilePage {
   struct WebContent {
     let viewState: ViewState
   }
 }
 
-// MARK: - UserDetailPage.WebContent + UIViewRepresentable
+// MARK: - ProfilePage.WebContent + UIViewRepresentable
 
-extension UserDetailPage.WebContent: UIViewRepresentable {
+extension ProfilePage.WebContent: UIViewRepresentable {
   func makeUIView(context _: Context) -> some UIView {
     let webView = WKWebView(frame: .zero, configuration: .init())
 
@@ -26,9 +26,9 @@ extension UserDetailPage.WebContent: UIViewRepresentable {
   func updateUIView(_: UIViewType, context _: Context) { }
 }
 
-// MARK: - UserDetailPage.WebContent.ViewState
+// MARK: - ProfilePage.WebContent.ViewState
 
-extension UserDetailPage.WebContent {
+extension ProfilePage.WebContent {
   struct ViewState: Equatable {
     let item: GithubEntity.Detail.User.Response
   }

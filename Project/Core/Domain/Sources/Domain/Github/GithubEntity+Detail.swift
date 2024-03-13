@@ -80,7 +80,7 @@ extension GithubEntity.Detail.User {
     // MARK: Public
 
     public let avatarUrl: String
-    public let htmlURL: String
+    public let htmlURL: String?
     public let name: String?
     public let loginName: String
     public let location: String?

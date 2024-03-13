@@ -7,6 +7,7 @@ import SwiftUI
 extension UserDetailPage {
   struct ItemComponent {
     let viewState: ViewState
+    let profileAction: (GithubEntity.Detail.User.Response) -> Void
     let followerAction: (GithubEntity.Detail.User.Response) -> Void
     @Environment(\.colorScheme) var colorScheme
   }
@@ -109,7 +110,7 @@ extension UserDetailPage.ItemComponent: View {
           .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
           .padding(.horizontal, 16)
 
-          Button(action: { }) {
+          Button(action: { profileAction(viewState.item) }) {
             Text("Github Profile")
               .font(.headline)
               .frame(width: 280)
