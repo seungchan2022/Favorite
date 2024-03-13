@@ -20,5 +20,14 @@ struct FollowerSideEffect {
 }
 
 extension FollowerSideEffect {
-  
+  var follower: (GithubEntity.User.Follower.Request) -> Effect<FollowerReducer.Action> {
+    { request in
+        .publisher {
+          useCase.githubUserUseCase.getFollower(request)
+            .receive(on: main)
+            .mapToResult()
+            .map(FollowerReducer.Action.fetchItem)
+        }
+    }
+  }
 }

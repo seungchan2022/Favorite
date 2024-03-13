@@ -7,6 +7,21 @@ struct FollowerPage {
 
 extension FollowerPage: View {
   var body: some View {
-    Text("FollowerPage")
+    ScrollView {
+      VStack {
+        ForEach(store.itemList) { item in
+          Text(item.login)
+        }
+        
+        Text("\(store.itemList.count)")
+      }
+    }
+    .onAppear {
+      store.send(.getItem(store.item))
+      print(store.itemList)
+    }
+    .onDisappear {
+      store.send(.teardown)
+    }
   }
 }

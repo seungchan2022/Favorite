@@ -12,4 +12,5 @@ struct AppSideEffect: DependencyType, DashboardEnvironmentUsable {
   let githubSearchUseCase: GithubSearchUseCase
   let githubDetailUseCase: GithubDetailUseCase
   let githubLikeUseCase: GithubLikeUseCase
+  let githubUserUseCase: GithubUserUseCase
 }
