@@ -9,11 +9,12 @@ struct ProfilePage {
 
 extension ProfilePage {
   private var navigationTitle: String {
-    store.item.name ?? ""
+    store.fetchItem.value?.loginName ?? ""
   }
 
   private var shareURL: URL? {
-    guard let str = store.item.htmlURL else { return .none }
+    guard let str = store.fetchItem.value?.htmlURL else  { return .none }
+
     return .init(string: str)
   }
 }
@@ -23,11 +24,25 @@ extension ProfilePage {
 extension ProfilePage: View {
   var body: some View {
     VStack {
-      WebContent(viewState: .init(item: store.item))
+      if let item = store.fetchItem.value {
+        WebContent(viewState: .init(item: item))
+      } else {
+        Text("로딩중...")
+      }
     }
     .navigationTitle(navigationTitle)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
+      if let item = store.fetchItem.value {
+        ToolbarItem(placement: .topBarTrailing) {
+          LikeComponent(
+            viewState: .init(
+              isLike: store.fetchIsLike.value,
+              item: item),
+            likeAction: { store.send(.updateIsLike($0)) })
+        }
+      }
+      
       if let shareURL {
         ToolbarItem(placement: .topBarTrailing) {
           ShareLink(item: shareURL) {
@@ -35,6 +50,15 @@ extension ProfilePage: View {
           }
         }
       }
+    }
+    .onChange(of: store.fetchItem.value) { _, new in
+      store.send(.getIsLike(new))
+    }
+    .onAppear {
+      store.send(.getItem)
+    }
+    .onDisappear {
+      store.send(.teardown)
     }
   }
 }

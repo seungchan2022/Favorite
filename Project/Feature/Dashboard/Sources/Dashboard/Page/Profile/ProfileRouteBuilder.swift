@@ -9,7 +9,7 @@ struct ProfileRouteBuilder<RootNavigator: RootNavigatorType> {
     return .init(matchPath: matchPath) { navigator, items, diContainer -> RouteViewController? in
 
       guard let env: DashboardEnvironmentUsable = diContainer.resolve() else { return .none }
-      guard let item: GithubEntity.Detail.User.Response = items.decoded() else { return .none }
+      guard let item: GithubEntity.Detail.User.Request = items.decoded() else { return .none }
 
       return DebugWrappingController(matchPath: matchPath) {
         ProfilePage(store: .init(
