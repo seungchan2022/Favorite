@@ -13,7 +13,7 @@ extension ProfilePage {
   }
 
   private var shareURL: URL? {
-    guard let str = store.fetchItem.value?.htmlURL else  { return .none }
+    guard let str = store.fetchItem.value?.htmlURL else { return .none }
 
     return .init(string: str)
   }
@@ -42,7 +42,7 @@ extension ProfilePage: View {
             likeAction: { store.send(.updateIsLike($0)) })
         }
       }
-      
+
       if let shareURL {
         ToolbarItem(placement: .topBarTrailing) {
           ShareLink(item: shareURL) {

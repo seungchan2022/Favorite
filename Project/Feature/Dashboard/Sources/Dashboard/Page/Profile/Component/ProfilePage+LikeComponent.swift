@@ -1,5 +1,7 @@
-import SwiftUI
 import Domain
+import SwiftUI
+
+// MARK: - ProfilePage.LikeComponent
 
 extension ProfilePage {
   struct LikeComponent {
@@ -12,8 +14,10 @@ extension ProfilePage.LikeComponent {
   private var likeImage: Image {
     Image(systemName: viewState.isLike ? "heart.fill" : "heart")
   }
-  
+
 }
+
+// MARK: - ProfilePage.LikeComponent + View
 
 extension ProfilePage.LikeComponent: View {
   var body: some View {
@@ -23,6 +27,8 @@ extension ProfilePage.LikeComponent: View {
     }
   }
 }
+
+// MARK: - ProfilePage.LikeComponent.ViewState
 
 extension ProfilePage.LikeComponent {
   struct ViewState: Equatable {

@@ -21,12 +21,11 @@ struct ProfileReducer {
   @ObservableState
   struct State: Equatable, Identifiable {
     let id: UUID
-//    let item: GithubEntity.Detail.User.Response
-        let item: GithubEntity.Detail.User.Request
+    let item: GithubEntity.Detail.User.Request
 
     var fetchItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
     var fetchIsLike: FetchState.Data<Bool> = .init(isLoading: false, value: false)
-    
+
     init(
       id: UUID = UUID(),
       item: GithubEntity.Detail.User.Request)
@@ -44,7 +43,7 @@ struct ProfileReducer {
     case updateIsLike(GithubEntity.Detail.User.Response)
     case fetchItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
-    
+
     case throwError(CompositeErrorRepository)
   }
 
@@ -64,45 +63,45 @@ struct ProfileReducer {
       case .teardown:
         return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
-        
+
       case .getItem:
         state.fetchItem.isLoading = true
         return sideEffect.item(state.item)
           .cancellable(pageID: pageID, id: CancelID.requestItem, cancelInFlight: true)
-        
+
       case .getIsLike(let item):
         guard let item else { return .none }
         state.fetchIsLike.isLoading = true
         return sideEffect.isLike(item)
           .cancellable(pageID: pageID, id: CancelID.requestIsLike, cancelInFlight: true)
-        
+
       case .updateIsLike(let item):
         state.fetchIsLike.isLoading = true
         return sideEffect.updateIsLike(item)
           .cancellable(pageID: pageID, id: CancelID.requestIsLike, cancelInFlight: true)
-        
+
       case .fetchItem(let result):
         state.fetchItem.isLoading = false
         switch result {
         case .success(let item):
           state.fetchItem.value = item
           return .none
-          
+
         case .failure(let error):
-          return .run { await  $0(.throwError(error))}
+          return .run { await $0(.throwError(error)) }
         }
-        
+
       case .fetchIsLike(let result):
         state.fetchIsLike.isLoading = false
         switch result {
         case .success(let item):
           state.fetchIsLike.value = item
           return .none
-          
+
         case .failure(let error):
-          return .run { await $0(.throwError(error))}
+          return .run { await $0(.throwError(error)) }
         }
-        
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none

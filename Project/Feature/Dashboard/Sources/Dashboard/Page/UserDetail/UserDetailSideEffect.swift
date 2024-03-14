@@ -69,7 +69,7 @@ extension UserDetailSideEffect {
       navigator.next(
         linkItem: .init(
           path: Link.Dashboard.Path.profile.rawValue,
-          items: item.serialized1()),
+          items: item.serializedProfile()),
         isAnimated: true)
     }
   }
@@ -79,18 +79,18 @@ extension UserDetailSideEffect {
       navigator.next(
         linkItem: .init(
           path: Link.Dashboard.Path.follower.rawValue,
-          items: item.serialized()),
+          items: item.serializedFollower()),
         isAnimated: true)
     }
   }
 }
 
 extension GithubEntity.Detail.User.Response {
-  fileprivate func serialized() -> GithubEntity.User.Follower.Request {
+  fileprivate func serializedFollower() -> GithubEntity.User.Follower.Request {
     .init(ownerName: loginName)
   }
-  
-  fileprivate func serialized1() -> GithubEntity.Detail.User.Request {
+
+  fileprivate func serializedProfile() -> GithubEntity.Detail.User.Request {
     .init(ownerName: loginName)
   }
 }

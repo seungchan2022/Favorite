@@ -32,7 +32,7 @@ extension FollowerSideEffect {
       }
     }
   }
-  
+
   var routeToUser: (GithubEntity.User.Follower.Response) -> Void {
     { item in
       navigator.next(
@@ -46,6 +46,6 @@ extension FollowerSideEffect {
 
 extension GithubEntity.User.Follower.Response {
   fileprivate func serialized() -> GithubEntity.Detail.User.Request {
-    .init(ownerName: self.login)
+    .init(ownerName: login)
   }
 }

@@ -4,6 +4,8 @@ import Dispatch
 import Domain
 import Foundation
 
+// MARK: - FollowerReducer
+
 @Reducer
 struct FollowerReducer {
 
@@ -41,7 +43,7 @@ struct FollowerReducer {
 
     case getItem(GithubEntity.User.Follower.Request)
     case fetchItem(Result<[GithubEntity.User.Follower.Response], CompositeErrorRepository>)
-    
+
     case routeToUser(GithubEntity.User.Follower.Response)
 
     case throwError(CompositeErrorRepository)
@@ -79,7 +81,7 @@ struct FollowerReducer {
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-                
+
       case .routeToUser(let item):
         sideEffect.routeToUser(item)
         return .none

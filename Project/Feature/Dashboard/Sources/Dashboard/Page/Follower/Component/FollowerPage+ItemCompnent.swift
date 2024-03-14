@@ -8,7 +8,7 @@ extension FollowerPage {
   struct ItemComponent {
     let viewState: ViewState
     let action: (GithubEntity.User.Follower.Response) -> Void
-    
+
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -38,7 +38,6 @@ extension FollowerPage.ItemComponent: View {
     .onTapGesture {
       action(viewState.item)
     }
-
   }
 }
 
