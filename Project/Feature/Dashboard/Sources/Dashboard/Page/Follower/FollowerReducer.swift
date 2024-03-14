@@ -41,6 +41,8 @@ struct FollowerReducer {
 
     case getItem(GithubEntity.User.Follower.Request)
     case fetchItem(Result<[GithubEntity.User.Follower.Response], CompositeErrorRepository>)
+    
+    case routeToUser(GithubEntity.User.Follower.Response)
 
     case throwError(CompositeErrorRepository)
   }
@@ -71,12 +73,16 @@ struct FollowerReducer {
         switch result {
         case .success(let list):
           state.fetchItem.value = list
-          state.itemList = state.itemList + list
+          state.itemList = state.itemList.merge(list)
           return .none
 
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
+                
+      case .routeToUser(let item):
+        sideEffect.routeToUser(item)
+        return .none
 
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
@@ -89,4 +95,15 @@ struct FollowerReducer {
 
   private let pageID: String
   private let sideEffect: FollowerSideEffect
+}
+
+extension [GithubEntity.User.Follower.Response] {
+  fileprivate func merge(_ targer: Self) -> Self {
+    let new = targer.reduce(self) { curr, next in
+      guard !self.contains(where: { $0.id == next.id }) else { return curr }
+      return curr + [next]
+    }
+
+    return new
+  }
 }

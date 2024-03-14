@@ -7,7 +7,8 @@ import SwiftUI
 extension FollowerPage {
   struct ItemComponent {
     let viewState: ViewState
-
+    let action: (GithubEntity.User.Follower.Response) -> Void
+    
     @Environment(\.colorScheme) var colorScheme
   }
 }
@@ -18,27 +19,26 @@ extension FollowerPage.ItemComponent { }
 
 extension FollowerPage.ItemComponent: View {
   var body: some View {
-    VStack(alignment: .leading) {
-      HStack(alignment: .top, spacing: 16) {
-        RemoteImage(
-          url: viewState.item.avatarUrl,
-          placeholder: {
-            Rectangle()
-              .fill(DesignSystemColor.palette(.gray(.lv100)).color)
-          })
-          .frame(width: 50, height: 50)
-          .clipShape(RoundedRectangle(cornerRadius: 10))
+    VStack(spacing: 8) {
+      RemoteImage(
+        url: viewState.item.avatarUrl,
+        placeholder: {
+          Rectangle()
+            .fill(DesignSystemColor.palette(.gray(.lv100)).color)
+        })
+        .frame(width: 80, height: 80)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
 
-        Text(viewState.item.login)
-          .font(.system(size: 20))
-          .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
-      }
-
-      Divider()
+      Text(viewState.item.login)
+        .font(.system(size: 14, weight: .bold))
+        .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
     }
-    .frame(maxWidth: .infinity)
-    .padding(8)
-    .onTapGesture { }
+    .frame(width: 80, height: 120)
+    .padding(4)
+    .onTapGesture {
+      action(viewState.item)
+    }
+
   }
 }
 

@@ -32,4 +32,20 @@ extension FollowerSideEffect {
       }
     }
   }
+  
+  var routeToUser: (GithubEntity.User.Follower.Response) -> Void {
+    { item in
+      navigator.next(
+        linkItem: .init(
+          path: Link.Dashboard.Path.userDetail.rawValue,
+          items: item.serialized()),
+        isAnimated: true)
+    }
+  }
+}
+
+extension GithubEntity.User.Follower.Response {
+  fileprivate func serialized() -> GithubEntity.Detail.User.Request {
+    .init(ownerName: self.login)
+  }
 }
