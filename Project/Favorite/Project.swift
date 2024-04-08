@@ -1,16 +1,64 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project: Project = .previewProject(
-  projectName: "Favorite",
-  packages: [
-    .local(path: "../../Project/Core/Architecture"),
-    .local(path: "../../Project/Core/DesignSystem"),
-    .local(path: "../../Project/Core/Domain"),
-    .local(path: "../../Project/Core/Platform"),
-    .local(path: "../../Project/Core/Functor"),
-    .local(path: "../../Project/Feature/Dashboard"),
-  ] + .defaultItemList,
-  dependencies: [
-    .package(product: "Dashboard"),
-  ] + .defaultItemList)
+let targetList: [Target] = [
+  .target(
+    name: "Favorite-Production",
+    destinations: .iOS,
+    product: .app,
+    productName: "Favorite",
+    bundleId: "io.seungchan.favorite.prod",
+    deploymentTargets: .default,
+    infoPlist: .defaultInfoPlist,
+    sources: ["Sources/**"],
+    resources: ["Resources/**"],
+    copyFiles: .none,
+    headers: .none,
+    entitlements: .none,
+    scripts: [],
+    dependencies: [],
+    settings: .defaultConfig(false),
+    coreDataModels: [],
+    environmentVariables: [:],
+    launchArguments: [],
+    additionalFiles: [],
+    buildRules: [],
+    mergedBinaryType: .disabled,
+    mergeable: false),
+
+  .target(
+    name: "Favorite-QA",
+    destinations: .iOS,
+    product: .app,
+    productName: "Favorite",
+    bundleId: "io.seungchan.favorite.qa",
+    deploymentTargets: .iOS("17.0"),
+    infoPlist: .default,
+    sources: ["Sources/**"],
+    resources: ["Resources/**"],
+    copyFiles: .none,
+    headers: .none,
+    entitlements: .none,
+    scripts: [],
+    dependencies: [],
+    settings: .defaultConfig(true),
+    coreDataModels: [],
+    environmentVariables: [:],
+    launchArguments: [],
+    additionalFiles: [],
+    buildRules: [],
+    mergedBinaryType: .disabled,
+    mergeable: false),
+]
+
+let project: Project = .init(
+  name: "FavoriteApplication",
+  organizationName: "SeungChanMoon",
+  options: .options(),
+  packages: [],
+  settings: .settings(),
+  targets: targetList,
+  schemes: [],
+  fileHeaderTemplate: .none,
+  additionalFiles: [],
+  resourceSynthesizers: [])
