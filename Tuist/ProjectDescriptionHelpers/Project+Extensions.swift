@@ -23,6 +23,12 @@ extension DeploymentTargets {
 
 extension InfoPlist {
   public static var defaultInfoPlist: Self {
-    .default
+    extendingDefault(with: extraInfoPlist)
+  }
+
+  public static var extraInfoPlist: [String: Plist.Value] {
+    [
+      "UILaunchScreen": .dictionary([:]),
+    ]
   }
 }
