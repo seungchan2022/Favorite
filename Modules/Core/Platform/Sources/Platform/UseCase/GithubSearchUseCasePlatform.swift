@@ -41,18 +41,4 @@ extension GithubSearchUseCasePlatform: GithubSearchUseCase {
         .fetch(isDebug: true)
     }
   }
-
-  public var searchTopic: (GithubEntity.Search.Topic.Request) -> AnyPublisher<
-    GithubEntity.Search.Topic.Response,
-    CompositeErrorRepository
-  > {
-    {
-      Endpoint(
-        baseURL: baseURL,
-        pathList: ["search", "topics"],
-        httpMethod: .get,
-        content: .queryItemPath($0))
-        .fetch(isDebug: true)
-    }
-  }
 }

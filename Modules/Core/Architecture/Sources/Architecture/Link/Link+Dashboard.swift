@@ -17,7 +17,5 @@ extension Link.Dashboard {
     case profile
     case follower
     case like
-    case topic
-    case topicDetail
   }
 }

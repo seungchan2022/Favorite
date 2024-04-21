@@ -17,8 +17,6 @@ extension DashboardRouteBuilderGroup {
       ProfileRouteBuilder.generate(),
       FollowerRouteBuilder.generate(),
       LikeRouteBuilder.generate(),
-      TopicRouteBuilder.generate(),
-      TopicDetailRouteBuilder.generate(),
     ]
   }
 }
