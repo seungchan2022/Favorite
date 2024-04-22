@@ -1,4 +1,5 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -30,7 +31,11 @@ let package = Package(
         .product(name: "Logging", package: "swift-log"),
       ],
       resources: [
-         .copy("Resources/Mock/dummy.json"),
+        .copy("Resources/Mock/dummy.json"),
+        .copy("Resources/Mock/search_repositories_success.json"),
+        .copy("Resources/Mock/search_repositories_failure.json"),
+        .copy("Resources/Mock/search_users_success.json"),
+        .copy("Resources/Mock/search_users_failure.json"),
       ]),
     .testTarget(
       name: "PlatformTests",
