@@ -7,11 +7,11 @@ import Foundation
 // MARK: - UserReducer
 
 @Reducer
-struct UserReducer {
+public struct UserReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: UserSideEffect)
   {
@@ -19,21 +19,21 @@ struct UserReducer {
     self.sideEffect = sideEffect
   }
 
-  // MARK: Internal
+  // MARK: Public
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    var query = "s"
-    var itemList: [GithubEntity.Search.User.Item] = []
-    var fetchSearchItem: FetchState.Data<GithubEntity.Search.User.Composite?> = .init(isLoading: false, value: .none)
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public var query = ""
+    public var itemList: [GithubEntity.Search.User.Item] = []
+    public var fetchSearchItem: FetchState.Data<GithubEntity.Search.User.Composite?> = .init(isLoading: false, value: .none)
 
-    init(id: UUID = UUID()) {
+    public init(id: UUID = UUID()) {
       self.id = id
     }
   }
 
-  enum Action: BindableAction, Equatable {
+  public enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.User.Composite, CompositeErrorRepository>)
@@ -44,15 +44,22 @@ struct UserReducer {
     case teardown
   }
 
-  enum CancelID: Equatable, CaseIterable {
-    case teardown
-    case requestSearch
-  }
-
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
+      case .binding(\.query):
+        guard !state.query.isEmpty else {
+          state.itemList = []
+          return .cancel(pageID: pageID, id: CancelID.requestSearch)
+        }
+
+        if state.query != state.fetchSearchItem.value?.request.query {
+          state.itemList = []
+        }
+
+        return .none
+
       case .binding:
         return .none
 
@@ -62,33 +69,25 @@ struct UserReducer {
 
       case .search(let query):
         guard !query.isEmpty else {
-          state.itemList = []
-          return .none
-        }
-
-        if state.query != state.fetchSearchItem.value?.request.query { state.itemList = [] }
-        if let totalCount = state.fetchSearchItem.value?.response.totalCount, totalCount < state.itemList.count {
           return .none
         }
 
         let page = Int(state.itemList.count / 30) + 1
         state.fetchSearchItem.isLoading = true
-        return sideEffect.searchUser(.init(query: query, page: page))
+
+        return sideEffect
+          .searchUser(.init(query: query, page: page))
           .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
 
       case .fetchSearchItem(let result):
         state.fetchSearchItem.isLoading = false
-        guard !state.query.isEmpty else {
-          state.itemList = []
-          return .none
-        }
 
         switch result {
         case .success(let item):
           state.fetchSearchItem.value = item
           state.itemList = state.itemList.merge(item.response.itemList)
           if state.itemList.isEmpty {
-            sideEffect.useCase.toastViewModel.send(message: "검색 결과가 없습니다.")
+            sideEffect.useCase.toastViewModel.send(message: "검색결과가 없습니다.")
           }
           return .none
 
@@ -102,10 +101,17 @@ struct UserReducer {
 
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
-        Logger.error(.init(stringLiteral: error.displayMessage))
+        Logger.error(Logger.Message(stringLiteral: error.displayMessage))
         return .none
       }
     }
+  }
+
+  // MARK: Internal
+
+  enum CancelID: Equatable, CaseIterable {
+    case teardown
+    case requestSearch
   }
 
   // MARK: Private
@@ -115,8 +121,9 @@ struct UserReducer {
 }
 
 extension [GithubEntity.Search.User.Item] {
-  fileprivate func merge(_ targer: Self) -> Self {
-    let new = targer.reduce(self) { curr, next in
+  // 중복된게 올라옴
+  fileprivate func merge(_ target: Self) -> Self {
+    let new = target.reduce(self) { curr, next in
       guard !self.contains(where: { $0.id == next.id }) else { return curr }
       return curr + [next]
     }

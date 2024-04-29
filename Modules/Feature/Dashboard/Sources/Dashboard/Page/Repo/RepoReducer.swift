@@ -69,7 +69,9 @@ public struct RepoReducer {
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
 
       case .search(let query):
-        guard !query.isEmpty else { return .none }
+        guard !query.isEmpty else {
+          return .none
+        }
 
         let page = Int(state.itemList.count / state.perPage) + 1
         state.fetchSearchItem.isLoading = true
@@ -95,7 +97,7 @@ public struct RepoReducer {
         }
 
       case .routeToDetail(let item):
-        sideEffect.routeToDeatil(item)
+        sideEffect.routeToDetail(item)
         return .none
 
       case .throwError(let error):

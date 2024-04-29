@@ -39,7 +39,7 @@ extension RepoSideEffect {
     }
   }
 
-  var routeToDeatil: (GithubEntity.Search.Repository.Item) -> Void {
+  var routeToDetail: (GithubEntity.Search.Repository.Item) -> Void {
     { item in
       navigator.next(
         linkItem: .init(
