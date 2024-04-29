@@ -7,11 +7,11 @@ import Foundation
 // MARK: - RepoReducer
 
 @Reducer
-struct RepoReducer {
+public struct RepoReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: RepoSideEffect)
   {
@@ -19,22 +19,22 @@ struct RepoReducer {
     self.sideEffect = sideEffect
   }
 
-  // MARK: Internal
+  // MARK: Public
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    let perPage = 40
-    var query = "swift"
-    var itemList: [GithubEntity.Search.Repository.Item] = []
-    var fetchSearchItem: FetchState.Data<GithubEntity.Search.Repository.Composite?> = .init(isLoading: false, value: .none)
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public let perPage = 30
+    public var query = ""
+    public var itemList: [GithubEntity.Search.Repository.Item] = []
+    public var fetchSearchItem: FetchState.Data<GithubEntity.Search.Repository.Composite?> = .init(isLoading: false, value: .none)
 
-    init(id: UUID = UUID()) {
+    public init(id: UUID = UUID()) {
       self.id = id
     }
   }
 
-  enum Action: BindableAction, Sendable {
+  public enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.Repository.Composite, CompositeErrorRepository>)
@@ -45,15 +45,22 @@ struct RepoReducer {
     case teardown
   }
 
-  enum CancelID: Equatable, CaseIterable {
-    case teardown
-    case requestSearch
-  }
-
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
+      case .binding(\.query):
+        guard !state.query.isEmpty else {
+          state.itemList = []
+          return .cancel(pageID: pageID, id: CancelID.requestSearch)
+        }
+
+        if state.query != state.fetchSearchItem.value?.request.query {
+          state.itemList = []
+        }
+
+        return .none
+
       case .binding:
         return .none
 
@@ -62,27 +69,17 @@ struct RepoReducer {
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
 
       case .search(let query):
-        guard !query.isEmpty else {
-          state.itemList = []
-          return .none
-        }
-
-        if state.query != state.fetchSearchItem.value?.request.query { state.itemList = [] }
-        if let totalCount = state.fetchSearchItem.value?.response.totalCount, totalCount < state.itemList.count {
-          return .none
-        }
+        guard !query.isEmpty else { return .none }
 
         let page = Int(state.itemList.count / state.perPage) + 1
         state.fetchSearchItem.isLoading = true
-        return sideEffect.searchRepository(.init(query: query, page: page, perPage: state.perPage))
+
+        return sideEffect
+          .searchRepository(.init(query: query, page: page, perPage: state.perPage))
           .cancellable(pageID: pageID, id: CancelID.requestSearch, cancelInFlight: true)
 
       case .fetchSearchItem(let result):
         state.fetchSearchItem.isLoading = false
-        guard !state.query.isEmpty else {
-          state.itemList = []
-          return .none
-        }
 
         switch result {
         case .success(let item):
@@ -107,6 +104,13 @@ struct RepoReducer {
         return .none
       }
     }
+  }
+
+  // MARK: Internal
+
+  enum CancelID: Equatable, CaseIterable {
+    case teardown
+    case requestSearch
   }
 
   // MARK: Private

@@ -5,8 +5,8 @@ extension Target {
   static func previewTarget(
     projectName: String,
     dependencies: [TargetDependency],
-    isDev: Bool
-  ) -> Self
+    isDev: Bool)
+    -> Self
   {
     .target(
       name: "\(projectName)Preview",
@@ -34,8 +34,8 @@ extension Target {
   }
 
   static func previewTestTarget(
-    projectName: String
-  ) -> Self
+    projectName: String)
+    -> Self
   {
     .target(
       name: "\(projectName)PreviewTests",
@@ -45,14 +45,14 @@ extension Target {
       bundleId: "io.seungchan.favorite.\(projectName.lowercased()).preview.tests",
       deploymentTargets: .default,
       infoPlist: .default,
-      sources: [ "Tests/**" ],
+      sources: ["Tests/**"],
       resources: .none,
       copyFiles: .none,
       headers: .none,
       entitlements: .none,
       scripts: [],
       dependencies: [
-        .target(name: "\(projectName)Preview", condition: .none)
+        .target(name: "\(projectName)Preview", condition: .none),
       ],
       settings: .none,
       coreDataModels: [],
@@ -69,7 +69,8 @@ extension Project {
   public static func preview(
     projectName: String,
     packages: [Package],
-    dependencies: [TargetDependency]) -> Self
+    dependencies: [TargetDependency])
+    -> Self
   {
     .init(
       name: "\(projectName)Preview",
@@ -82,7 +83,7 @@ extension Project {
           projectName: projectName,
           dependencies: dependencies,
           isDev: true),
-        .previewTestTarget(projectName: projectName)
+        .previewTestTarget(projectName: projectName),
       ],
       schemes: .testScheme(previewTestTarget: projectName),
       fileHeaderTemplate: .none,
@@ -103,7 +104,7 @@ extension [Scheme] {
         runAction: .runAction(),
         archiveAction: .none,
         profileAction: .none,
-        analyzeAction: .none)
+        analyzeAction: .none),
     ]
   }
 }

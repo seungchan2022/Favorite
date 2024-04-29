@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - URLSerializedMockFunctor
+
 enum URLSerializedMockFunctor {
   static func serialized<T: Codable & Sendable & Equatable>(url: URL) -> T? {
     url.serialized()
