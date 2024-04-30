@@ -10,6 +10,30 @@ import Foundation
 // swiftlint:disable explicit_type_interface identifier_name
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 enum Files {
+  /// detail_repositories_failure.json
+  static let detailRepositoriesFailureJson = File(
+    name: "detail_repositories_failure",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
+  /// detail_repositories_success.json
+  static let detailRepositoriesSuccessJson = File(
+    name: "detail_repositories_success",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
+  /// detail_users_failure.json
+  static let detailUsersFailureJson = File(
+    name: "detail_users_failure",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
+  /// detail_users_success.json
+  static let detailUsersSuccessJson = File(
+    name: "detail_users_success",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
   /// dummy.json
   static let dummyJson = File(name: "dummy", ext: "json", relativePath: "", mimeType: "application/json")
   /// search_repositories_failure.json

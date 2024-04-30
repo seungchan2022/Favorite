@@ -14,14 +14,14 @@ final class AppContainerMock: DashboardEnvironmentUsable {
   private init(
     toastViewActionMock: ToastViewActionMock,
     githubSearchUseCaseMock: GithubSearchUseCaseMock,
-    githubDetailUseCase: GithubDetailUseCase,
+    githubDetailUseCaseMock: GithubDetailUseCaseMock,
     githubLikeUseCase: GithubLikeUseCase,
     githubUserUseCase: GithubUserUseCase,
     linkNavigatorMock: TabLinkNavigatorMock)
   {
     self.toastViewActionMock = toastViewActionMock
     self.githubSearchUseCaseMock = githubSearchUseCaseMock
-    self.githubDetailUseCase = githubDetailUseCase
+    self.githubDetailUseCaseMock = githubDetailUseCaseMock
     self.githubLikeUseCase = githubLikeUseCase
     self.githubUserUseCase = githubUserUseCase
     self.linkNavigatorMock = linkNavigatorMock
@@ -31,10 +31,14 @@ final class AppContainerMock: DashboardEnvironmentUsable {
 
   let toastViewActionMock: ToastViewActionMock
   let githubSearchUseCaseMock: GithubSearchUseCaseMock
-  let githubDetailUseCase: GithubDetailUseCase
+  let githubDetailUseCaseMock: GithubDetailUseCaseMock
   let githubLikeUseCase: GithubLikeUseCase
   let githubUserUseCase: GithubUserUseCase
   let linkNavigatorMock: TabLinkNavigatorMock
+
+  var githubDetailUseCase: GithubDetailUseCase {
+    githubDetailUseCaseMock
+  }
 
   var toastViewModel: ToastViewActionType {
     toastViewActionMock
@@ -55,7 +59,7 @@ extension AppContainerMock {
     .init(
       toastViewActionMock: .init(),
       githubSearchUseCaseMock: .init(),
-      githubDetailUseCase: GithubDetailUseCasePlatform(),
+      githubDetailUseCaseMock: .init(),
       githubLikeUseCase: GithubLikeUseCasePlatform(),
       githubUserUseCase: GithubUserUseCasePlatform(),
       linkNavigatorMock: TabLinkNavigatorMock())

@@ -36,6 +36,10 @@ let package = Package(
         .copy("Resources/Mock/search_repositories_failure.json"),
         .copy("Resources/Mock/search_users_success.json"),
         .copy("Resources/Mock/search_users_failure.json"),
+        .copy("Resources/Mock/detail_repositories_success.json"),
+        .copy("Resources/Mock/detail_repositories_failure.json"),
+        .copy("Resources/Mock/detail_users_success.json"),
+        .copy("Resources/Mock/detail_users_failure.json"),
       ]),
     .testTarget(
       name: "PlatformTests",
