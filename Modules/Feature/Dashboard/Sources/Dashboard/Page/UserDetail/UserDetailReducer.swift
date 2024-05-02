@@ -38,6 +38,8 @@ struct UserDetailReducer {
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
 
+    case teardown
+
     case getDetail(GithubEntity.Detail.User.Request)
     case getIsLike(GithubEntity.Detail.User.Response?)
     case updateIsLike(GithubEntity.Detail.User.Response)
@@ -49,7 +51,6 @@ struct UserDetailReducer {
 
     case throwError(CompositeErrorRepository)
 
-    case teardown
   }
 
   enum CancelID: Equatable, CaseIterable {
