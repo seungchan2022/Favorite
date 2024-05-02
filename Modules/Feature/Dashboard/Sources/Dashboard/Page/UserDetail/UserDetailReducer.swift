@@ -1,15 +1,14 @@
 import Architecture
 import ComposableArchitecture
-import Dispatch
 import Domain
 import Foundation
 
 @Reducer
-struct UserDetailReducer {
+public struct UserDetailReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: UserDetailSideEffect)
   {
@@ -17,16 +16,16 @@ struct UserDetailReducer {
     self.sideEffect = sideEffect
   }
 
-  // MARK: Internal
+  // MARK: Public
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    var item: GithubEntity.Detail.User.Request
-    var fetchDetailItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
-    var fetchIsLike: FetchState.Data<Bool> = .init(isLoading: false, value: false)
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public var item: GithubEntity.Detail.User.Request
+    public var fetchDetailItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
+    public var fetchIsLike: FetchState.Data<Bool> = .init(isLoading: false, value: false)
 
-    init(
+    public init(
       id: UUID = UUID(),
       item: GithubEntity.Detail.User.Request)
     {
@@ -35,14 +34,16 @@ struct UserDetailReducer {
     }
   }
 
-  enum Action: BindableAction, Equatable {
+  public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
 
     case teardown
 
     case getDetail(GithubEntity.Detail.User.Request)
+
     case getIsLike(GithubEntity.Detail.User.Response?)
     case updateIsLike(GithubEntity.Detail.User.Response)
+
     case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
 
@@ -53,13 +54,7 @@ struct UserDetailReducer {
 
   }
 
-  enum CancelID: Equatable, CaseIterable {
-    case teardown
-    case requestDetail
-    case requestIsLike
-  }
-
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -121,6 +116,14 @@ struct UserDetailReducer {
         return .none
       }
     }
+  }
+
+  // MARK: Internal
+
+  enum CancelID: Equatable, CaseIterable {
+    case teardown
+    case requestDetail
+    case requestIsLike
   }
 
   // MARK: Private
