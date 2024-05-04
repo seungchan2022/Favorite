@@ -7,11 +7,11 @@ import Foundation
 // MARK: - FollowerReducer
 
 @Reducer
-struct FollowerReducer {
+public struct FollowerReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: FollowerSideEffect)
   {
@@ -19,16 +19,16 @@ struct FollowerReducer {
     self.sideEffect = sideEffect
   }
 
-  // MARK: Internal
+  // MARK: Public
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    var item: GithubEntity.User.Follower.Request
-    var itemList: [GithubEntity.User.Follower.Response] = []
-    var fetchItem: FetchState.Data<[GithubEntity.User.Follower.Response?]> = .init(isLoading: false, value: [])
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public var item: GithubEntity.User.Follower.Request
+    public var itemList: [GithubEntity.User.Follower.Response] = []
+    public var fetchItem: FetchState.Data<[GithubEntity.User.Follower.Response?]> = .init(isLoading: false, value: [])
 
-    init(
+    public init(
       id: UUID = UUID(),
       item: GithubEntity.User.Follower.Request)
     {
@@ -37,7 +37,7 @@ struct FollowerReducer {
     }
   }
 
-  enum Action: BindableAction, Equatable {
+  public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case teardown
 
@@ -49,12 +49,7 @@ struct FollowerReducer {
     case throwError(CompositeErrorRepository)
   }
 
-  enum CancelID: Equatable, CaseIterable {
-    case teardown
-    case requestItem
-  }
-
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -91,6 +86,13 @@ struct FollowerReducer {
         return .none
       }
     }
+  }
+
+  // MARK: Internal
+
+  enum CancelID: Equatable, CaseIterable {
+    case teardown
+    case requestItem
   }
 
   // MARK: Private
