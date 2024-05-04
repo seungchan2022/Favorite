@@ -5,12 +5,12 @@ import Foundation
 
 // MARK: - ProfileSideEffect
 
-struct ProfileSideEffect {
-  let useCase: DashboardEnvironmentUsable
-  let main: AnySchedulerOf<DispatchQueue>
-  let navigator: RootNavigatorType
+public struct ProfileSideEffect {
+  public let useCase: DashboardEnvironmentUsable
+  public let main: AnySchedulerOf<DispatchQueue>
+  public let navigator: RootNavigatorType
 
-  init(
+  public init(
     useCase: DashboardEnvironmentUsable,
     main: AnySchedulerOf<DispatchQueue> = .main ,
     navigator: RootNavigatorType)

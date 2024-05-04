@@ -4,11 +4,11 @@ import Domain
 import Foundation
 
 @Reducer
-struct ProfileReducer {
+public struct ProfileReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: ProfileSideEffect)
   {
@@ -19,14 +19,14 @@ struct ProfileReducer {
   // MARK: Internal
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    let item: GithubEntity.Detail.User.Request
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public let item: GithubEntity.Detail.User.Request
 
-    var fetchItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
-    var fetchIsLike: FetchState.Data<Bool> = .init(isLoading: false, value: false)
+    public var fetchItem: FetchState.Data<GithubEntity.Detail.User.Response?> = .init(isLoading: false, value: .none)
+    public var fetchIsLike: FetchState.Data<Bool> = .init(isLoading: false, value: false)
 
-    init(
+    public init(
       id: UUID = UUID(),
       item: GithubEntity.Detail.User.Request)
     {
@@ -35,11 +35,11 @@ struct ProfileReducer {
     }
   }
 
-  enum Action: BindableAction, Equatable {
+  public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case teardown
     case getItem
-    case getIsLike(GithubEntity.Detail.User.Response?)
+    case getIsLike(GithubEntity.Detail.User.Response)
     case updateIsLike(GithubEntity.Detail.User.Response)
     case fetchItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
@@ -53,7 +53,7 @@ struct ProfileReducer {
     case requestIsLike
   }
 
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -66,11 +66,11 @@ struct ProfileReducer {
 
       case .getItem:
         state.fetchItem.isLoading = true
-        return sideEffect.item(state.item)
+        return sideEffect
+          .item(state.item)
           .cancellable(pageID: pageID, id: CancelID.requestItem, cancelInFlight: true)
 
       case .getIsLike(let item):
-        guard let item else { return .none }
         state.fetchIsLike.isLoading = true
         return sideEffect.isLike(item)
           .cancellable(pageID: pageID, id: CancelID.requestIsLike, cancelInFlight: true)

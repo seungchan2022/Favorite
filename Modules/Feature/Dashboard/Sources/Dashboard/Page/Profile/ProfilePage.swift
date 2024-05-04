@@ -52,6 +52,7 @@ extension ProfilePage: View {
       }
     }
     .onChange(of: store.fetchItem.value) { _, new in
+      guard let new else { return }
       store.send(.getIsLike(new))
     }
     .onAppear {
