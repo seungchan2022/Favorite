@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: - LikeList
 
-enum LikeList: String {
+public enum LikeList: String {
   case repoList = "RepoList"
   case userList = "UserList"
 }
@@ -14,11 +14,11 @@ enum LikeList: String {
 // MARK: - LikeReducer
 
 @Reducer
-struct LikeReducer {
+public struct LikeReducer {
 
   // MARK: Lifecycle
 
-  init(
+  public init(
     pageID: String = UUID().uuidString,
     sideEffect: LikeSideEffect)
   {
@@ -29,18 +29,18 @@ struct LikeReducer {
   // MARK: Internal
 
   @ObservableState
-  struct State: Equatable, Identifiable {
-    let id: UUID
-    var selectedLikeList: LikeList = .repoList
-    var itemList: GithubEntity.Like = .init()
-    var fetchItemList: FetchState.Data<GithubEntity.Like?> = .init(isLoading: false, value: .none)
+  public struct State: Equatable, Identifiable {
+    public let id: UUID
+    public var selectedLikeList: LikeList = .repoList
+    public var itemList: GithubEntity.Like = .init()
+    public var fetchItemList: FetchState.Data<GithubEntity.Like?> = .init(isLoading: false, value: .none)
 
-    init(id: UUID = UUID()) {
+    public init(id: UUID = UUID()) {
       self.id = id
     }
   }
 
-  enum Action: BindableAction, Equatable {
+  public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case teardown
 
@@ -58,7 +58,7 @@ struct LikeReducer {
     case requestRepoList
   }
 
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -71,7 +71,8 @@ struct LikeReducer {
 
       case .getItemList:
         state.fetchItemList.isLoading = true
-        return sideEffect.getItemList()
+        return sideEffect
+          .getItemList()
           .cancellable(pageID: pageID, id: CancelID.requestRepoList, cancelInFlight: true)
 
       case .fetchItemList(let result):
