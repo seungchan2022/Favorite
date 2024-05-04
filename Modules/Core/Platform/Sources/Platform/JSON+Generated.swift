@@ -60,6 +60,18 @@ enum Files {
     ext: "json",
     relativePath: "",
     mimeType: "application/json")
+  /// user_followers_failure.json
+  static let userFollowersFailureJson = File(
+    name: "user_followers_failure",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
+  /// user_followers_success.json
+  static let userFollowersSuccessJson = File(
+    name: "user_followers_success",
+    ext: "json",
+    relativePath: "",
+    mimeType: "application/json")
 }
 
 // MARK: - File

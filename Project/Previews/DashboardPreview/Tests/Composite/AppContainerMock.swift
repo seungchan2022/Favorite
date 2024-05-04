@@ -16,14 +16,14 @@ struct AppContainerMock: DashboardEnvironmentUsable {
     githubSearchUseCaseStub: GithubSearchUseCaseStub,
     githubDetailUseCaseStub: GithubDetailUseCaseStub,
     githubLikeUseCaseFake: GIthubLikeUseCaseFake,
-    githubUserUseCase: GithubUserUseCase,
+    githubUserUseCaseStub: GithubUserUsecCaseStub,
     linkNavigatorMock: TabLinkNavigatorMock)
   {
     self.toastViewActionMock = toastViewActionMock
     self.githubSearchUseCaseStub = githubSearchUseCaseStub
     self.githubDetailUseCaseStub = githubDetailUseCaseStub
     self.githubLikeUseCaseFake = githubLikeUseCaseFake
-    self.githubUserUseCase = githubUserUseCase
+    self.githubUserUseCaseStub = githubUserUseCaseStub
     self.linkNavigatorMock = linkNavigatorMock
   }
 
@@ -33,8 +33,12 @@ struct AppContainerMock: DashboardEnvironmentUsable {
   let githubSearchUseCaseStub: GithubSearchUseCaseStub
   let githubDetailUseCaseStub: GithubDetailUseCaseStub
   let githubLikeUseCaseFake: GIthubLikeUseCaseFake
-  let githubUserUseCase: GithubUserUseCase
+  let githubUserUseCaseStub: GithubUserUsecCaseStub
   let linkNavigatorMock: TabLinkNavigatorMock
+
+  var githubUserUseCase: GithubUserUseCase {
+    githubUserUseCaseStub
+  }
 
   var githubLikeUseCase: GithubLikeUseCase {
     githubLikeUseCaseFake
@@ -65,7 +69,7 @@ extension AppContainerMock {
       githubSearchUseCaseStub: .init(),
       githubDetailUseCaseStub: .init(),
       githubLikeUseCaseFake: .init(),
-      githubUserUseCase: GithubUserUseCasePlatform(),
+      githubUserUseCaseStub: .init(),
       linkNavigatorMock: TabLinkNavigatorMock())
   }
 }
