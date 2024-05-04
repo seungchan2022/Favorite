@@ -43,7 +43,7 @@ public struct RepoDetailReducer {
     case getDetail
 
     /// - Note: 불러온 Respone의 아이템이 좋아요 상태를 불러옴 (Like OR UnLike)
-    case getIsLike(GithubEntity.Detail.Repository.Response?)
+    case getIsLike(GithubEntity.Detail.Repository.Response)
 
     /// - Note: 좋아요에 대한 토글 액션 (버튼을 누르면 Like <-> UnLike)
     case updateIsLike(GithubEntity.Detail.Repository.Response)
@@ -74,7 +74,6 @@ public struct RepoDetailReducer {
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
 
       case .getIsLike(let item):
-        guard let item else { return .none }
         state.fetchIsLike.isLoading = true
         return sideEffect
           .isLike(item)

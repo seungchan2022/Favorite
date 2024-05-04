@@ -22,6 +22,10 @@ final class RepoDetailTests: XCTestCase {
   @MainActor
   func test_binding() async {
     let sut = SUT()
+    
+    await sut.store.send(.set(\.fetchIsLike, .init(isLoading: false, value: true))) { state in
+      state.fetchIsLike.value = true
+    }
   }
 
   @MainActor
@@ -46,7 +50,7 @@ final class RepoDetailTests: XCTestCase {
   @MainActor
   func test_getDetail_failure_case() async {
     let sut = SUT()
-    sut.container.githubDetailUseCaseMock.type = .failure(.invalidTypeCasting)
+    sut.container.githubDetailUseCaseStub.type = .failure(.invalidTypeCasting)
 
     await sut.store.send(.getDetail) { state in
       state.fetchDetailItem.isLoading = true
@@ -68,7 +72,7 @@ final class RepoDetailTests: XCTestCase {
     let sut = SUT()
 
     /// - Note: Like 리스트에 해당 아이템이 없음
-    sut.container.githubLikeUseCaseMock.reset()
+    sut.container.githubLikeUseCaseFake.reset()
 
     await sut.store.send(.getIsLike(responseMock)) { state in
       state.fetchIsLike.isLoading = true
@@ -90,7 +94,7 @@ final class RepoDetailTests: XCTestCase {
     let sut = SUT()
 
     /// - Note: Like 리스트에 해당 아이템이 있음 => 좋아요인 상태
-    sut.container.githubLikeUseCaseMock.reset(store: .init(repoList: [responseMock]))
+    sut.container.githubLikeUseCaseFake.reset(store: .init(repoList: [responseMock]))
 
     await sut.store.send(.getIsLike(responseMock)) { state in
       state.fetchIsLike.isLoading = true
@@ -112,7 +116,7 @@ final class RepoDetailTests: XCTestCase {
     let sut = SUT()
 
     /// - Note: 현재 저장된 Repo가 없는 경우 = UnLike인 상태
-    sut.container.githubLikeUseCaseMock.reset()
+    sut.container.githubLikeUseCaseFake.reset()
 
     await sut.store.send(.updateIsLike(responseMock)) { state in
       state.fetchIsLike.isLoading = true
@@ -134,7 +138,7 @@ final class RepoDetailTests: XCTestCase {
     let sut = SUT()
 
     /// - Note: 현재 Repo가 좋아요 리스트에 있는 상태 = Like
-    sut.container.githubLikeUseCaseMock.reset(store: .init(repoList: [responseMock]))
+    sut.container.githubLikeUseCaseFake.reset(store: .init(repoList: [responseMock]))
 
     await sut.store.send(.updateIsLike(responseMock)) { state in
       state.fetchIsLike.isLoading = true
@@ -147,6 +151,19 @@ final class RepoDetailTests: XCTestCase {
       /// - Note: 현재 아이템이 Like 상태인데 위에서 updateIsLike를 수행했으므로 UnLike인 상태(false) 로 변경
       state.fetchIsLike.value = false
     }
+  }
+
+  @MainActor
+  func test_fetchIsLike_failure_case() async {
+    let sut = SUT()
+    
+    await sut.store.send(.fetchIsLike(.failure(.invalidTypeCasting)))
+    
+    await sut.scheduler.advance()
+    
+    await sut.store.receive(\.throwError)
+    
+    XCTAssertEqual(sut.container.toastViewActionMock.event.sendErrorMessage, 1)
   }
 }
 
@@ -188,7 +205,7 @@ extension RepoDetailTests {
   }
 
   struct ResponseMock {
-    let detailResponse: GithubDetailUseCaseMock.Response = .init()
+    let detailResponse: GithubDetailUseCaseStub.Response = .init()
     init() { }
   }
 }

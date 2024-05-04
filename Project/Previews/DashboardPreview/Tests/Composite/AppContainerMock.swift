@@ -7,22 +7,22 @@ import Platform
 
 // MARK: - AppContainerMock
 
-final class AppContainerMock: DashboardEnvironmentUsable {
+struct AppContainerMock: DashboardEnvironmentUsable {
 
   // MARK: Lifecycle
 
   private init(
     toastViewActionMock: ToastViewActionMock,
-    githubSearchUseCaseMock: GithubSearchUseCaseMock,
-    githubDetailUseCaseMock: GithubDetailUseCaseMock,
-    githubLikeUseCaseMock: GithubLikeUseCaseMock,
+    githubSearchUseCaseStub: GithubSearchUseCaseStub,
+    githubDetailUseCaseStub: GithubDetailUseCaseStub,
+    githubLikeUseCaseFake: GIthubLikeUseCaseFake,
     githubUserUseCase: GithubUserUseCase,
     linkNavigatorMock: TabLinkNavigatorMock)
   {
     self.toastViewActionMock = toastViewActionMock
-    self.githubSearchUseCaseMock = githubSearchUseCaseMock
-    self.githubDetailUseCaseMock = githubDetailUseCaseMock
-    self.githubLikeUseCaseMock = githubLikeUseCaseMock
+    self.githubSearchUseCaseStub = githubSearchUseCaseStub
+    self.githubDetailUseCaseStub = githubDetailUseCaseStub
+    self.githubLikeUseCaseFake = githubLikeUseCaseFake
     self.githubUserUseCase = githubUserUseCase
     self.linkNavigatorMock = linkNavigatorMock
   }
@@ -30,18 +30,18 @@ final class AppContainerMock: DashboardEnvironmentUsable {
   // MARK: Internal
 
   let toastViewActionMock: ToastViewActionMock
-  let githubSearchUseCaseMock: GithubSearchUseCaseMock
-  let githubDetailUseCaseMock: GithubDetailUseCaseMock
-  let githubLikeUseCaseMock: GithubLikeUseCaseMock
+  let githubSearchUseCaseStub: GithubSearchUseCaseStub
+  let githubDetailUseCaseStub: GithubDetailUseCaseStub
+  let githubLikeUseCaseFake: GIthubLikeUseCaseFake
   let githubUserUseCase: GithubUserUseCase
   let linkNavigatorMock: TabLinkNavigatorMock
 
   var githubLikeUseCase: GithubLikeUseCase {
-    githubLikeUseCaseMock
+    githubLikeUseCaseFake
   }
 
   var githubDetailUseCase: GithubDetailUseCase {
-    githubDetailUseCaseMock
+    githubDetailUseCaseStub
   }
 
   var toastViewModel: ToastViewActionType {
@@ -49,7 +49,7 @@ final class AppContainerMock: DashboardEnvironmentUsable {
   }
 
   var githubSearchUseCase: GithubSearchUseCase {
-    githubSearchUseCaseMock
+    githubSearchUseCaseStub
   }
 
   var linkNavigator: RootNavigatorType {
@@ -59,12 +59,12 @@ final class AppContainerMock: DashboardEnvironmentUsable {
 }
 
 extension AppContainerMock {
-  class func generate() -> AppContainerMock {
+  static func generate() -> AppContainerMock {
     .init(
       toastViewActionMock: .init(),
-      githubSearchUseCaseMock: .init(),
-      githubDetailUseCaseMock: .init(),
-      githubLikeUseCaseMock: GithubLikeUseCaseMock(),
+      githubSearchUseCaseStub: .init(),
+      githubDetailUseCaseStub: .init(),
+      githubLikeUseCaseFake: .init(),
       githubUserUseCase: GithubUserUseCasePlatform(),
       linkNavigatorMock: TabLinkNavigatorMock())
   }

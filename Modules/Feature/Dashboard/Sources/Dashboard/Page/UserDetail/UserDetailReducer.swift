@@ -41,7 +41,7 @@ public struct UserDetailReducer {
 
     case getDetail(GithubEntity.Detail.User.Request)
 
-    case getIsLike(GithubEntity.Detail.User.Response?)
+    case getIsLike(GithubEntity.Detail.User.Response)
     case updateIsLike(GithubEntity.Detail.User.Response)
 
     case fetchDetailItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
@@ -71,7 +71,6 @@ public struct UserDetailReducer {
           .cancellable(pageID: pageID, id: CancelID.requestDetail, cancelInFlight: true)
 
       case .getIsLike(let item):
-        guard let item else { return .none }
         state.fetchIsLike.isLoading = true
         return sideEffect.isLike(item)
           .cancellable(pageID: pageID, id: CancelID.requestIsLike, cancelInFlight: true)

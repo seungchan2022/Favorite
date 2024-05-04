@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - GithubSearchUseCaseMock
 
-public final class GithubSearchUseCaseMock {
+public final class GithubSearchUseCaseStub {
 
   // MARK: Lifecycle
 
@@ -18,7 +18,7 @@ public final class GithubSearchUseCaseMock {
 
 // MARK: GithubSearchUseCase
 
-extension GithubSearchUseCaseMock: GithubSearchUseCase {
+extension GithubSearchUseCaseStub: GithubSearchUseCase {
   public var searchRepository: (GithubEntity.Search.Repository.Request) -> AnyPublisher<
     GithubEntity.Search.Repository.Response,
     CompositeErrorRepository
@@ -66,7 +66,7 @@ extension GithubSearchUseCaseMock: GithubSearchUseCase {
   }
 }
 
-extension GithubSearchUseCaseMock {
+extension GithubSearchUseCaseStub {
   public enum ResponseType: Equatable, Sendable {
     case success
     case failure(CompositeErrorRepository)

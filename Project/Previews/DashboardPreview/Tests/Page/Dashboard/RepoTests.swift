@@ -124,7 +124,7 @@ final class RepoTests: XCTestCase {
   func test_search_failure_case() async {
     let sut = SUT()
 
-    sut.container.githubSearchUseCaseMock.type = .failure(.invalidTypeCasting)
+    sut.container.githubSearchUseCaseStub.type = .failure(.invalidTypeCasting)
 
     await sut.store.send(.set(\.query, "apple")) { state in
       state.query = "apple"
@@ -203,7 +203,7 @@ extension RepoTests {
   }
 
   struct ResponseMock {
-    let searchResponse: GithubSearchUseCaseMock.Response = .init()
+    let searchResponse: GithubSearchUseCaseStub.Response = .init()
     init() { }
   }
 }

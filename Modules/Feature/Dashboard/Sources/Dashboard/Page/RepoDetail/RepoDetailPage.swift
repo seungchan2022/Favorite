@@ -54,6 +54,7 @@ extension RepoDetailPage: View {
       }
     }
     .onChange(of: store.fetchDetailItem.value) { _, new in
+      guard let new else { return }
       store.send(.getIsLike(new))
     }
     .onAppear {

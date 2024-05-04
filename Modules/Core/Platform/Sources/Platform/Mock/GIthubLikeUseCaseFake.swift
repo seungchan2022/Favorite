@@ -3,7 +3,7 @@ import Domain
 
 // MARK: - GithubLikeUseCaseMock
 
-public class GithubLikeUseCaseMock {
+public class GIthubLikeUseCaseFake {
 
   // MARK: Lifecycle
 
@@ -24,7 +24,7 @@ public class GithubLikeUseCaseMock {
 
 // MARK: GithubLikeUseCase
 
-extension GithubLikeUseCaseMock: GithubLikeUseCase {
+extension GIthubLikeUseCaseFake: GithubLikeUseCase {
   public var getLike: () -> AnyPublisher<GithubEntity.Like, CompositeErrorRepository> {
     {
       Just(self.store)

@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - GithubDetailUseCaseMock
 
-public final class GithubDetailUseCaseMock {
+public final class GithubDetailUseCaseStub {
 
   // MARK: Lifecycle
 
@@ -19,7 +19,7 @@ public final class GithubDetailUseCaseMock {
 
 // MARK: GithubDetailUseCase
 
-extension GithubDetailUseCaseMock: GithubDetailUseCase {
+extension GithubDetailUseCaseStub: GithubDetailUseCase {
   public var repository: (GithubEntity.Detail.Repository.Request) -> AnyPublisher<
     GithubEntity.Detail.Repository.Response,
     CompositeErrorRepository
@@ -68,7 +68,7 @@ extension GithubDetailUseCaseMock: GithubDetailUseCase {
 
 }
 
-extension GithubDetailUseCaseMock {
+extension GithubDetailUseCaseStub {
   public enum ResponseType: Equatable, Sendable {
     case success
     case failure(CompositeErrorRepository)

@@ -3,7 +3,7 @@ import Foundation
 // MARK: - StandardUseDefaults
 
 @propertyWrapper
-struct StandardUseDefaults<T: Codable> {
+struct StandardUserDefaults<T: Codable> {
   private let key: String
   private let defaultValue: T
 
