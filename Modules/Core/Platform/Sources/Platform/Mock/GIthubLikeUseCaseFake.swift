@@ -1,7 +1,7 @@
 import Combine
 import Domain
 
-// MARK: - GithubLikeUseCaseMock
+// MARK: - GIthubLikeUseCaseFake
 
 public class GIthubLikeUseCaseFake {
 

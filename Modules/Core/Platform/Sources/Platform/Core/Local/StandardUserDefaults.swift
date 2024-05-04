@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: - StandardUseDefaults
+// MARK: - StandardUserDefaults
 
 @propertyWrapper
 struct StandardUserDefaults<T: Codable> {

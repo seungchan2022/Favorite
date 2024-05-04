@@ -22,7 +22,7 @@ final class RepoDetailTests: XCTestCase {
   @MainActor
   func test_binding() async {
     let sut = SUT()
-    
+
     await sut.store.send(.set(\.fetchIsLike, .init(isLoading: false, value: true))) { state in
       state.fetchIsLike.value = true
     }
@@ -156,13 +156,13 @@ final class RepoDetailTests: XCTestCase {
   @MainActor
   func test_fetchIsLike_failure_case() async {
     let sut = SUT()
-    
+
     await sut.store.send(.fetchIsLike(.failure(.invalidTypeCasting)))
-    
+
     await sut.scheduler.advance()
-    
+
     await sut.store.receive(\.throwError)
-    
+
     XCTAssertEqual(sut.container.toastViewActionMock.event.sendErrorMessage, 1)
   }
 }

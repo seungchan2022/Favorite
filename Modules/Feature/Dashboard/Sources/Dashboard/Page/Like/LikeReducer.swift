@@ -26,7 +26,7 @@ public struct LikeReducer {
     self.sideEffect = sideEffect
   }
 
-  // MARK: Internal
+  // MARK: Public
 
   @ObservableState
   public struct State: Equatable, Identifiable {
@@ -51,11 +51,6 @@ public struct LikeReducer {
     case routeToUserDetail(GithubEntity.Detail.User.Response)
 
     case throwError(CompositeErrorRepository)
-  }
-
-  enum CancelID: Equatable, CaseIterable {
-    case teardown
-    case requestRepoList
   }
 
   public var body: some Reducer<State, Action> {
@@ -100,6 +95,13 @@ public struct LikeReducer {
         return .none
       }
     }
+  }
+
+  // MARK: Internal
+
+  enum CancelID: Equatable, CaseIterable {
+    case teardown
+    case requestRepoList
   }
 
   // MARK: Private

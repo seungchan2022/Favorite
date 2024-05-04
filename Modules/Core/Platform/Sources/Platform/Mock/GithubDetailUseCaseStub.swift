@@ -2,7 +2,7 @@ import Combine
 import Domain
 import Foundation
 
-// MARK: - GithubDetailUseCaseMock
+// MARK: - GithubDetailUseCaseStub
 
 public final class GithubDetailUseCaseStub {
 
