@@ -1,9 +1,9 @@
 import Combine
 import Domain
 
-// MARK: - GIthubLikeUseCaseFake
+// MARK: - GithubLikeUseCaseFake
 
-public class GIthubLikeUseCaseFake {
+public class GithubLikeUseCaseFake {
 
   // MARK: Lifecycle
 
@@ -24,7 +24,7 @@ public class GIthubLikeUseCaseFake {
 
 // MARK: GithubLikeUseCase
 
-extension GIthubLikeUseCaseFake: GithubLikeUseCase {
+extension GithubLikeUseCaseFake: GithubLikeUseCase {
   public var getLike: () -> AnyPublisher<GithubEntity.Like, CompositeErrorRepository> {
     {
       Just(self.store)

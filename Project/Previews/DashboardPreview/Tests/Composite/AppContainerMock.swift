@@ -15,7 +15,7 @@ struct AppContainerMock: DashboardEnvironmentUsable {
     toastViewActionMock: ToastViewActionMock,
     githubSearchUseCaseStub: GithubSearchUseCaseStub,
     githubDetailUseCaseStub: GithubDetailUseCaseStub,
-    githubLikeUseCaseFake: GIthubLikeUseCaseFake,
+    githubLikeUseCaseFake: GithubLikeUseCaseFake,
     githubUserUseCaseStub: GithubUserUsecCaseStub,
     linkNavigatorMock: TabLinkNavigatorMock)
   {
@@ -32,7 +32,7 @@ struct AppContainerMock: DashboardEnvironmentUsable {
   let toastViewActionMock: ToastViewActionMock
   let githubSearchUseCaseStub: GithubSearchUseCaseStub
   let githubDetailUseCaseStub: GithubDetailUseCaseStub
-  let githubLikeUseCaseFake: GIthubLikeUseCaseFake
+  let githubLikeUseCaseFake: GithubLikeUseCaseFake
   let githubUserUseCaseStub: GithubUserUsecCaseStub
   let linkNavigatorMock: TabLinkNavigatorMock
 
