@@ -21,6 +21,12 @@ extension RepoPage {
 extension RepoPage: View {
   var body: some View {
     ScrollView {
+      if store.query.isEmpty {
+          Text("검색을 통해 원하는 정보를 찾아보세요")
+          .font(.title3)
+          .padding()
+      }
+      
       LazyVStack(spacing: .zero) {
         ForEach(store.itemList, id: \.id) { item in
           RepositoryItemComponent(

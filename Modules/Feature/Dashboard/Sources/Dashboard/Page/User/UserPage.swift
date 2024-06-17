@@ -28,6 +28,12 @@ extension UserPage {
 extension UserPage: View {
   var body: some View {
     ScrollView {
+      if store.query.isEmpty {
+          Text("검색을 통해 원하는 정보를 찾아보세요")
+          .font(.title3)
+          .padding()
+      }
+      
       LazyVGrid(columns: gridColumnList, spacing: .zero) {
         ForEach(store.itemList, id: \.id) { item in
           UserItemComponent(
