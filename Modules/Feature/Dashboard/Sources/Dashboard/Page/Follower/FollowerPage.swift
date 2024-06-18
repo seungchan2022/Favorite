@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import DesignSystem
 
 // MARK: - FollowerPage
 
@@ -12,6 +13,10 @@ extension FollowerPage {
     Array(
       repeating: .init(.flexible()),
       count: UIDevice.current.userInterfaceIdiom == .pad ? 6 : 3)
+  }
+  
+  private var isLoading: Bool {
+    store.fetchItem.isLoading
   }
 }
 
@@ -30,6 +35,7 @@ extension FollowerPage: View {
     }
     .navigationTitle("Follower")
     .navigationBarTitleDisplayMode(.inline)
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getItem(store.item))
     }

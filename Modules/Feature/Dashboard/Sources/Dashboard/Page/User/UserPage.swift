@@ -21,6 +21,10 @@ extension UserPage {
       repeating: .init(.flexible()),
       count: UIDevice.current.userInterfaceIdiom == .pad ? 6 : 3)
   }
+  
+  private var isLoading: Bool {
+    store.fetchSearchItem.isLoading
+  }
 }
 
 // MARK: View
@@ -53,6 +57,7 @@ extension UserPage: View {
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
     }
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       throttleEvent.apply { _ in
         store.send(.search(store.query))

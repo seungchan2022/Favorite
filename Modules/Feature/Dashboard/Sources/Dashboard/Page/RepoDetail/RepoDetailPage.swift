@@ -1,7 +1,7 @@
-
 import ComposableArchitecture
 import Domain
 import SwiftUI
+import DesignSystem
 
 // MARK: - RepoDetailPage
 
@@ -17,6 +17,11 @@ extension RepoDetailPage {
 
   var navigationtitle: String {
     store.fetchDetailItem.value?.fullName ?? ""
+  }
+  
+  private var isLoading: Bool {
+    store.fetchIsLike.isLoading
+    || store.fetchDetailItem.isLoading
   }
 }
 
@@ -57,6 +62,7 @@ extension RepoDetailPage: View {
       guard let new else { return }
       store.send(.getIsLike(new))
     }
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getDetail)
     }

@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import DesignSystem
 
 // MARK: - LikePage
 
@@ -10,6 +11,10 @@ struct LikePage {
 extension LikePage {
   private var emptyItemMessage: String {
     "좋아요를 누른 아이템이 없습니다."
+  }
+  
+  private var isLoading: Bool {
+    store.fetchItemList.isLoading
   }
 }
 
@@ -65,6 +70,7 @@ extension LikePage: View {
       }
     }
     .navigationTitle("Like")
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getItemList)
     }

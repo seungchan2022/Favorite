@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import DesignSystem
 
 // MARK: - UserDetailPage
 
@@ -15,6 +16,11 @@ extension UserDetailPage {
 
   var navigationTitle: String {
     store.fetchDetailItem.value?.name ?? ""
+  }
+  
+  private var isLoding: Bool {
+    store.fetchIsLike.isLoading
+    || store.fetchDetailItem.isLoading
   }
 }
 
@@ -55,6 +61,7 @@ extension UserDetailPage: View {
       guard let new else { return }
       store.send(.getIsLike(new))
     }
+    .setRequestFlightView(isLoading: isLoding)
     .onAppear {
       store.send(.getDetail(store.item))
     }

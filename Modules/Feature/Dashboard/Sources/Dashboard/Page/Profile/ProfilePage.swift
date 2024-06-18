@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import DesignSystem
 
 // MARK: - ProfilePage
 
@@ -16,6 +17,11 @@ extension ProfilePage {
     guard let str = store.fetchItem.value?.htmlURL else { return .none }
 
     return .init(string: str)
+  }
+  
+  private var isLoading: Bool {
+    store.fetchItem.isLoading
+    || store.fetchIsLike.isLoading
   }
 }
 
@@ -55,6 +61,7 @@ extension ProfilePage: View {
       guard let new else { return }
       store.send(.getIsLike(new))
     }
+    .setRequestFlightView(isLoading: true)
     .onAppear {
       store.send(.getItem)
     }

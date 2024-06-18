@@ -14,6 +14,10 @@ extension RepoPage {
   private var searchViewState: SearchBar.ViewState {
     .init(text: $store.query)
   }
+  
+  private var isLoading: Bool {
+    store.fetchSearchItem.isLoading
+  }
 }
 
 // MARK: View
@@ -46,6 +50,7 @@ extension RepoPage: View {
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
     }
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       throttleEvent.apply { _ in
         store.send(.search(store.query))
