@@ -61,7 +61,7 @@ extension ProfilePage: View {
       guard let new else { return }
       store.send(.getIsLike(new))
     }
-    .setRequestFlightView(isLoading: true)
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getItem)
     }
