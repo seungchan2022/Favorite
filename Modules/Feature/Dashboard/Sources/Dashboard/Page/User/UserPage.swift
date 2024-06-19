@@ -53,6 +53,10 @@ extension UserPage: View {
     }
     .scrollDismissesKeyboard(.immediately)
     .navigationTitle("User")
+    .navigationBarTitleDisplayMode(.large)
+    .searchable(
+      text: $store.query,
+      placement: .navigationBarDrawer(displayMode: .always))
     .searchable(text: $store.query)
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)

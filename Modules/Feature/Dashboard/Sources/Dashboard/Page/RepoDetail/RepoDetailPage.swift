@@ -32,9 +32,6 @@ extension RepoDetailPage: View {
     VStack {
       if let item = store.fetchDetailItem.value {
         WebContent(viewState: .init(item: item))
-
-      } else {
-        Text("로딩중...")
       }
     }
     .navigationTitle(navigationtitle)

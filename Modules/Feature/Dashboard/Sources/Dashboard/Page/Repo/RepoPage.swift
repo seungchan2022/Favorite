@@ -46,7 +46,10 @@ extension RepoPage: View {
     }
     .scrollDismissesKeyboard(.immediately)
     .navigationTitle("Repository")
-    .searchable(text: $store.query)
+    .navigationBarTitleDisplayMode(.large)
+    .searchable(
+      text: $store.query,
+      placement: .navigationBarDrawer(displayMode: .always))
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
     }
