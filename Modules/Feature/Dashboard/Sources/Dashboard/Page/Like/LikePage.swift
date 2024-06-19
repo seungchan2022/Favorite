@@ -16,6 +16,10 @@ extension LikePage {
   private var isLoading: Bool {
     store.fetchItemList.isLoading
   }
+  
+  private var navigationTitle: String {
+    "Like"
+  }
 }
 
 // MARK: View
@@ -24,15 +28,7 @@ extension LikePage: View {
   var body: some View {
     ScrollView {
       VStack {
-        Picker("", selection: $store.state.selectedLikeList) {
-          Text(LikeList.repoList.rawValue)
-            .tag(LikeList.repoList)
-
-          Text(LikeList.userList.rawValue)
-            .tag(LikeList.userList)
-        }
-        .pickerStyle(.segmented)
-        .padding(.horizontal, 12)
+        PickerComponent(viewState: .init(), store: store)
 
         switch store.state.selectedLikeList {
         case .repoList:
@@ -69,7 +65,7 @@ extension LikePage: View {
         }
       }
     }
-    .navigationTitle("Like")
+    .navigationTitle(navigationTitle)
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getItemList)

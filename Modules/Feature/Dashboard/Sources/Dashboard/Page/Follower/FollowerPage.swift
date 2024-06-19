@@ -18,6 +18,10 @@ extension FollowerPage {
   private var isLoading: Bool {
     store.fetchItem.isLoading
   }
+  
+  private var navigationTitle: String {
+    "Follower"
+  }
 }
 
 // MARK: View
@@ -33,7 +37,7 @@ extension FollowerPage: View {
         }
       }
     }
-    .navigationTitle("Follower")
+    .navigationTitle(navigationTitle)
     .navigationBarTitleDisplayMode(.inline)
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {

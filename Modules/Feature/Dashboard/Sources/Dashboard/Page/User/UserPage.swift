@@ -25,6 +25,14 @@ extension UserPage {
   private var isLoading: Bool {
     store.fetchSearchItem.isLoading
   }
+  
+  private var emptyQueryMessage: String {
+    "검색을 통해 원하는 정보를 찾아보세요"
+  }
+  
+  private var navigationTitle: String {
+    "User"
+  }
 }
 
 // MARK: View
@@ -33,7 +41,7 @@ extension UserPage: View {
   var body: some View {
     ScrollView {
       if store.query.isEmpty {
-          Text("검색을 통해 원하는 정보를 찾아보세요")
+          Text(emptyQueryMessage)
           .font(.title3)
           .padding()
       }
@@ -52,7 +60,7 @@ extension UserPage: View {
       }
     }
     .scrollDismissesKeyboard(.immediately)
-    .navigationTitle("User")
+    .navigationTitle(navigationTitle)
     .navigationBarTitleDisplayMode(.large)
     .searchable(
       text: $store.query,
