@@ -14,15 +14,15 @@ extension RepoPage {
   private var searchViewState: SearchBar.ViewState {
     .init(text: $store.query)
   }
-  
+
   private var isLoading: Bool {
     store.fetchSearchItem.isLoading
   }
-  
+
   private var emptyQueryMessage: String {
     "검색을 통해 원하는 정보를 찾아보세요"
   }
-  
+
   private var navigationTitle: String {
     "Repository"
   }
@@ -34,11 +34,11 @@ extension RepoPage: View {
   var body: some View {
     ScrollView {
       if store.query.isEmpty {
-          Text(emptyQueryMessage)
+        Text(emptyQueryMessage)
           .font(.title3)
           .padding()
       }
-      
+
       LazyVStack(spacing: .zero) {
         ForEach(store.itemList, id: \.id) { item in
           RepositoryItemComponent(

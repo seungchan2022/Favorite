@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import DesignSystem
+import SwiftUI
 
 // MARK: - ProfilePage
 
@@ -18,10 +18,10 @@ extension ProfilePage {
 
     return .init(string: str)
   }
-  
+
   private var isLoading: Bool {
     store.fetchItem.isLoading
-    || store.fetchIsLike.isLoading
+      || store.fetchIsLike.isLoading
   }
 }
 
@@ -32,8 +32,6 @@ extension ProfilePage: View {
     VStack {
       if let item = store.fetchItem.value {
         WebContent(viewState: .init(item: item))
-      } else {
-        Text("로딩중...")
       }
     }
     .navigationTitle(navigationTitle)

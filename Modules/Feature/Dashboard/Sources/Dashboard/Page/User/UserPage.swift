@@ -21,15 +21,15 @@ extension UserPage {
       repeating: .init(.flexible()),
       count: UIDevice.current.userInterfaceIdiom == .pad ? 6 : 3)
   }
-  
+
   private var isLoading: Bool {
     store.fetchSearchItem.isLoading
   }
-  
+
   private var emptyQueryMessage: String {
     "검색을 통해 원하는 정보를 찾아보세요"
   }
-  
+
   private var navigationTitle: String {
     "User"
   }
@@ -41,11 +41,11 @@ extension UserPage: View {
   var body: some View {
     ScrollView {
       if store.query.isEmpty {
-          Text(emptyQueryMessage)
+        Text(emptyQueryMessage)
           .font(.title3)
           .padding()
       }
-      
+
       LazyVGrid(columns: gridColumnList, spacing: .zero) {
         ForEach(store.itemList, id: \.id) { item in
           UserItemComponent(

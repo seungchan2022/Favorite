@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import DesignSystem
+import SwiftUI
 
 // MARK: - UserDetailPage
 
@@ -9,6 +9,9 @@ struct UserDetailPage {
 }
 
 extension UserDetailPage {
+
+  // MARK: Internal
+
   var shareURL: URL? {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
@@ -17,10 +20,12 @@ extension UserDetailPage {
   var navigationTitle: String {
     store.fetchDetailItem.value?.name ?? ""
   }
-  
+
+  // MARK: Private
+
   private var isLoding: Bool {
     store.fetchIsLike.isLoading
-    || store.fetchDetailItem.isLoading
+      || store.fetchDetailItem.isLoading
   }
 }
 

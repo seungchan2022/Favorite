@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import DesignSystem
+import SwiftUI
 
 // MARK: - FollowerPage
 
@@ -14,11 +14,11 @@ extension FollowerPage {
       repeating: .init(.flexible()),
       count: UIDevice.current.userInterfaceIdiom == .pad ? 6 : 3)
   }
-  
+
   private var isLoading: Bool {
     store.fetchItem.isLoading
   }
-  
+
   private var navigationTitle: String {
     "Follower"
   }

@@ -1,7 +1,7 @@
 import ComposableArchitecture
+import DesignSystem
 import Domain
 import SwiftUI
-import DesignSystem
 
 // MARK: - RepoDetailPage
 
@@ -10,6 +10,9 @@ struct RepoDetailPage {
 }
 
 extension RepoDetailPage {
+
+  // MARK: Internal
+
   var shareURL: URL? {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
@@ -18,10 +21,12 @@ extension RepoDetailPage {
   var navigationtitle: String {
     store.fetchDetailItem.value?.fullName ?? ""
   }
-  
+
+  // MARK: Private
+
   private var isLoading: Bool {
     store.fetchIsLike.isLoading
-    || store.fetchDetailItem.isLoading
+      || store.fetchDetailItem.isLoading
   }
 }
 
