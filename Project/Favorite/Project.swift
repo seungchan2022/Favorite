@@ -67,6 +67,7 @@ extension [TargetDependency] {
   public static var `default`: Self {
     [
       .package(product: "Dashboard", type: .runtime),
+      .package(product: "Like", type: .runtime),
     ]
   }
 }

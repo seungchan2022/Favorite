@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-  name: "Dashboard",
+  name: "Like",
   platforms: [.iOS(.v17)],
   products: [
     .library(
-      name: "Dashboard",
-      targets: ["Dashboard"]),
+      name: "Like",
+      targets: ["Like"]),
   ],
   dependencies: [
     .package(path: "../../../Core/Architecture"),
@@ -16,12 +16,12 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Dashboard",
+      name: "Like",
       dependencies: [
         "Architecture",
 
       ]),
     .testTarget(
-      name: "DashboardTests",
-      dependencies: ["Dashboard"]),
+      name: "LikeTests",
+      dependencies: ["Like"]),
   ])

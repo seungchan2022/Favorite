@@ -40,7 +40,7 @@ extension AppMain: View {
             title: "Like",
             image: .init(systemName: "heart.rectangle"),
             tag: 2),
-          linkItem: .init(path: Link.Dashboard.Path.like.rawValue),
+          linkItem: .init(path: Link.Like.Path.like.rawValue),
           prefersLargeTitles: true),
       ])
       .ignoresSafeArea()

@@ -16,6 +16,6 @@ extension Link.Dashboard {
     case userDetail
     case profile
     case follower
-    case like
+//    case like
   }
 }
