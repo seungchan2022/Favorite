@@ -7,7 +7,7 @@ let targetList: [Target] = [
     destinations: .iOS,
     product: .app,
     productName: "Favorite",
-    bundleId: "io.seungchan.favorite.prod",
+    bundleId: "io.seungchan.favorite",
     deploymentTargets: .default,
     infoPlist: .defaultInfoPlist,
     sources: ["Sources/**"],
@@ -16,7 +16,7 @@ let targetList: [Target] = [
     headers: .none,
     entitlements: .none,
     scripts: [],
-    dependencies: [],
+    dependencies: .default,
     settings: .defaultConfig(false),
     coreDataModels: [],
     environmentVariables: [:],
@@ -31,16 +31,16 @@ let targetList: [Target] = [
     destinations: .iOS,
     product: .app,
     productName: "Favorite",
-    bundleId: "io.seungchan.favorite.qa",
+    bundleId: "io.seungchan.favorite",
     deploymentTargets: .iOS("17.0"),
-    infoPlist: .default,
+    infoPlist: .defaultInfoPlist,
     sources: ["Sources/**"],
     resources: ["Resources/**"],
     copyFiles: .none,
     headers: .none,
     entitlements: .none,
     scripts: [],
-    dependencies: [],
+    dependencies: .default,
     settings: .defaultConfig(true),
     coreDataModels: [],
     environmentVariables: [:],
@@ -62,3 +62,11 @@ let project: Project = .init(
   fileHeaderTemplate: .none,
   additionalFiles: [],
   resourceSynthesizers: [])
+
+extension [TargetDependency] {
+  public static var `default`: Self {
+    [
+      .package(product: "Dashboard", type: .runtime),
+    ]
+  }
+}
