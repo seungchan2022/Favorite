@@ -1,13 +1,15 @@
 import Architecture
-import Dashboard
+import Common
 import Domain
 import Foundation
+import Like
 import LinkNavigator
 import Platform
+import Search
 
 // MARK: - AppSideEffect
 
-struct AppSideEffect: DependencyType, DashboardEnvironmentUsable {
+struct AppSideEffect: DependencyType, SearchEnvironmentUsable, CommonEnvironmentUsable, LikeEnvironmentUsable {
   let toastViewModel: ToastViewActionType
   let githubSearchUseCase: GithubSearchUseCase
   let githubDetailUseCase: GithubDetailUseCase

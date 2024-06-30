@@ -10,19 +10,12 @@ public struct LikeRouteBuilderGroup<RootNavigator: RootNavigatorType> {
 extension LikeRouteBuilderGroup {
   public static var release: [RouteBuilderOf<RootNavigator>] {
     [
- 
       LikeRouteBuilder.generate(),
     ]
   }
-  
+
   public static var template: [RouteBuilderOf<RootNavigator>] {
     [
-      RepoRouteBuilder.generate(),
-      RepoDetailRouteBuilder.generate(),
-      UserRouteBuilder.generate(),
-      UserDetailRouteBuilder.generate(),
-      ProfileRouteBuilder.generate(),
-      FollowerRouteBuilder.generate(),
     ]
   }
 }

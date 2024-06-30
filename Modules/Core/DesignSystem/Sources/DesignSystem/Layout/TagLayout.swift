@@ -3,6 +3,9 @@ import SwiftUI
 // MARK: - TagLayout
 
 public struct TagLayout: Layout {
+
+  // MARK: Lifecycle
+
   public init(
     alignment: Alignment = .leading,
     spacing: CGFloat = 10)
@@ -10,11 +13,8 @@ public struct TagLayout: Layout {
     self.alignment = alignment
     self.spacing = spacing
   }
-  
-  // Layout Properties
-  let alignment: Alignment
-  // Both Horizontal & Vertical
-  let spacing: CGFloat
+
+  // MARK: Public
 
   public func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
     let maxWidth = proposal.width ?? .zero
@@ -69,6 +69,13 @@ public struct TagLayout: Layout {
       origin.y = origin.y + (row.maxHeight(proposal) + spacing)
     }
   }
+
+  // MARK: Internal
+
+  // Layout Properties
+  let alignment: Alignment
+  // Both Horizontal & Vertical
+  let spacing: CGFloat
 
   // Generating Rows based on Available Size
   func generateRowList(_ maxWidth: CGFloat, _ proposal: ProposedViewSize, _ subviews: Subviews) -> [[LayoutSubviews.Element]] {

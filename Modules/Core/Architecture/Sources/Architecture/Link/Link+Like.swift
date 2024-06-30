@@ -1,21 +1,15 @@
 import Foundation
 
-// MARK: - Link.Dashboard
+// MARK: - Link.Like
 
 extension Link {
   public enum Like { }
 }
 
-// MARK: - Link.Dashboard.Path
+// MARK: - Link.Like.Path
 
 extension Link.Like {
   public enum Path: String, Equatable {
-//    case repo
-//    case repoDetail
-//    case user
-//    case userDetail
-//    case profile
-//    case follower
     case like
   }
 }

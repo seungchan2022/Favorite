@@ -22,7 +22,7 @@ extension AppMain: View {
           tabItem: .init(
             title: "Repository",
             image: .init(systemName: "shippingbox.fill"), tag: .zero),
-          linkItem: .init(path: Link.Dashboard.Path.repo.rawValue),
+          linkItem: .init(path: Link.Search.Path.repo.rawValue),
           prefersLargeTitles: true),
 
         .init(
@@ -31,7 +31,7 @@ extension AppMain: View {
             title: "User",
             image: .init(systemName: "person.3.fill"),
             tag: 1),
-          linkItem: .init(path: Link.Dashboard.Path.user.rawValue),
+          linkItem: .init(path: Link.Search.Path.user.rawValue),
           prefersLargeTitles: true),
 
         .init(

@@ -1,6 +1,8 @@
 import Foundation
 
-public struct TimeDiffFunctor {
+// MARK: - TimeDiffFunctor
+
+public enum TimeDiffFunctor {
   public static func diffTime(updateTime: String) -> String {
     updateTime.formattedTimeDifference
   }
@@ -9,7 +11,7 @@ public struct TimeDiffFunctor {
 // MARK: - TimeDifference
 
 // 시간 차이를 나타내는 열거형
-fileprivate enum TimeDifference {
+private enum TimeDifference {
   case years(Int)
   case months(Int)
   case weeks(Int)
@@ -18,7 +20,7 @@ fileprivate enum TimeDifference {
   case minutes(Int)
   case now // 현재 시간을 나타내는 케이스
 
-  // MARK: Public
+  // MARK: Fileprivate
 
   // 각 케이스에 대한 설명을 반환하는 연산 프로퍼티
   fileprivate var description: String {

@@ -1,4 +1,5 @@
 import Architecture
+import CombineExt
 import ComposableArchitecture
 import Domain
 import Foundation
@@ -37,7 +38,7 @@ extension LikeSideEffect {
     { item in
       navigator.next(
         linkItem: .init(
-          path: Link.Dashboard.Path.repoDetail.rawValue,
+          path: Link.Common.Path.repoDetail.rawValue,
           items: item.serialized()),
         isAnimated: true)
     }
@@ -47,7 +48,7 @@ extension LikeSideEffect {
     { item in
       navigator.next(
         linkItem: .init(
-          path: Link.Dashboard.Path.userDetail.rawValue,
+          path: Link.Common.Path.userDetail.rawValue,
           items: item.serialized()),
         isAnimated: true)
     }

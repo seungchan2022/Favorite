@@ -1,5 +1,6 @@
 import DesignSystem
 import Domain
+import Functor
 import SwiftUI
 
 // MARK: - LikePage.UserItemComponent
@@ -19,6 +20,10 @@ extension LikePage.UserItemComponent {
         + viewState.item.gistListCount
         + viewState.item.followerListCount
         + viewState.item.followingListCount) == .zero
+  }
+
+  private var formattedTime: String {
+    TimeDiffFunctor.diffTime(updateTime: viewState.item.lastUpdate)
   }
 }
 
@@ -101,7 +106,7 @@ extension LikePage.UserItemComponent: View {
 
         Spacer()
 
-        Text(viewState.item.lastUpdate.formattedTimeDifference)
+        Text(formattedTime)
           .font(.system(size: 14))
           .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
       }

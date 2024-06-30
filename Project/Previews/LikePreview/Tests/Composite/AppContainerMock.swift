@@ -1,7 +1,7 @@
 import Architecture
-import Like
 import Domain
 import Foundation
+import Like
 import LinkNavigator
 import Platform
 

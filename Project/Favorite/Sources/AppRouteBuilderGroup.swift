@@ -1,11 +1,15 @@
 import Architecture
-import Dashboard
+import Common
 import Foundation
+import Like
 import LinkNavigator
+import Search
 
 struct AppRouteBuilderGroup<RootNavigator: RootNavigatorType> {
 
   var release: [RouteBuilderOf<RootNavigator>] {
-    DashboardRouteBuilderGroup.release
+    SearchRouteBuilderGroup.release
+      + CommonRouteBuilderGroup.release
+      + LikeRouteBuilderGroup.release
   }
 }

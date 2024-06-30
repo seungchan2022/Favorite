@@ -1,5 +1,6 @@
 import DesignSystem
 import Domain
+import Functor
 import SwiftUI
 
 // MARK: - LikePage.RepoItemComponent
@@ -19,6 +20,10 @@ extension LikePage.RepoItemComponent {
       viewState.item.starCount
         + viewState.item.forkCount
         + viewState.item.watcherCount) == .zero
+  }
+
+  private var formattedTime: String {
+    TimeDiffFunctor.diffTime(updateTime: viewState.item.lastUpdate)
   }
 }
 
@@ -87,7 +92,7 @@ extension LikePage.RepoItemComponent: View {
 
         Spacer()
 
-        Text(viewState.item.lastUpdate.formattedTimeDifference)
+        Text(formattedTime)
           .font(.system(size: 14))
           .foregroundStyle(colorScheme == .dark ? DesignSystemColor.system(.white).color : DesignSystemColor.system(.black).color)
       }
