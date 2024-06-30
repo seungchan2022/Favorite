@@ -2,13 +2,21 @@ import SwiftUI
 
 // MARK: - TagLayout
 
-struct TagLayout: Layout {
+public struct TagLayout: Layout {
+  public init(
+    alignment: Alignment = .leading,
+    spacing: CGFloat = 10)
+  {
+    self.alignment = alignment
+    self.spacing = spacing
+  }
+  
   // Layout Properties
-  var alignment: Alignment = .leading
+  let alignment: Alignment
   // Both Horizontal & Vertical
-  var spacing: CGFloat = 10
+  let spacing: CGFloat
 
-  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
+  public func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
     let maxWidth = proposal.width ?? .zero
     var height: CGFloat = .zero
     let rowList = generateRowList(maxWidth, proposal, subviews)
@@ -26,7 +34,7 @@ struct TagLayout: Layout {
     return .init(width: maxWidth, height: height)
   }
 
-  func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
+  public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
     // Placing Views
     var origin = bounds.origin
     let maxWidth = bounds.width
