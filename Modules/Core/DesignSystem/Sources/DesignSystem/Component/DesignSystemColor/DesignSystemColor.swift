@@ -117,12 +117,14 @@ extension DesignSystemColor {
     case sand
     case purple
     case green
+    case red
 
     var color: Color {
       switch self {
       case .sand: Asset.ColorChip.Tint.tintSand.swiftUIColor
       case .purple: Asset.ColorChip.Tint.tintPurple.swiftUIColor
       case .green: Asset.ColorChip.Tint.tintGreen.swiftUIColor
+      case .red: Asset.ColorChip.Tint.tintRed.swiftUIColor
       }
     }
   }

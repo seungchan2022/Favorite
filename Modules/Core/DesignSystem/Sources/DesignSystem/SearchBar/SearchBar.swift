@@ -46,6 +46,7 @@ extension SearchBar: View {
         .cornerRadius(8)
         .padding(.horizontal, 10)
         .focused($isFocus)
+        .textInputAutocapitalization(.never)
 
       if isFocus, !viewState.text.wrappedValue.isEmpty {
         Button(action: {

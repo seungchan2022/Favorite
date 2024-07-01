@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 
 public enum WindowAppearance {
-  static var safeArea: UIEdgeInsets {
-    guard 
+  public static var safeArea: UIEdgeInsets {
+    guard
       let windowScene = UIApplication.shared.connectedScenes.first(where: {
         $0.activationState == .foregroundActive
           || $0.activationState == .foregroundInactive
