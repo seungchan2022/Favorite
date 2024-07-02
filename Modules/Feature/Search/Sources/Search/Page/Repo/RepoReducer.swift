@@ -36,13 +36,16 @@ public struct RepoReducer {
 
   public enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
+    case teardown
+    
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.Repository.Composite, CompositeErrorRepository>)
 
     case routeToDetail(GithubEntity.Search.Repository.Item)
 
+    case routeToTabBarItem(String)
+    
     case throwError(CompositeErrorRepository)
-    case teardown
   }
 
   public var body: some Reducer<State, Action> {
@@ -100,6 +103,10 @@ public struct RepoReducer {
         sideEffect.routeToDetail(item)
         return .none
 
+      case .routeToTabBarItem(let matchPath):
+        sideEffect.routeToTabBarItem(matchPath)
+        return .none
+        
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         Logger.error(Logger.Message(stringLiteral: error.displayMessage))

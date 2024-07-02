@@ -172,7 +172,7 @@ extension UserDetailPage.ItemComponent: View {
       .padding(.bottom, 12)
       .frame(maxWidth: .infinity)
 
-      Text("Github since \(createdDate)")
+      Text("Github Since \(createdDate)")
         .frame(maxWidth: .infinity, alignment: .center) // 추가
 
       Spacer()

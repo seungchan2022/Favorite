@@ -12,16 +12,16 @@ extension ProfilePage {
   private var navigationTitle: String {
     store.fetchItem.value?.loginName ?? ""
   }
-
+  
   private var shareURL: URL? {
     guard let str = store.fetchItem.value?.htmlURL else { return .none }
-
+    
     return .init(string: str)
   }
-
+  
   private var isLoading: Bool {
     store.fetchItem.isLoading
-      || store.fetchIsLike.isLoading
+    || store.fetchIsLike.isLoading
   }
 }
 

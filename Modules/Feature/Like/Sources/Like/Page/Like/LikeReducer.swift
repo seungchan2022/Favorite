@@ -49,6 +49,8 @@ public struct LikeReducer {
 
     case routeToRepoDetail(GithubEntity.Detail.Repository.Response)
     case routeToUserDetail(GithubEntity.Detail.User.Response)
+    
+    case routeToTabBarItem(String)
 
     case throwError(CompositeErrorRepository)
   }
@@ -90,6 +92,10 @@ public struct LikeReducer {
         sideEffect.routeToUserDetail(item)
         return .none
 
+      case .routeToTabBarItem(let matchPath):
+        sideEffect.routeToTabBarItem(matchPath)
+        return .none
+        
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none

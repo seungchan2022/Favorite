@@ -64,7 +64,7 @@ extension UserDetailSideEffect {
     }
   }
 
-  var rouetToProfile: (GithubEntity.Detail.User.Response) -> Void {
+  var routeToProfile: (GithubEntity.Detail.User.Response) -> Void {
     { item in
       navigator.next(
         linkItem: .init(
@@ -81,6 +81,12 @@ extension UserDetailSideEffect {
           path: Link.Common.Path.follower.rawValue,
           items: item.serializedFollower()),
         isAnimated: true)
+    }
+  }
+  
+  var routeToBack: () -> Void {
+    {
+      navigator.back(isAnimated: true)
     }
   }
 }

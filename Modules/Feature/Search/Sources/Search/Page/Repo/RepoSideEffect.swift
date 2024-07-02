@@ -48,6 +48,14 @@ extension RepoSideEffect {
         isAnimated: true)
     }
   }
+  
+  var routeToTabBarItem: (String) -> Void {
+    { path in
+      guard path != Link.Search.Path.repo.rawValue else { return }
+      navigator.replace(linkItem: .init(path: path), isAnimated: false)
+    }
+  }
+
 }
 
 extension GithubEntity.Search.Repository.Item {

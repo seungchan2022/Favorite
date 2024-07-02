@@ -53,6 +53,13 @@ extension LikeSideEffect {
         isAnimated: true)
     }
   }
+  
+  var routeToTabBarItem: (String) -> Void {
+    { path in
+      guard path != Link.Like.Path.like.rawValue else { return }
+      navigator.replace(linkItem: .init(path: path), isAnimated: false)
+    }
+  }
 }
 
 extension GithubEntity.Detail.Repository.Response {

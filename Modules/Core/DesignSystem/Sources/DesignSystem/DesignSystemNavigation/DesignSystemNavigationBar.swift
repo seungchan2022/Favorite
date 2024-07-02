@@ -157,31 +157,31 @@ extension DesignSystemNavigationBar {
     let action: () -> Void
   }
 }
-
-#Preview("Case1") {
-  VStack {
-    DesignSystemNavigationBar(
-      backAction: DesignSystemNavigationBar.BackAction(
-        image: Image(systemName: "chevron.left"),
-        action: { }),
-      moreActionList: [
-        .init(title: "Create", action: { }),
-        .init(title: "Done", action: { }),
-      ])
-    Spacer()
-  }
-}
-
-#Preview("Case2") {
-  VStack {
-    DesignSystemNavigationBar(
-      backAction: DesignSystemNavigationBar.BackAction(
-        image: Image(systemName: "chevron.left"),
-        action: { }),
-      title: "로그인/보안",
-      moreActionList: [
-        .init(image: Image(systemName: "plus"), action: { }),
-      ])
-    Spacer()
-  }
-}
+//
+//#Preview("Case1") {
+//  VStack {
+//    DesignSystemNavigationBar(
+//      backAction: DesignSystemNavigationBar.BackAction(
+//        image: Image(systemName: "chevron.left"),
+//        action: { }),
+//      moreActionList: [
+//        .init(title: "Create", action: { }),
+//        .init(title: "Done", action: { }),
+//      ])
+//    Spacer()
+//  }
+//}
+//
+//#Preview("Case2") {
+//  VStack {
+//    DesignSystemNavigationBar(
+//      backAction: DesignSystemNavigationBar.BackAction(
+//        image: Image(systemName: "chevron.left"),
+//        action: { }),
+//      title: "로그인/보안",
+//      moreActionList: [
+//        .init(image: Image(systemName: "plus"), action: { }),
+//      ])
+//    Spacer()
+//  }
+//}

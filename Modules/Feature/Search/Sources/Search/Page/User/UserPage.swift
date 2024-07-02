@@ -33,39 +33,49 @@ extension UserPage {
   private var navigationTitle: String {
     "User"
   }
+  
+  private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
+    .init(activeMatchPath: Link.Search.Path.user.rawValue)
+  }
 }
 
 // MARK: View
 
 extension UserPage: View {
   var body: some View {
-    ScrollView {
-      if store.query.isEmpty {
-        Text(emptyQueryMessage)
-          .font(.title3)
-          .padding()
-      }
+    VStack {
+      DesignSystemNavigation(
+        barItem: .init(title: ""),
+        largeTitle: navigationTitle) {
+          SearchBar(viewState: .init(text: $store.query), throttleAction: { })
+          
+          if store.query.isEmpty {
+            Text(emptyQueryMessage)
+              .font(.title3)
+              .padding()
+          }
 
-      LazyVGrid(columns: gridColumnList, spacing: .zero) {
-        ForEach(store.itemList, id: \.id) { item in
-          UserItemComponent(
-            viewState: .init(item: item),
-            action: { store.send(.routeToDetail($0)) })
-            .onAppear {
-              guard let last = store.itemList.last, last.id == item.id else { return }
-              guard !store.fetchSearchItem.isLoading else { return }
-              store.send(.search(store.query))
+          LazyVGrid(columns: gridColumnList, spacing: .zero) {
+            ForEach(store.itemList, id: \.id) { item in
+              UserItemComponent(
+                viewState: .init(item: item),
+                action: { store.send(.routeToDetail($0)) })
+                .onAppear {
+                  guard let last = store.itemList.last, last.id == item.id else { return }
+                  guard !store.fetchSearchItem.isLoading else { return }
+                  store.send(.search(store.query))
+                }
             }
+          }
         }
-      }
+      
+      TabNavigationComponent(
+        viewState: tabNavigationComponentViewState,
+        tapAction: { store.send(.routeToTabBarItem($0)) })
     }
+    .ignoresSafeArea(.all, edges: .bottom)
     .scrollDismissesKeyboard(.immediately)
-    .navigationTitle(navigationTitle)
-    .navigationBarTitleDisplayMode(.large)
-    .searchable(
-      text: $store.query,
-      placement: .navigationBarDrawer(displayMode: .always))
-    .searchable(text: $store.query)
+    .toolbar(.hidden, for: .navigationBar)
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
     }

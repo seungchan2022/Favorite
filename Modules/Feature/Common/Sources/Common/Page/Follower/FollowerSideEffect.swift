@@ -42,6 +42,12 @@ extension FollowerSideEffect {
         isAnimated: true)
     }
   }
+  
+  var routeToBack: () -> Void {
+    {
+      navigator.back(isAnimated: true)
+    }
+  }
 }
 
 extension GithubEntity.User.Follower.Response {

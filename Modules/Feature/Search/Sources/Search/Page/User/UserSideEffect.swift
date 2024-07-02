@@ -48,6 +48,13 @@ extension UserSideEffect {
         isAnimated: true)
     }
   }
+  
+  var routeToTabBarItem: (String) -> Void {
+    { path in
+      guard path != Link.Search.Path.user.rawValue else { return }
+      navigator.replace(linkItem: .init(path: path), isAnimated: false)
+    }
+  }
 }
 
 extension GithubEntity.Search.User.Item {

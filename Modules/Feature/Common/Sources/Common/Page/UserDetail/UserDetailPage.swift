@@ -5,27 +5,28 @@ import SwiftUI
 // MARK: - UserDetailPage
 
 struct UserDetailPage {
-  @Bindable var store: Store<UserDetailReducer.State, UserDetailReducer.Action>
+  
+  @Bindable var store: StoreOf<UserDetailReducer>
 }
 
 extension UserDetailPage {
-
+  
   // MARK: Internal
-
+  
   var shareURL: URL? {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
   }
-
+  
   var navigationTitle: String {
     store.fetchDetailItem.value?.name ?? ""
   }
-
+  
   // MARK: Private
-
+  
   private var isLoding: Bool {
     store.fetchIsLike.isLoading
-      || store.fetchDetailItem.isLoading
+    || store.fetchDetailItem.isLoading
   }
 }
 
@@ -37,10 +38,11 @@ extension UserDetailPage: View {
       if let item = store.fetchDetailItem.value {
         ItemComponent(
           viewState: .init(item: item),
-          profileAction: { store.send(.rouetToProfile($0)) },
+          profileAction: { store.send(.routeToProfile($0)) },
           followerAction: { store.send(.routeToFollower($0)) })
       }
     }
+    .toolbar(.visible, for: .navigationBar)
     .navigationTitle(navigationTitle)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {

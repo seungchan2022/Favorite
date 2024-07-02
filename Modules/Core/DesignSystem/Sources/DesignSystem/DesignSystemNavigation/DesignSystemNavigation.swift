@@ -37,7 +37,7 @@ extension DesignSystemNavigation: View {
       if let barItem {
         barItem
           .overlay(alignment: .bottom) {
-            if isShowDivider == true {
+            if isShowDivider == true || showInlineTitle {
               Divider()
             } else {
               EmptyView()

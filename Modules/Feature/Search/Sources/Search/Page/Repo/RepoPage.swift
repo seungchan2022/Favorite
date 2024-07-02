@@ -1,3 +1,4 @@
+import Architecture
 import ComposableArchitecture
 import DesignSystem
 import Functor
@@ -26,38 +27,49 @@ extension RepoPage {
   private var navigationTitle: String {
     "Repository"
   }
+  
+  private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
+    .init(activeMatchPath: Link.Search.Path.repo.rawValue)
+  }
 }
 
 // MARK: View
 
 extension RepoPage: View {
   var body: some View {
-    ScrollView {
-      if store.query.isEmpty {
-        Text(emptyQueryMessage)
-          .font(.title3)
-          .padding()
-      }
+    VStack {
+      DesignSystemNavigation(
+        barItem: .init(title: ""),
+        largeTitle: "Repository") {
+          SearchBar(viewState: .init(text: $store.query), throttleAction: { })
+          
+          if store.query.isEmpty {
+            Text(emptyQueryMessage)
+              .font(.title3)
+              .padding()
+          }
 
-      LazyVStack(spacing: .zero) {
-        ForEach(store.itemList, id: \.id) { item in
-          RepositoryItemComponent(
-            viewState: .init(item: item),
-            action: { store.send(.routeToDetail($0)) })
-            .onAppear {
-              guard let last = store.itemList.last, last.id == item.id else { return }
-              guard !store.fetchSearchItem.isLoading else { return }
-              store.send(.search(store.query))
+          LazyVStack(spacing: .zero) {
+            ForEach(store.itemList, id: \.id) { item in
+              RepositoryItemComponent(
+                viewState: .init(item: item),
+                action: { store.send(.routeToDetail($0)) })
+                .onAppear {
+                  guard let last = store.itemList.last, last.id == item.id else { return }
+                  guard !store.fetchSearchItem.isLoading else { return }
+                  store.send(.search(store.query))
+                }
             }
+          }
         }
-      }
+      
+      TabNavigationComponent(
+        viewState: tabNavigationComponentViewState,
+        tapAction: { store.send(.routeToTabBarItem($0)) })
     }
+    .ignoresSafeArea(.all, edges: .bottom)
     .scrollDismissesKeyboard(.immediately)
-    .navigationTitle(navigationTitle)
-    .navigationBarTitleDisplayMode(.large)
-    .searchable(
-      text: $store.query,
-      placement: .navigationBarDrawer(displayMode: .always))
+    .toolbar(.hidden, for: .navigationBar)
     .onChange(of: store.query) { _, new in
       throttleEvent.update(value: new)
     }

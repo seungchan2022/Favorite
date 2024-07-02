@@ -22,6 +22,7 @@ extension TabNavigationComponent: View {
           VStack {
             item.icon
               .resizable()
+              .scaledToFill()
               .frame(width: 32, height: 32)
               .foregroundStyle(Color.defaultButtonColor(item.isActive))
 

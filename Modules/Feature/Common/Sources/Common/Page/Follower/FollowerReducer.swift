@@ -45,6 +45,7 @@ public struct FollowerReducer {
     case fetchItem(Result<[GithubEntity.User.Follower.Response], CompositeErrorRepository>)
 
     case routeToUser(GithubEntity.User.Follower.Response)
+    case routeToBack
 
     case throwError(CompositeErrorRepository)
   }
@@ -79,6 +80,10 @@ public struct FollowerReducer {
 
       case .routeToUser(let item):
         sideEffect.routeToUser(item)
+        return .none
+        
+      case .routeToBack:
+        sideEffect.routeToBack()
         return .none
 
       case .throwError(let error):
