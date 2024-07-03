@@ -4,13 +4,13 @@ import Domain
 import Foundation
 
 @Reducer
-struct HomeReducer {
+struct MeReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: HomeSideEffect)
+    sideEffect: MeSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -27,9 +27,11 @@ struct HomeReducer {
     }
   }
 
-  enum Action: BindableAction, Sendable {
+  enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case teardown
+
+    case routeToTabBarItem(String)
 
     case throwError(CompositeErrorRepository)
   }
@@ -49,6 +51,10 @@ struct HomeReducer {
         return .concatenate(
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
 
+      case .routeToTabBarItem(let matchPath):
+        sideEffect.routeToTabBarItem(matchPath)
+        return .none
+        
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none
@@ -59,5 +65,5 @@ struct HomeReducer {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: HomeSideEffect
+  private let sideEffect: MeSideEffect
 }

@@ -71,6 +71,10 @@ extension TabNavigationComponent {
           matchPath: "like",
           activeMatchPath: activeMatchPath,
           icon: Image(systemName: "heart.rectangle")),
+        .init(
+          matchPath: "me",
+          activeMatchPath: activeMatchPath,
+          icon: Image(systemName: "person.fill")),
       ]
     }
 
@@ -103,7 +107,7 @@ extension Color {
     { isActive in
       var color: Color {
         isActive == true
-          ? DesignSystemColor.tint(.red).color
+        ? DesignSystemColor.label(.default).color
           : DesignSystemColor.palette(.gray(.lv200)).color
       }
       return color

@@ -70,6 +70,7 @@ extension [TargetDependency] {
       .package(product: "Search", type: .runtime),
       .package(product: "Like", type: .runtime),
       .package(product: "Common", type: .runtime),
+      .package(product: "Me", type: .runtime),
     ]
   }
 }
