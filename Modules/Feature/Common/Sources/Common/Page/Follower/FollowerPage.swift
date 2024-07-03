@@ -33,22 +33,23 @@ extension FollowerPage: View {
         barItem: .init(
           backAction: .init(
             image: Image(systemName: "chevron.left"),
-            action: { store.send(.routeToBack)  }),
+            action: { store.send(.routeToBack) }),
           title: navigationTitle,
           moreActionList: []),
-        isShowDivider: true)  {
-          if store.itemList.isEmpty {
-            Text("팔로워가 없습니다.")
-          }
-          
-          LazyVGrid(columns: gridColumnList, spacing: .zero) {
-            ForEach(store.itemList) { item in
-              ItemComponent(
-                viewState: .init(item: item),
-                action: { store.send(.routeToUser($0)) })
-            }
+        isShowDivider: true)
+      {
+        if store.itemList.isEmpty {
+          Text("팔로워가 없습니다.")
+        }
+
+        LazyVGrid(columns: gridColumnList, spacing: .zero) {
+          ForEach(store.itemList) { item in
+            ItemComponent(
+              viewState: .init(item: item),
+              action: { store.send(.routeToUser($0)) })
           }
         }
+      }
     }
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)

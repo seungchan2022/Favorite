@@ -36,12 +36,12 @@ public struct UserReducer {
   public enum Action: BindableAction, Sendable {
     case binding(BindingAction<State>)
     case teardown
-    
+
     case search(String)
     case fetchSearchItem(Result<GithubEntity.Search.User.Composite, CompositeErrorRepository>)
 
     case routeToDetail(GithubEntity.Search.User.Item)
-    
+
     case routeToTabBarItem(String)
 
     case throwError(CompositeErrorRepository)
@@ -101,7 +101,7 @@ public struct UserReducer {
       case .routeToDetail(let item):
         sideEffect.routeToDetail(item)
         return .none
-        
+
       case .routeToTabBarItem(let matchPath):
         sideEffect.routeToTabBarItem(matchPath)
         return .none

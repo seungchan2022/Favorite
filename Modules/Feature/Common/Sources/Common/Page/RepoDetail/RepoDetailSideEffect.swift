@@ -63,7 +63,7 @@ extension RepoDetailSideEffect {
       }
     }
   }
-  
+
   var routeToBack: () -> Void {
     {
       navigator.back(isAnimated: true)

@@ -48,7 +48,7 @@ extension RepoSideEffect {
         isAnimated: true)
     }
   }
-  
+
   var routeToTabBarItem: (String) -> Void {
     { path in
       guard path != Link.Search.Path.repo.rawValue else { return }

@@ -60,7 +60,7 @@ extension ProfileSideEffect {
       }
     }
   }
-  
+
   var routeToBack: () -> Void {
     {
       navigator.back(isAnimated: true)

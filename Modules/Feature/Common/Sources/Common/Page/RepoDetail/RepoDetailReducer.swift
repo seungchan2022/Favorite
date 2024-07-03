@@ -51,7 +51,7 @@ public struct RepoDetailReducer {
     case fetchDetailItem(Result<GithubEntity.Detail.Repository.Response, CompositeErrorRepository>)
 
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
-    
+
     case routeToBack
 
     case throwError(CompositeErrorRepository)
@@ -108,7 +108,7 @@ public struct RepoDetailReducer {
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
+
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

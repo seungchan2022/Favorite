@@ -27,7 +27,7 @@ extension RepoPage {
   private var navigationTitle: String {
     "Repository"
   }
-  
+
   private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
     .init(activeMatchPath: Link.Search.Path.repo.rawValue)
   }
@@ -40,29 +40,30 @@ extension RepoPage: View {
     VStack {
       DesignSystemNavigation(
         barItem: .init(title: ""),
-        largeTitle: "Repository") {
-          SearchBar(viewState: .init(text: $store.query), throttleAction: { })
-          
-          if store.query.isEmpty {
-            Text(emptyQueryMessage)
-              .font(.title3)
-              .padding()
-          }
+        largeTitle: "Repository")
+      {
+        SearchBar(viewState: .init(text: $store.query), throttleAction: { })
 
-          LazyVStack(spacing: .zero) {
-            ForEach(store.itemList, id: \.id) { item in
-              RepositoryItemComponent(
-                viewState: .init(item: item),
-                action: { store.send(.routeToDetail($0)) })
-                .onAppear {
-                  guard let last = store.itemList.last, last.id == item.id else { return }
-                  guard !store.fetchSearchItem.isLoading else { return }
-                  store.send(.search(store.query))
-                }
-            }
+        if store.query.isEmpty {
+          Text(emptyQueryMessage)
+            .font(.title3)
+            .padding()
+        }
+
+        LazyVStack(spacing: .zero) {
+          ForEach(store.itemList, id: \.id) { item in
+            RepositoryItemComponent(
+              viewState: .init(item: item),
+              action: { store.send(.routeToDetail($0)) })
+              .onAppear {
+                guard let last = store.itemList.last, last.id == item.id else { return }
+                guard !store.fetchSearchItem.isLoading else { return }
+                store.send(.search(store.query))
+              }
           }
         }
-      
+      }
+
       TabNavigationComponent(
         viewState: tabNavigationComponentViewState,
         tapAction: { store.send(.routeToTabBarItem($0)) })

@@ -13,7 +13,6 @@ struct AppMain {
 extension AppMain: View {
 
   var body: some View {
-    
     LinkNavigationView(
       linkNavigator: viewModel.linkNavigator,
       item: .init(path: Link.Search.Path.repo.rawValue))

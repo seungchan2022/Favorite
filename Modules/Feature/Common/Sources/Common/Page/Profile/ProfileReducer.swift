@@ -43,7 +43,7 @@ public struct ProfileReducer {
     case updateIsLike(GithubEntity.Detail.User.Response)
     case fetchItem(Result<GithubEntity.Detail.User.Response, CompositeErrorRepository>)
     case fetchIsLike(Result<Bool, CompositeErrorRepository>)
-    
+
     case routeToBack
 
     case throwError(CompositeErrorRepository)
@@ -97,7 +97,7 @@ public struct ProfileReducer {
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
-        
+
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

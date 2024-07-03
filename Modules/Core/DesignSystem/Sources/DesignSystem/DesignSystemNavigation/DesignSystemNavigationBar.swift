@@ -157,8 +157,9 @@ extension DesignSystemNavigationBar {
     let action: () -> Void
   }
 }
+
 //
-//#Preview("Case1") {
+// #Preview("Case1") {
 //  VStack {
 //    DesignSystemNavigationBar(
 //      backAction: DesignSystemNavigationBar.BackAction(
@@ -170,9 +171,9 @@ extension DesignSystemNavigationBar {
 //      ])
 //    Spacer()
 //  }
-//}
+// }
 //
-//#Preview("Case2") {
+// #Preview("Case2") {
 //  VStack {
 //    DesignSystemNavigationBar(
 //      backAction: DesignSystemNavigationBar.BackAction(
@@ -184,4 +185,4 @@ extension DesignSystemNavigationBar {
 //      ])
 //    Spacer()
 //  }
-//}
+// }

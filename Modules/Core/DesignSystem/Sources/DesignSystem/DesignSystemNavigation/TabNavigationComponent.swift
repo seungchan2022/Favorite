@@ -111,12 +111,13 @@ extension Color {
   }
 }
 
-#Preview {
-  VStack {
-    Spacer()
-    TabNavigationComponent(
-      viewState: .init(activeMatchPath: "audioMemo"),
-      tapAction: { _ in })
-  }
-  //  .background(.red)
-}
+//
+// #Preview {
+//  VStack {
+//    Spacer()
+//    TabNavigationComponent(
+//      viewState: .init(activeMatchPath: "audioMemo"),
+//      tapAction: { _ in })
+//  }
+//  //  .background(.red)
+// }

@@ -5,28 +5,28 @@ import SwiftUI
 // MARK: - UserDetailPage
 
 struct UserDetailPage {
-  
+
   @Bindable var store: StoreOf<UserDetailReducer>
 }
 
 extension UserDetailPage {
-  
+
   // MARK: Internal
-  
+
   var shareURL: URL? {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
   }
-  
+
   var navigationTitle: String {
     store.fetchDetailItem.value?.name ?? ""
   }
-  
+
   // MARK: Private
-  
+
   private var isLoding: Bool {
     store.fetchIsLike.isLoading
-    || store.fetchDetailItem.isLoading
+      || store.fetchDetailItem.isLoading
   }
 }
 

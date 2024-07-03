@@ -83,7 +83,7 @@ extension UserDetailSideEffect {
         isAnimated: true)
     }
   }
-  
+
   var routeToBack: () -> Void {
     {
       navigator.back(isAnimated: true)

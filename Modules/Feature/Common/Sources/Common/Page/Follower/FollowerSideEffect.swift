@@ -42,7 +42,7 @@ extension FollowerSideEffect {
         isAnimated: true)
     }
   }
-  
+
   var routeToBack: () -> Void {
     {
       navigator.back(isAnimated: true)

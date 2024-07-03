@@ -66,6 +66,7 @@ let project: Project = .init(
 extension [TargetDependency] {
   public static var `default`: Self {
     [
+      .package(product: "Authentication", type: .runtime),
       .package(product: "Search", type: .runtime),
       .package(product: "Like", type: .runtime),
       .package(product: "Common", type: .runtime),

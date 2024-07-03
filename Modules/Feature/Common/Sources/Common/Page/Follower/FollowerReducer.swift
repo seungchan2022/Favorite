@@ -81,7 +81,7 @@ public struct FollowerReducer {
       case .routeToUser(let item):
         sideEffect.routeToUser(item)
         return .none
-        
+
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

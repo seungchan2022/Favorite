@@ -49,9 +49,9 @@ public struct UserDetailReducer {
 
     case routeToProfile(GithubEntity.Detail.User.Response)
     case routeToFollower(GithubEntity.Detail.User.Response)
-    
+
     case routeToBack
-    
+
     case throwError(CompositeErrorRepository)
 
   }
@@ -111,7 +111,7 @@ public struct UserDetailReducer {
       case .routeToFollower(let item):
         sideEffect.routeToFollower(item)
         return .none
-        
+
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

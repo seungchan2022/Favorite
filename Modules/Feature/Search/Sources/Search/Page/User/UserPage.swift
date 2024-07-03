@@ -33,7 +33,7 @@ extension UserPage {
   private var navigationTitle: String {
     "User"
   }
-  
+
   private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
     .init(activeMatchPath: Link.Search.Path.user.rawValue)
   }
@@ -46,29 +46,30 @@ extension UserPage: View {
     VStack {
       DesignSystemNavigation(
         barItem: .init(title: ""),
-        largeTitle: navigationTitle) {
-          SearchBar(viewState: .init(text: $store.query), throttleAction: { })
-          
-          if store.query.isEmpty {
-            Text(emptyQueryMessage)
-              .font(.title3)
-              .padding()
-          }
+        largeTitle: navigationTitle)
+      {
+        SearchBar(viewState: .init(text: $store.query), throttleAction: { })
 
-          LazyVGrid(columns: gridColumnList, spacing: .zero) {
-            ForEach(store.itemList, id: \.id) { item in
-              UserItemComponent(
-                viewState: .init(item: item),
-                action: { store.send(.routeToDetail($0)) })
-                .onAppear {
-                  guard let last = store.itemList.last, last.id == item.id else { return }
-                  guard !store.fetchSearchItem.isLoading else { return }
-                  store.send(.search(store.query))
-                }
-            }
+        if store.query.isEmpty {
+          Text(emptyQueryMessage)
+            .font(.title3)
+            .padding()
+        }
+
+        LazyVGrid(columns: gridColumnList, spacing: .zero) {
+          ForEach(store.itemList, id: \.id) { item in
+            UserItemComponent(
+              viewState: .init(item: item),
+              action: { store.send(.routeToDetail($0)) })
+              .onAppear {
+                guard let last = store.itemList.last, last.id == item.id else { return }
+                guard !store.fetchSearchItem.isLoading else { return }
+                store.send(.search(store.query))
+              }
           }
         }
-      
+      }
+
       TabNavigationComponent(
         viewState: tabNavigationComponentViewState,
         tapAction: { store.send(.routeToTabBarItem($0)) })

@@ -16,8 +16,7 @@ extension AppMain: View {
     LinkNavigationView(
       linkNavigator: viewModel.linkNavigator,
       item: .init(path: Link.Common.Path.userDetail.rawValue))
-    
-    
+
 //    TabLinkNavigationView(
 //      linkNavigator: viewModel.linkNavigator,
 //      isHiddenDefaultTabbar: false,

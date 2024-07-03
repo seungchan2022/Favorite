@@ -10,23 +10,23 @@ struct RepoDetailPage {
 }
 
 extension RepoDetailPage {
-  
+
   // MARK: Internal
-  
+
   var shareURL: URL? {
     guard let str = store.fetchDetailItem.value?.htmlURL else { return .none }
     return .init(string: str)
   }
-  
+
   var navigationtitle: String {
     store.fetchDetailItem.value?.fullName ?? ""
   }
-  
+
   // MARK: Private
-  
+
   private var isLoading: Bool {
     store.fetchIsLike.isLoading
-    || store.fetchDetailItem.isLoading
+      || store.fetchDetailItem.isLoading
   }
 }
 
@@ -52,7 +52,7 @@ extension RepoDetailPage: View {
             likeAction: { store.send(.updateIsLike($0)) })
         }
       }
-      
+
       if let shareURL {
         ToolbarItem(placement: .topBarTrailing) {
           ShareLink(item: shareURL) {
