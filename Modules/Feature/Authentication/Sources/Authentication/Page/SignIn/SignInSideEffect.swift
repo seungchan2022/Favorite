@@ -1,5 +1,8 @@
 import Architecture
+import Combine
+import CombineExt
 import ComposableArchitecture
+import Domain
 import Foundation
 
 // MARK: - SignInSideEffect
@@ -21,6 +24,18 @@ struct SignInSideEffect {
 }
 
 extension SignInSideEffect {
+  var signIn: (Auth.Email.Request) -> Effect<SignInReducer.Action> {
+    { req in
+      .publisher {
+        useCase.authUseCase.signInEmail(req)
+          .map { _ in true }
+          .receive(on: main)
+          .mapToResult()
+          .map(SignInReducer.Action.fetchSignIn)
+      }
+    }
+  }
+
   var routeToSignUp: () -> Void {
     {
       navigator.next(

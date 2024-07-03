@@ -54,7 +54,7 @@ struct MeReducer {
       case .routeToTabBarItem(let matchPath):
         sideEffect.routeToTabBarItem(matchPath)
         return .none
-        
+
       case .throwError(let error):
         sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
         return .none

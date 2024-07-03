@@ -1,7 +1,7 @@
 import Architecture
 import Foundation
-import Me
 import LinkNavigator
+import Me
 
 struct AppRouteBuilderGroup<RootNavigator: RootNavigatorType> {
 

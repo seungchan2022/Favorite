@@ -22,6 +22,10 @@ extension SignInPage {
   private var isActiveSignIn: Bool {
     !store.emailText.isEmpty && !store.passwordText.isEmpty
   }
+
+  private var isLoading: Bool {
+    store.fetchSignIn.isLoading
+  }
 }
 
 // MARK: View
@@ -77,7 +81,7 @@ extension SignInPage: View {
             }
           }
 
-          Button(action: { }) {
+          Button(action: { store.send(.onTapSignIn) }) {
             Text("로그인")
               .foregroundStyle(.white)
               .frame(height: 50)
@@ -112,8 +116,12 @@ extension SignInPage: View {
       }
     }
     .toolbar(.hidden, for: .navigationBar)
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       isFocus = .email
+    }
+    .onDisappear {
+      store.send(.teardown)
     }
   }
 }

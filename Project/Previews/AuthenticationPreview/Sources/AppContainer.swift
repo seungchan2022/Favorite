@@ -1,4 +1,5 @@
 import Architecture
+import Authentication
 import Foundation
 import LinkNavigator
 import Platform
@@ -23,7 +24,8 @@ final class AppContainer {
 extension AppContainer {
   class func build() -> AppContainer {
     let sideEffect = AppSideEffect(
-      toastViewModel: ToastViewModel())
+      toastViewModel: ToastViewModel(),
+      authUseCase: AuthUseCasePlatform())
 
     return .init(
       dependency: sideEffect,

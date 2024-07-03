@@ -1,8 +1,8 @@
 import Architecture
 import Domain
 import Foundation
-import Me
 import LinkNavigator
+import Me
 import Platform
 
 // MARK: - AppContainerMock

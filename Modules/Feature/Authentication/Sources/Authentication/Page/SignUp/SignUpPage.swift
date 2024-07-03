@@ -26,6 +26,10 @@ extension SignUpPage {
       && isValidConfirmPassword(text: store.confirmPasswordText)
   }
 
+  private var isLoading: Bool {
+    store.fetchSignUp.isLoading
+  }
+
   private func isValidConfirmPassword(text: String) -> Bool {
     store.passwordText == text
   }
@@ -154,7 +158,7 @@ extension SignUpPage: View {
             }
           }
 
-          Button(action: { }) {
+          Button(action: { store.send(.onTapSignUp) }) {
             Text("회원 가입")
               .foregroundStyle(.white)
               .frame(height: 50)
@@ -169,8 +173,12 @@ extension SignUpPage: View {
       }
     }
     .toolbar(.hidden, for: .navigationBar)
+    .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       isFocus = .email
+    }
+    .onDisappear {
+      store.send(.teardown)
     }
   }
 }
