@@ -43,4 +43,12 @@ extension SignInSideEffect {
         isAnimated: true)
     }
   }
+  
+  var routeToMe: () -> Void {
+    {
+      navigator.replace(
+        linkItem: .init(path: Link.Me.Path.me.rawValue),
+        isAnimated: false)
+    }
+  }
 }

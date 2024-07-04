@@ -72,7 +72,7 @@ struct SignInReducer {
         state.fetchSignIn.isLoading = false
         switch result {
         case .success:
-          sideEffect.useCase.toastViewModel.send(message: "로그인을 성공하였습니다.")
+          sideEffect.routeToMe()
           return .none
 
         case .failure(let error):
