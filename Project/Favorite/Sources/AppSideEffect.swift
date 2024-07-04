@@ -14,9 +14,11 @@ import Search
 struct AppSideEffect: DependencyType, SearchEnvironmentUsable, CommonEnvironmentUsable, LikeEnvironmentUsable,
   AuthenticationEnvironmentUsable, MeEnvironmentUsable
 {
+  
   let toastViewModel: ToastViewActionType
   let githubSearchUseCase: GithubSearchUseCase
   let githubDetailUseCase: GithubDetailUseCase
   let githubLikeUseCase: GithubLikeUseCase
   let githubUserUseCase: GithubUserUseCase
+  let authUseCase: AuthUseCase
 }

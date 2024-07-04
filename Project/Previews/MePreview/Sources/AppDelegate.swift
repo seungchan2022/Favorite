@@ -1,16 +1,19 @@
 import LinkNavigator
 import UIKit
+import Platform
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
 
   let container: AppContainer = .build()
+  let thirdPartyContainer: ThirdPartyContainer = .init()
 
   var dependency: AppSideEffect { container.dependency }
   var navigator: SingleLinkNavigator { container.navigator }
 
   func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-    true
+    thirdPartyContainer.connect()
+    return true
   }
 
   func application(
