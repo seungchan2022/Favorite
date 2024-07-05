@@ -12,5 +12,6 @@ extension Link.Authentication {
   public enum Path: String, Equatable {
     case signIn
     case signUp
+    case updateAuth
   }
 }

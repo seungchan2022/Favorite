@@ -4,13 +4,13 @@ import Domain
 import Foundation
 
 @Reducer
-struct MeReducer {
+struct UpdateAuthReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: MeSideEffect)
+    sideEffect: UpdateAuthSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -50,8 +50,8 @@ struct MeReducer {
     
     case fetchUpdateUserName(Result<Bool, CompositeErrorRepository>)
     
-    case routeToTabBarItem(String)
-
+    case routeToBack
+    
     case throwError(CompositeErrorRepository)
   }
 
@@ -88,7 +88,7 @@ struct MeReducer {
       case .onTapUpdateUserName:
         state.fetchUpdateUserName.isLoading = true
         return sideEffect
-          .updateUserName("")
+          .updateUserName("test")
           .cancellable(pageID: pageID, id: CancelID.requestUpdateUserName, cancelInFlight: true)
         
       case .fetchUserInfo(let result):
@@ -124,8 +124,8 @@ struct MeReducer {
           return .run { await $0(.throwError(error)) }
         }
         
-      case .routeToTabBarItem(let matchPath):
-        sideEffect.routeToTabBarItem(matchPath)
+      case .routeToBack:
+        sideEffect.routeToBack()
         return .none
 
       case .throwError(let error):
@@ -138,5 +138,5 @@ struct MeReducer {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: MeSideEffect
+  private let sideEffect: UpdateAuthSideEffect
 }

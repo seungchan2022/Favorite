@@ -50,6 +50,8 @@ struct MeReducer {
     
     case fetchUpdateUserName(Result<Bool, CompositeErrorRepository>)
     
+    case routeToUpdateAuth
+    
     case routeToTabBarItem(String)
 
     case throwError(CompositeErrorRepository)
@@ -88,7 +90,7 @@ struct MeReducer {
       case .onTapUpdateUserName:
         state.fetchUpdateUserName.isLoading = true
         return sideEffect
-          .updateUserName("test")
+          .updateUserName("")
           .cancellable(pageID: pageID, id: CancelID.requestUpdateUserName, cancelInFlight: true)
         
       case .fetchUserInfo(let result):
@@ -123,6 +125,10 @@ struct MeReducer {
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
+        
+      case .routeToUpdateAuth:
+        sideEffect.routeToUpdateAuth()
+        return .none
         
       case .routeToTabBarItem(let matchPath):
         sideEffect.routeToTabBarItem(matchPath)

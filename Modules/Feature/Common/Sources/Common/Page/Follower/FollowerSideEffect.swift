@@ -48,6 +48,14 @@ extension FollowerSideEffect {
       navigator.back(isAnimated: true)
     }
   }
+  
+  var routeToHome: () -> Void {
+    {
+      navigator.replace(
+        linkItem: .init(path: Link.Search.Path.user.rawValue),
+        isAnimated: false)
+    }
+  }
 }
 
 extension GithubEntity.User.Follower.Response {

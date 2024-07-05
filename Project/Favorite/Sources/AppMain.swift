@@ -22,7 +22,7 @@ extension AppMain: View {
       linkNavigator: viewModel.linkNavigator,
       item: .init(
         path: Auth.auth().currentUser != .none
-        ? Link.Me.Path.me.rawValue
+        ? Link.Search.Path.repo.rawValue
         : Link.Authentication.Path.signIn.rawValue))
       .ignoresSafeArea()
       .onAppear { }

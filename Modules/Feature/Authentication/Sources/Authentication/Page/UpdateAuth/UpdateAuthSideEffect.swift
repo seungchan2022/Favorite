@@ -1,12 +1,8 @@
 import Architecture
 import ComposableArchitecture
-import Combine
-import CombineExt
 import Foundation
 
-// MARK: - MeSideEffect
-
-struct MeSideEffect {
+struct UpdateAuthSideEffect {
   let useCase: AuthenticationEnvironmentUsable
   let main: AnySchedulerOf<DispatchQueue>
   let navigator: RootNavigatorType
@@ -22,32 +18,32 @@ struct MeSideEffect {
   }
 }
 
-extension MeSideEffect {
-  var userInfo: () -> Effect<MeReducer.Action> {
+extension UpdateAuthSideEffect {
+  var userInfo: () -> Effect<UpdateAuthReducer.Action> {
     {
       .publisher {
         useCase.authUseCase
           .me()
           .receive(on: main)
           .mapToResult()
-          .map(MeReducer.Action.fetchUserInfo)
+          .map(UpdateAuthReducer.Action.fetchUserInfo)
       }
     }
   }
   
-  var signOut: () -> Effect<MeReducer.Action> {
+  var signOut: () -> Effect<UpdateAuthReducer.Action> {
     {
       .publisher {
         useCase.authUseCase.signOut()
           .map { _ in true }
           .receive(on: main)
           .mapToResult()
-          .map(MeReducer.Action.fetchSignOut)
+          .map(UpdateAuthReducer.Action.fetchSignOut)
       }
     }
   }
   
-  var updateUserName: (String) -> Effect<MeReducer.Action> {
+  var updateUserName: (String) -> Effect<UpdateAuthReducer.Action> {
     { newName in
       .publisher {
         useCase.authUseCase
@@ -55,7 +51,7 @@ extension MeSideEffect {
           .map { _ in true }
           .receive(on: main)
           .mapToResult()
-          .map(MeReducer.Action.fetchUpdateUserName)
+          .map(UpdateAuthReducer.Action.fetchUpdateUserName)
       }
     }
   }
@@ -68,18 +64,9 @@ extension MeSideEffect {
     }
   }
   
-  var routeToUpdateAuth: () -> Void {
+  var routeToBack: () -> Void {
     {
-      navigator.next(
-        linkItem: .init(path: Link.Authentication.Path.updateAuth.rawValue),
-        isAnimated: true)
-    }
-  }
-  
-  var routeToTabBarItem: (String) -> Void {
-    { path in
-      guard path != Link.Me.Path.me.rawValue else { return }
-      navigator.replace(linkItem: .init(path: path), isAnimated: false)
+      navigator.back(isAnimated: true)
     }
   }
 }

@@ -19,6 +19,11 @@ extension MePage {
     || store.fetchSignOut.isLoading
     || store.fetchUpdateUserName.isLoading
   }
+  
+  private var userName: String {
+    guard let userName = store.item.userName else { return "" }
+    return userName.isEmpty ? "이름을 설정해주세요." : userName
+  }
 }
 
 // MARK: View
@@ -31,23 +36,80 @@ extension MePage: View {
         largeTitle: "Me")
       {
         VStack {
-          Text("프로필 정보 표현")
-          
-          Text("Uid: \(store.state.item.uid)")
-          Text("UserName: \(store.state.item.userName ?? "")")
-          Text("Email: \(store.state.item.email ?? "")")
-          Text("PhotoURL: \(store.state.item.photoURL ?? "")")
-          
-          Button(action: { store.send(.onTapSignOut) }) {
-            Text("로그아웃")
+          VStack(alignment: .leading) {
+            HStack(spacing: 12) {
+              RemoteImage(url: store.item.photoURL ?? "") {
+                Image(systemName: "person.circle")
+                  .resizable()
+                  .frame(width: 80, height: 80)
+                  .fontWeight(.ultraLight)
+              }
+              .scaledToFill()
+              .frame(width: 80, height: 80)
+              .clipShape(Circle())
+
+              VStack(alignment: .leading) {
+                Text("이메일: \(store.item.email ?? "")")
+
+                Text("이름: \(userName)")
+              }
+
+              Spacer()
+
+              Image(systemName: "chevron.right")
+                .resizable()
+                .foregroundStyle(.black)
+                .frame(width: 14, height: 20)
+            }
+            .padding(.horizontal, 16)
+
+            Divider()
           }
           
-          Button(action: { store.send(.onTapUpdateUserName) }) {
-            Text("변경")
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .onTapGesture {
           }
+
+          VStack(spacing: 32) {
+            Button(action: { store.send(.routeToUpdateAuth) }) {
+              VStack {
+                HStack {
+                  Image(systemName: "lock.square")
+                    .resizable()
+                    .foregroundStyle(.black)
+                    .frame(width: 20, height: 20)
+
+                  Text("로그인 / 보안")
+                    .font(.headline)
+                    .foregroundStyle(.black)
+
+                  Spacer()
+
+                  Image(systemName: "chevron.right")
+                    .resizable()
+                    .fontWeight(.light)
+                    .foregroundStyle(.black)
+                    .frame(width: 14, height: 20)
+                }
+                .padding(.horizontal, 16)
+                
+                Divider()
+                
+              }
+            }
+            
+          }
+          .padding(.top, 32)
         }
-        .padding(16)
+        .padding(.vertical, 16)
+
+        
+//        Button(action: { store.send(.onTapUpdateUserName)}) {
+//           Text("2yhh")
+//        }
+        
       }
+      
 
       TabNavigationComponent(
         viewState: tabNavigationComponentViewState,

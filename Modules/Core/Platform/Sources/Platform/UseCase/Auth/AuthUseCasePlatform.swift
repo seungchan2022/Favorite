@@ -76,7 +76,6 @@ extension AuthUseCasePlatform: AuthUseCase {
         let changeRequest = me.createProfileChangeRequest()
         
         changeRequest.displayName = name
-        changeRequest.photoURL = URL(string: name)
         changeRequest.commitChanges { error in
           guard let error else {
             return promise(.success(Void()))

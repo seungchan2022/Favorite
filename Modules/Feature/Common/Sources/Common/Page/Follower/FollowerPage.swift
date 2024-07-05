@@ -35,7 +35,9 @@ extension FollowerPage: View {
             image: Image(systemName: "chevron.left"),
             action: { store.send(.routeToBack) }),
           title: navigationTitle,
-          moreActionList: []),
+          moreActionList: [
+            .init(image: Image(systemName: "house"), action: { store.send(.routeToHome) })
+          ]),
         isShowDivider: true)
       {
         if store.itemList.isEmpty {
