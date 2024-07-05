@@ -43,7 +43,7 @@ extension SignInSideEffect {
         isAnimated: true)
     }
   }
-  
+
   var routeToMe: () -> Void {
     {
       navigator.replace(

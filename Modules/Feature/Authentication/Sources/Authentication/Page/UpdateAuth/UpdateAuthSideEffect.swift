@@ -2,6 +2,8 @@ import Architecture
 import ComposableArchitecture
 import Foundation
 
+// MARK: - UpdateAuthSideEffect
+
 struct UpdateAuthSideEffect {
   let useCase: AuthenticationEnvironmentUsable
   let main: AnySchedulerOf<DispatchQueue>
@@ -30,7 +32,7 @@ extension UpdateAuthSideEffect {
       }
     }
   }
-  
+
   var signOut: () -> Effect<UpdateAuthReducer.Action> {
     {
       .publisher {
@@ -42,7 +44,7 @@ extension UpdateAuthSideEffect {
       }
     }
   }
-  
+
   var updateUserName: (String) -> Effect<UpdateAuthReducer.Action> {
     { newName in
       .publisher {
@@ -55,7 +57,7 @@ extension UpdateAuthSideEffect {
       }
     }
   }
-  
+
   var routeToSignIn: () -> Void {
     {
       navigator.replace(
@@ -63,7 +65,7 @@ extension UpdateAuthSideEffect {
         isAnimated: false)
     }
   }
-  
+
   var routeToBack: () -> Void {
     {
       navigator.back(isAnimated: true)

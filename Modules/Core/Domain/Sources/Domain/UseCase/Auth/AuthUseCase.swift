@@ -6,7 +6,7 @@ public protocol AuthUseCase {
 
   var signOut: () -> AnyPublisher<Void, CompositeErrorRepository> { get }
   var me: () -> AnyPublisher<Auth.Me.Response?, CompositeErrorRepository> { get }
-  
+
   var updateUserName: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
 
 }

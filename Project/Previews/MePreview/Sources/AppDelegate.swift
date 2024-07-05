@@ -1,6 +1,6 @@
 import LinkNavigator
-import UIKit
 import Platform
+import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

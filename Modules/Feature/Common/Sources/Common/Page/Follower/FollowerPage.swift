@@ -36,7 +36,7 @@ extension FollowerPage: View {
             action: { store.send(.routeToBack) }),
           title: navigationTitle,
           moreActionList: [
-            .init(image: Image(systemName: "house"), action: { store.send(.routeToHome) })
+            .init(image: Image(systemName: "house"), action: { store.send(.routeToHome) }),
           ]),
         isShowDivider: true)
       {

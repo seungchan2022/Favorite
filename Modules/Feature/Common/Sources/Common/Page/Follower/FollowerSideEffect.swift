@@ -48,7 +48,7 @@ extension FollowerSideEffect {
       navigator.back(isAnimated: true)
     }
   }
-  
+
   var routeToHome: () -> Void {
     {
       navigator.replace(

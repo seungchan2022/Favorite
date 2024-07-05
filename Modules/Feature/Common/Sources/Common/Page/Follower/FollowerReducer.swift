@@ -46,7 +46,7 @@ public struct FollowerReducer {
 
     case routeToUser(GithubEntity.User.Follower.Response)
     case routeToBack
-    
+
     case routeToHome
 
     case throwError(CompositeErrorRepository)
@@ -87,7 +87,7 @@ public struct FollowerReducer {
       case .routeToBack:
         sideEffect.routeToBack()
         return .none
-        
+
       case .routeToHome:
         sideEffect.routeToHome()
         return .none

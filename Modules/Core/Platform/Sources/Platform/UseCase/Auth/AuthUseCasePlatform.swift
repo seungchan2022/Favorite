@@ -54,36 +54,34 @@ extension AuthUseCasePlatform: AuthUseCase {
   public var me: () -> AnyPublisher<Domain.Auth.Me.Response?, CompositeErrorRepository> {
     {
       Future<Domain.Auth.Me.Response?, CompositeErrorRepository> { promise in
-        
+
         guard let me = Auth.auth().currentUser else {
           return promise(.success(.none))
         }
-        
+
         return promise(.success(me.serialized()))
-        
       }
       .eraseToAnyPublisher()
     }
   }
-  
+
   public var updateUserName: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
     { name in
       Future<Void, CompositeErrorRepository> { promise in
         guard let me = Auth.auth().currentUser else {
           return promise(.success(Void()))
         }
-        
+
         let changeRequest = me.createProfileChangeRequest()
-        
+
         changeRequest.displayName = name
         changeRequest.commitChanges { error in
           guard let error else {
             return promise(.success(Void()))
           }
-          
+
           return promise(.failure(.other(error)))
         }
-        
       }
       .eraseToAnyPublisher()
     }

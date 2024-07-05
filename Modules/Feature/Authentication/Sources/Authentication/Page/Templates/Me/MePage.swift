@@ -13,13 +13,13 @@ extension MePage {
   private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
     .init(activeMatchPath: Link.Me.Path.me.rawValue)
   }
-  
+
   private var isLoading: Bool {
     store.fetchUserInfo.isLoading
-    || store.fetchSignOut.isLoading
-    || store.fetchUpdateUserName.isLoading
+      || store.fetchSignOut.isLoading
+      || store.fetchUpdateUserName.isLoading
   }
-  
+
   private var userName: String {
     guard let userName = store.item.userName else { return "" }
     return userName.isEmpty ? "이름을 설정해주세요." : userName
@@ -65,10 +65,9 @@ extension MePage: View {
 
             Divider()
           }
-          
+
           .frame(maxWidth: .infinity, alignment: .leading)
-          .onTapGesture {
-          }
+          .onTapGesture { }
 
           VStack(spacing: 32) {
             Button(action: { store.send(.routeToUpdateAuth) }) {
@@ -92,24 +91,19 @@ extension MePage: View {
                     .frame(width: 14, height: 20)
                 }
                 .padding(.horizontal, 16)
-                
+
                 Divider()
-                
               }
             }
-            
           }
           .padding(.top, 32)
         }
         .padding(.vertical, 16)
 
-        
 //        Button(action: { store.send(.onTapUpdateUserName)}) {
 //           Text("2yhh")
 //        }
-        
       }
-      
 
       TabNavigationComponent(
         viewState: tabNavigationComponentViewState,

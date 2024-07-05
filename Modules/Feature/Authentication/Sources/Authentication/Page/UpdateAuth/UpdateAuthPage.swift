@@ -14,7 +14,7 @@ extension UpdateAuthPage {
     store.fetchUserInfo.isLoading
       || store.fetchUpdateUserName.isLoading
   }
-  
+
   private var userName: String {
     guard let userName = store.item.userName else { return "" }
     return userName.isEmpty ? "이름을 설정해주세요." : userName
@@ -73,7 +73,7 @@ extension UpdateAuthPage: View {
 
             Spacer()
 
-            Button(action: {  }) {
+            Button(action: { }) {
               Text("변경")
             }
           }
@@ -84,7 +84,7 @@ extension UpdateAuthPage: View {
       }
     }
     .overlay(alignment: .bottom) {
-      Button(action: {  }) {
+      Button(action: { }) {
         Text("계정 탈퇴")
       }
       .padding(.bottom, 64)

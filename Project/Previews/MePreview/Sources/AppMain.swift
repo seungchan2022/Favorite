@@ -1,7 +1,7 @@
 import Architecture
+import FirebaseAuth
 import LinkNavigator
 import SwiftUI
-import FirebaseAuth
 
 // MARK: - AppMain
 
@@ -21,8 +21,8 @@ extension AppMain: View {
       linkNavigator: viewModel.linkNavigator,
       item: .init(
         path: Auth.auth().currentUser != .none
-        ? Link.Me.Path.me.rawValue
-        : Link.Authentication.Path.signIn.rawValue))
+          ? Link.Me.Path.me.rawValue
+          : Link.Authentication.Path.signIn.rawValue))
       .ignoresSafeArea()
       .onAppear { }
   }

@@ -1,7 +1,7 @@
 import Architecture
-import ComposableArchitecture
 import Combine
 import CombineExt
+import ComposableArchitecture
 import Foundation
 
 // MARK: - MeSideEffect
@@ -34,7 +34,7 @@ extension MeSideEffect {
       }
     }
   }
-  
+
   var signOut: () -> Effect<MeReducer.Action> {
     {
       .publisher {
@@ -46,7 +46,7 @@ extension MeSideEffect {
       }
     }
   }
-  
+
   var updateUserName: (String) -> Effect<MeReducer.Action> {
     { newName in
       .publisher {
@@ -59,7 +59,7 @@ extension MeSideEffect {
       }
     }
   }
-  
+
   var routeToSignIn: () -> Void {
     {
       navigator.replace(
@@ -67,7 +67,7 @@ extension MeSideEffect {
         isAnimated: false)
     }
   }
-  
+
   var routeToTabBarItem: (String) -> Void {
     { path in
       guard path != Link.Me.Path.me.rawValue else { return }

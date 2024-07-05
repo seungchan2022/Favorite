@@ -13,11 +13,11 @@ extension MePage {
   private var tabNavigationComponentViewState: TabNavigationComponent.ViewState {
     .init(activeMatchPath: Link.Me.Path.me.rawValue)
   }
-  
+
   private var isLoading: Bool {
     store.fetchUserInfo.isLoading
-    || store.fetchSignOut.isLoading
-    || store.fetchUpdateUserName.isLoading
+      || store.fetchSignOut.isLoading
+      || store.fetchUpdateUserName.isLoading
   }
 
   private var userName: String {
@@ -65,13 +65,12 @@ extension MePage: View {
 
             Divider()
           }
-          
+
           .frame(maxWidth: .infinity, alignment: .leading)
-          .onTapGesture {
-          }
+          .onTapGesture { }
 
           VStack(spacing: 32) {
-            Button(action: {  }) {
+            Button(action: { }) {
               VStack {
                 HStack {
                   Image(systemName: "lock.square")
@@ -98,11 +97,11 @@ extension MePage: View {
           }
           .padding(.top, 32)
         }
-        
-        Button(action: { store.send(.onTapUpdateUserName)}) {
-           Text("2yhh")
+
+        Button(action: { store.send(.onTapUpdateUserName) }) {
+          Text("2yhh")
         }
-        
+
         .padding(16)
       }
 

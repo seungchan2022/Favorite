@@ -17,13 +17,13 @@ extension AppMain: View {
 //    LinkNavigationView(
 //      linkNavigator: viewModel.linkNavigator,
 //      item: .init(path: Link.Authentication.Path.signIn.rawValue))
-    
+
     LinkNavigationView(
       linkNavigator: viewModel.linkNavigator,
       item: .init(
         path: Auth.auth().currentUser != .none
-        ? Link.Me.Path.me.rawValue
-        : Link.Authentication.Path.signIn.rawValue))
+          ? Link.Me.Path.me.rawValue
+          : Link.Authentication.Path.signIn.rawValue))
       .ignoresSafeArea()
       .onAppear { }
   }
