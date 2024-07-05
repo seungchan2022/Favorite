@@ -66,7 +66,7 @@ extension AuthUseCasePlatform: AuthUseCase {
   }
 
   public var updateUserName: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
-    { name in
+    { newName in
       Future<Void, CompositeErrorRepository> { promise in
         guard let me = Auth.auth().currentUser else {
           return promise(.success(Void()))
@@ -74,11 +74,26 @@ extension AuthUseCasePlatform: AuthUseCase {
 
         let changeRequest = me.createProfileChangeRequest()
 
-        changeRequest.displayName = name
+        changeRequest.displayName = newName
         changeRequest.commitChanges { error in
           guard let error else {
             return promise(.success(Void()))
           }
+
+          return promise(.failure(.other(error)))
+        }
+      }
+      .eraseToAnyPublisher()
+    }
+  }
+  
+  public var updatePassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
+    { newPassword in
+      Future<Void, CompositeErrorRepository> { promise in
+    
+        
+        Auth.auth().currentUser?.updatePassword(to: newPassword) { error in
+          guard let error else { return promise(.success(Void())) }
 
           return promise(.failure(.other(error)))
         }

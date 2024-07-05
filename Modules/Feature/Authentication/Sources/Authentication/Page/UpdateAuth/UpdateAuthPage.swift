@@ -33,7 +33,9 @@ extension UpdateAuthPage: View {
             image: Image(systemName: "chevron.left"),
             action: { store.send(.routeToBack) }),
           title: "로그인/보안",
-          moreActionList: []),
+          moreActionList: [
+            .init(title: "로그아웃", action: { store.isShowSignOutAlert = true })
+          ]),
         isShowDivider: true)
       {
         VStack(spacing: 16) {
@@ -74,7 +76,7 @@ extension UpdateAuthPage: View {
             
             Spacer()
             
-            Button(action: { }) {
+            Button(action: { store.send(.routeToUpdatePassword) }) {
               Text("변경")
             }
           }
@@ -108,6 +110,19 @@ extension UpdateAuthPage: View {
       } message: {
         Text("변경하고 싶은 이름을 작성하시고, 확인 버튼을 눌러주세요.")
       }
+      .alert(
+        "로그아웃을 하시겠습니까?",
+        isPresented: $store.isShowSignOutAlert) {
+          Button(action: { store.send(.onTapSignOut) }) {
+            Text("확인")
+          }
+          
+          Button(role: .cancel, action: { store.isShowSignOutAlert = false }) {
+            Text("취소")
+          }
+        } message: {
+          Text("로그아웃을 하려면 확인 버튼을 눌러주세요.")
+        }
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {

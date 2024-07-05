@@ -23,6 +23,8 @@ struct UpdateAuthReducer {
     let id: UUID
 
     var isShowUpdateUserNameAlert = false
+    var isShowSignOutAlert = false
+    
     var updateUserName = ""
     
     var item: Auth.Me.Response = .init(uid: "", userName: "", email: "", photoURL: "")
@@ -52,6 +54,7 @@ struct UpdateAuthReducer {
 
     case fetchUpdateUserName(Result<Bool, CompositeErrorRepository>)
 
+    case routeToUpdatePassword
     case routeToBack
 
     case throwError(CompositeErrorRepository)
@@ -94,7 +97,6 @@ struct UpdateAuthReducer {
           .cancellable(pageID: pageID, id: CancelID.requestUpdateUserName, cancelInFlight: true)
 
       case .fetchUserInfo(let result):
-        print(result)
         state.fetchUserInfo.isLoading = false
         switch result {
         case .success(let item):
@@ -127,6 +129,10 @@ struct UpdateAuthReducer {
           return .run { await $0(.throwError(error)) }
         }
 
+      case .routeToUpdatePassword:
+        sideEffect.routeToUpdatePassword()
+        return .none
+        
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

@@ -8,5 +8,5 @@ public protocol AuthUseCase {
   var me: () -> AnyPublisher<Auth.Me.Response?, CompositeErrorRepository> { get }
 
   var updateUserName: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
-
+  var updatePassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
 }
