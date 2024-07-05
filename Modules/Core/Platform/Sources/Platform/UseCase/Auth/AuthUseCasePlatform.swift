@@ -100,6 +100,22 @@ extension AuthUseCasePlatform: AuthUseCase {
       .eraseToAnyPublisher()
     }
   }
+  
+  public var resetPassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
+    { email in
+      Future<Void, CompositeErrorRepository> { promise in
+        Auth.auth().languageCode = "ko"
+        
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+          guard let error else { return promise(.success(Void())) }
+          
+          return promise(.failure(.other(error)))
+        }
+
+      }
+      .eraseToAnyPublisher()
+    }
+  }
 }
 
 extension User {

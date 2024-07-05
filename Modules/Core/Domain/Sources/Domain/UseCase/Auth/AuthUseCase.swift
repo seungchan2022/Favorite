@@ -9,4 +9,6 @@ public protocol AuthUseCase {
 
   var updateUserName: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
   var updatePassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
+  
+  var resetPassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> { get }
 }

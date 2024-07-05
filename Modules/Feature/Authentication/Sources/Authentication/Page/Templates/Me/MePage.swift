@@ -99,10 +99,6 @@ extension MePage: View {
           .padding(.top, 32)
         }
         .padding(.vertical, 16)
-
-//        Button(action: { store.send(.onTapUpdateUserName)}) {
-//           Text("2yhh")
-//        }
       }
 
       TabNavigationComponent(

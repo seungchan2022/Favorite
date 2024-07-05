@@ -25,6 +25,7 @@ extension SignInPage {
 
   private var isLoading: Bool {
     store.fetchSignIn.isLoading
+    || store.fetchResetPassword.isLoading
   }
 }
 
@@ -94,8 +95,8 @@ extension SignInPage: View {
 
           HStack {
             Spacer()
-            Button(action: { }) {
-              Text("비밀번호 찾기")
+            Button(action: { store.isShowResetPassword = true }) {
+              Text("비밀번호 재설정")
             }
 
             Spacer()
@@ -115,6 +116,25 @@ extension SignInPage: View {
         .padding(16)
       }
     }
+    .alert(
+      "비밀번호 재설정",
+      isPresented: $store.isShowResetPassword,
+      actions: {
+        TextField("이메일", text: $store.resetEmailText)
+          .autocorrectionDisabled(true)
+          .textInputAutocapitalization(.never)
+
+        Button(role: .cancel, action: { store.isShowResetPassword = false }) {
+          Text("취소")
+        }
+
+        Button(action: { store.send(.onTapResetPassword) }) {
+          Text("확인")
+        }
+      },
+      message: {
+        Text("계정고 연결된 이메일 주소를 입력하면, 비밀번호 재설정 링크가 이메일로 전송됩니다.")
+      })
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {
