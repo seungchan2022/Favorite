@@ -6,97 +6,101 @@ import SwiftUI
 // MARK: - Focus
 
 private enum Focus {
-  case email
-  case password
+  case currPassword
+  case newPassword
   case confirmPassword
 }
 
-// MARK: - SignUpPage
+// MARK: - UpdatePasswordPage
 
-struct SignUpPage {
-  @Bindable var store: StoreOf<SignUpReducer>
-
+struct UpdatePasswordPage {
+  @Bindable var store: StoreOf<UpdatePasswordReducer>
   @FocusState private var isFocus: Focus?
 
 }
 
-extension SignUpPage {
-  private var isActiveSignUp: Bool {
-    Validator.validateEmail(email: store.emailText)
-      && Validator.validatePassword(password: store.passwordText)
+extension UpdatePasswordPage {
+
+  private var isActiveUpdatePassword: Bool {
+    Validator.validatePassword(password: store.newPasswordText)
       && isValidConfirmPassword(text: store.confirmPasswordText)
   }
 
   private var isLoading: Bool {
-    store.fetchSignUp.isLoading
+    store.fetchUpdatePassword.isLoading
   }
 
   private func isValidConfirmPassword(text: String) -> Bool {
-    store.passwordText == text
+    store.newPasswordText == text
   }
 }
 
 // MARK: View
 
-extension SignUpPage: View {
+extension UpdatePasswordPage: View {
   var body: some View {
     VStack {
       DesignSystemNavigation(
         barItem: .init(
-          backAction: .init(image: Image(systemName: "chevron.left"), action: { store.send(.routeToSignIn) }),
-          title: "회원가입"),
+          backAction: .init(
+            image: Image(systemName: "xmark"),
+            action: { store.send(.routeToClose) }),
+          title: "비밀번호 변경",
+          moreActionList: []),
         isShowDivider: true)
       {
         VStack(spacing: 32) {
           VStack(alignment: .leading, spacing: 16) {
-            Text("이메일 주소")
-
-            TextField(
-              "이메일",
-              text: $store.emailText)
-              .textInputAutocapitalization(.never)
-              .autocorrectionDisabled(true)
-              .onChange(of: store.emailText) { _, new in
-                store.isValidEmail = Validator.validateEmail(email: new)
-              }
-
-            Divider()
-              .overlay(!store.isValidEmail ? .red : isFocus == .email ? .blue : .clear)
-
-            if !store.isValidEmail {
-              HStack {
-                Text("유효한 이메일 주소가 아닙니다.")
-                  .font(.footnote)
-                  .foregroundStyle(.red)
-
-                Spacer()
-              }
-            }
-          }
-          .focused($isFocus, equals: .email)
-
-          VStack(alignment: .leading, spacing: 16) {
-            Text("비밀번호")
+            Text("현재 비밀번호")
 
             Group {
-              if store.isShowPassword {
+              if store.isShowCurrPassword {
                 TextField(
-                  "비밀번호",
-                  text: $store.passwordText)
+                  "현재 비밀번호",
+                  text: $store.currPasswordText)
               } else {
                 SecureField(
-                  "비밀번호",
-                  text: $store.passwordText)
+                  "현재 비밀번호",
+                  text: $store.currPasswordText)
               }
             }
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            .onChange(of: store.passwordText) { _, new in
+
+            Divider()
+              .overlay(isFocus == .currPassword ? .blue : .clear)
+          }
+          .focused($isFocus, equals: .currPassword)
+          .overlay(alignment: .trailing) {
+            Button(action: { store.isShowCurrPassword.toggle() }) {
+              Image(systemName: store.isShowCurrPassword ? "eye" : "eye.slash")
+                .foregroundStyle(.black)
+                .padding(.trailing, 12)
+            }
+          }
+
+          VStack(alignment: .leading, spacing: 16) {
+            Text("변경할 비밀번호")
+
+            Group {
+              if store.isShowNewPassword {
+                TextField(
+                  "변경할 비밀번호",
+                  text: $store.newPasswordText)
+              } else {
+                SecureField(
+                  "변경할 비밀번호",
+                  text: $store.newPasswordText)
+              }
+            }
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+            .onChange(of: store.newPasswordText) { _, new in
               store.isValidPassword = Validator.validatePassword(password: new)
             }
 
             Divider()
-              .overlay(!store.isValidPassword ? .red : isFocus == .password ? .blue : .clear)
+              .overlay(!store.isValidPassword ? .red : isFocus == .newPassword ? .blue : .clear)
 
             if !store.isValidPassword {
               HStack {
@@ -108,10 +112,10 @@ extension SignUpPage: View {
               }
             }
           }
-          .focused($isFocus, equals: .password)
+          .focused($isFocus, equals: .newPassword)
           .overlay(alignment: .trailing) {
-            Button(action: { store.isShowPassword.toggle() }) {
-              Image(systemName: store.isShowPassword ? "eye" : "eye.slash")
+            Button(action: { store.isShowNewPassword.toggle() }) {
+              Image(systemName: store.isShowNewPassword ? "eye" : "eye.slash")
                 .foregroundStyle(.black)
                 .padding(.trailing, 12)
             }
@@ -159,29 +163,28 @@ extension SignUpPage: View {
             }
           }
 
-          Button(action: { store.send(.onTapSignUp) }) {
-            Text("회원 가입")
+          Button(action: { store.send(.onTapUpdatePassword) }) {
+            Text("비밀번호 변경")
               .foregroundStyle(.white)
               .frame(height: 50)
               .frame(maxWidth: .infinity)
               .background(.blue)
               .clipShape(RoundedRectangle(cornerRadius: 8))
-              .opacity(isActiveSignUp ? 1.0 : 0.3)
+              .opacity(isActiveUpdatePassword ? 1.0 : 0.3)
           }
-          .disabled(!isActiveSignUp)
+          .disabled(!isActiveUpdatePassword)
         }
         .padding(16)
       }
     }
+
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {
-      isFocus = .email
+      isFocus = .currPassword
     }
     .onDisappear {
       store.send(.teardown)
     }
   }
 }
-
-// MARK: - Validator

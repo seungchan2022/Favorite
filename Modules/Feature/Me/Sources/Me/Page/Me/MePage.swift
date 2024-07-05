@@ -17,11 +17,10 @@ extension MePage {
   private var isLoading: Bool {
     store.fetchUserInfo.isLoading
       || store.fetchSignOut.isLoading
-      || store.fetchUpdateUserName.isLoading
   }
 
   private var userName: String {
-    guard let userName = store.item.userName else { return "" }
+    guard let userName = store.item.userName else { return "이름을 설정해주세요." }
     return userName.isEmpty ? "이름을 설정해주세요." : userName
   }
 }
@@ -70,7 +69,7 @@ extension MePage: View {
           .onTapGesture { }
 
           VStack(spacing: 32) {
-            Button(action: { }) {
+            Button(action: { store.send(.routeToUpdateAuth) }) {
               VStack {
                 HStack {
                   Image(systemName: "lock.square")
@@ -90,19 +89,15 @@ extension MePage: View {
                     .foregroundStyle(.black)
                     .frame(width: 14, height: 20)
                 }
+                .padding(.horizontal, 16)
+
                 Divider()
               }
             }
-            .padding(.horizontal, 16)
           }
           .padding(.top, 32)
         }
-
-        Button(action: { store.send(.onTapUpdateUserName) }) {
-          Text("2yhh")
-        }
-
-        .padding(16)
+        .padding(.vertical, 16)
       }
 
       TabNavigationComponent(

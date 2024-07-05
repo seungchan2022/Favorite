@@ -36,6 +36,19 @@ extension SignInSideEffect {
     }
   }
 
+  var resetPassword: (String) -> Effect<SignInReducer.Action> {
+    { email in
+      .publisher {
+        useCase.authUseCase
+          .resetPassword(email)
+          .map { _ in true }
+          .receive(on: main)
+          .mapToResult()
+          .map(SignInReducer.Action.fetchResetPassword)
+      }
+    }
+  }
+
   var routeToSignUp: () -> Void {
     {
       navigator.next(

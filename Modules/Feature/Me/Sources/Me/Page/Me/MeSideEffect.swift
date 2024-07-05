@@ -47,24 +47,19 @@ extension MeSideEffect {
     }
   }
 
-  var updateUserName: (String) -> Effect<MeReducer.Action> {
-    { newName in
-      .publisher {
-        useCase.authUseCase
-          .updateUserName(newName)
-          .map { _ in true }
-          .receive(on: main)
-          .mapToResult()
-          .map(MeReducer.Action.fetchUpdateUserName)
-      }
-    }
-  }
-
   var routeToSignIn: () -> Void {
     {
       navigator.replace(
         linkItem: .init(path: Link.Authentication.Path.signIn.rawValue),
         isAnimated: false)
+    }
+  }
+
+  var routeToUpdateAuth: () -> Void {
+    {
+      navigator.next(
+        linkItem: .init(path: Link.Authentication.Path.updateAuth.rawValue),
+        isAnimated: true)
     }
   }
 
