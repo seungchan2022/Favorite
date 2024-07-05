@@ -20,12 +20,24 @@ struct UpdateAuthReducer {
 
   @ObservableState
   struct State: Equatable, Identifiable {
+
+    // MARK: Lifecycle
+
+    init(id: UUID = UUID()) {
+      self.id = id
+    }
+
+    // MARK: Internal
+
     let id: UUID
 
     var isShowUpdateUserNameAlert = false
     var isShowSignOutAlert = false
+    var isShowDeleteUserAlert = false
 
     var updateUserName = ""
+
+    var passwordText = ""
 
     var item: Auth.Me.Response = .init(uid: "", userName: "", email: "", photoURL: "")
 
@@ -33,10 +45,8 @@ struct UpdateAuthReducer {
     var fetchSignOut: FetchState.Data<Bool> = .init(isLoading: false, value: false)
 
     var fetchUpdateUserName: FetchState.Data<Bool> = .init(isLoading: false, value: false)
+    var fetchDeleteUser: FetchState.Data<Bool> = .init(isLoading: false, value: false)
 
-    init(id: UUID = UUID()) {
-      self.id = id
-    }
   }
 
   enum Action: BindableAction, Equatable {
@@ -48,11 +58,13 @@ struct UpdateAuthReducer {
     case onTapSignOut
 
     case onTapUpdateUserName
+    case onTapDeleteUser
 
     case fetchUserInfo(Result<Auth.Me.Response?, CompositeErrorRepository>)
     case fetchSignOut(Result<Bool, CompositeErrorRepository>)
 
     case fetchUpdateUserName(Result<Bool, CompositeErrorRepository>)
+    case fetchDeleteUser(Result<Bool, CompositeErrorRepository>)
 
     case routeToUpdatePassword
     case routeToBack
@@ -65,6 +77,7 @@ struct UpdateAuthReducer {
     case requestUserInfo
     case requestSignOut
     case requestUpdateUserName
+    case requestDeleteUser
   }
 
   var body: some Reducer<State, Action> {
@@ -96,6 +109,12 @@ struct UpdateAuthReducer {
           .updateUserName(state.updateUserName)
           .cancellable(pageID: pageID, id: CancelID.requestUpdateUserName, cancelInFlight: true)
 
+      case .onTapDeleteUser:
+        state.fetchDeleteUser.isLoading = true
+        return sideEffect
+          .deleteUser(state.passwordText)
+          .cancellable(pageID: pageID, id: CancelID.requestDeleteUser, cancelInFlight: true)
+
       case .fetchUserInfo(let result):
         state.fetchUserInfo.isLoading = false
         switch result {
@@ -124,6 +143,18 @@ struct UpdateAuthReducer {
         case .success:
 //          return .send(.getUserInfo)
           return .run { await $0(.getUserInfo) }
+
+        case .failure(let error):
+          return .run { await $0(.throwError(error)) }
+        }
+
+      case .fetchDeleteUser(let result):
+        state.fetchDeleteUser.isLoading = false
+        switch result {
+        case .success:
+          sideEffect.useCase.toastViewModel.send(message: "계정이 탈퇴되었습니다.")
+          sideEffect.routeToSignIn()
+          return .none
 
         case .failure(let error):
           return .run { await $0(.throwError(error)) }

@@ -1,5 +1,6 @@
 import Combine
 import Domain
+import Firebase
 import FirebaseAuth
 
 // MARK: - AuthUseCasePlatform
@@ -87,11 +88,35 @@ extension AuthUseCasePlatform: AuthUseCase {
     }
   }
 
-  public var updatePassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
-    { newPassword in
+  public var updatePassword: (String, String) -> AnyPublisher<Void, CompositeErrorRepository> {
+    { currPassword, newPassword in
       Future<Void, CompositeErrorRepository> { promise in
 
-        Auth.auth().currentUser?.updatePassword(to: newPassword) { error in
+        guard let me = Auth.auth().currentUser else { return promise(.success(Void())) }
+
+        let credential = EmailAuthProvider.credential(withEmail: me.email ?? "", password: currPassword)
+
+        me.reauthenticate(with: credential) { _, error in
+          if error != nil {
+            return promise(.failure(.currPasswordError))
+          } else {
+            me.updatePassword(to: newPassword) { error in
+              guard let error else { return promise(.success(Void())) }
+              return promise(.failure(.other(error)))
+            }
+          }
+        }
+      }
+      .eraseToAnyPublisher()
+    }
+  }
+
+  public var resetPassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
+    { email in
+      Future<Void, CompositeErrorRepository> { promise in
+        Auth.auth().languageCode = "ko"
+
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
           guard let error else { return promise(.success(Void())) }
 
           return promise(.failure(.other(error)))
@@ -100,18 +125,25 @@ extension AuthUseCasePlatform: AuthUseCase {
       .eraseToAnyPublisher()
     }
   }
-  
-  public var resetPassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
-    { email in
-      Future<Void, CompositeErrorRepository> { promise in
-        Auth.auth().languageCode = "ko"
-        
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-          guard let error else { return promise(.success(Void())) }
-          
-          return promise(.failure(.other(error)))
-        }
 
+  public var deleteUser: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
+    { password in
+      Future<Void, CompositeErrorRepository> { promise in
+        guard let me = Auth.auth().currentUser else { return promise(.success(Void())) }
+
+        let credential = EmailAuthProvider.credential(withEmail: me.email ?? "", password: password)
+
+        me.reauthenticate(with: credential) { _, error in
+          if error != nil {
+            return promise(.failure(.currPasswordError))
+          } else {
+            me.delete { error in
+              guard let error else { return promise(.success(Void())) }
+
+              return promise(.failure(.other(error)))
+            }
+          }
+        }
       }
       .eraseToAnyPublisher()
     }

@@ -22,13 +22,15 @@ struct UpdatePasswordReducer {
   struct State: Equatable, Identifiable {
     let id: UUID
 
-    var passwordText = ""
+    var currPasswordText = ""
+    var newPasswordText = ""
     var confirmPasswordText = ""
 
     var isValidPassword = true
     var isValidConfirmPassword = true
 
-    var isShowPassword = false
+    var isShowCurrPassword = false
+    var isShowNewPassword = false
     var isShowConfirmPassword = false
 
     var fetchUpdatePassword: FetchState.Data<Bool> = .init(isLoading: false, value: false)
@@ -68,9 +70,15 @@ struct UpdatePasswordReducer {
           CancelID.allCases.map { .cancel(pageID: pageID, id: $0) })
 
       case .onTapUpdatePassword:
+        if state.currPasswordText == state.newPasswordText {
+          sideEffect.useCase.toastViewModel.send(errorMessage: "현재 비밀번호와 다르게 설정해주세요")
+          state.fetchUpdatePassword.isLoading = false
+          return .none
+        }
+
         state.fetchUpdatePassword.isLoading = true
         return sideEffect
-          .updatePassword(state.passwordText)
+          .updatePassword(state.currPasswordText, state.newPasswordText)
           .cancellable(pageID: pageID, id: CancelID.requestUpdatePassword, cancelInFlight: true)
 
       case .fetchUpdatePassword(let result):

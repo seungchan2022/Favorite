@@ -17,11 +17,10 @@ extension MePage {
   private var isLoading: Bool {
     store.fetchUserInfo.isLoading
       || store.fetchSignOut.isLoading
-      || store.fetchUpdateUserName.isLoading
   }
 
   private var userName: String {
-    guard let userName = store.item.userName else { return "" }
+    guard let userName = store.item.userName else { return "이름을 설정해주세요." }
     return userName.isEmpty ? "이름을 설정해주세요." : userName
   }
 }

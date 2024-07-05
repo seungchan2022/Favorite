@@ -25,7 +25,7 @@ extension SignInPage {
 
   private var isLoading: Bool {
     store.fetchSignIn.isLoading
-    || store.fetchResetPassword.isLoading
+      || store.fetchResetPassword.isLoading
   }
 }
 
@@ -95,7 +95,10 @@ extension SignInPage: View {
 
           HStack {
             Spacer()
-            Button(action: { store.isShowResetPassword = true }) {
+            Button(action: {
+              store.resetEmailText = ""
+              store.isShowResetPassword = true
+            }) {
               Text("비밀번호 재설정")
             }
 

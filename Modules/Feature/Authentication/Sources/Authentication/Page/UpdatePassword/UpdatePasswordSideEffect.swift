@@ -22,11 +22,11 @@ struct UpdatePasswordSideEffect {
 
 extension UpdatePasswordSideEffect {
 
-  var updatePassword: (String) -> Effect<UpdatePasswordReducer.Action> {
-    { newPassword in
+  var updatePassword: (String, String) -> Effect<UpdatePasswordReducer.Action> {
+    { currPassword, newPassword in
       .publisher {
         useCase.authUseCase
-          .updatePassword(newPassword)
+          .updatePassword(currPassword, newPassword)
           .map { _ in true }
           .receive(on: main)
           .mapToResult()

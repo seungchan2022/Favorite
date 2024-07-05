@@ -58,6 +58,19 @@ extension UpdateAuthSideEffect {
     }
   }
 
+  var deleteUser: (String) -> Effect<UpdateAuthReducer.Action> {
+    { password in
+      .publisher {
+        useCase.authUseCase
+          .deleteUser(password)
+          .map { _ in true }
+          .receive(on: main)
+          .mapToResult()
+          .map(UpdateAuthReducer.Action.fetchDeleteUser)
+      }
+    }
+  }
+
   var routeToSignIn: () -> Void {
     {
       navigator.replace(

@@ -17,7 +17,7 @@ extension UpdateAuthPage {
   }
 
   private var userName: String {
-    guard let userName = store.item.userName else { return "" }
+    guard let userName = store.item.userName else { return "이름을 설정해주세요." }
     return userName.isEmpty ? "이름을 설정해주세요." : userName
   }
 }
@@ -60,7 +60,10 @@ extension UpdateAuthPage: View {
 
             Spacer()
 
-            Button(action: { store.isShowUpdateUserNameAlert = true }) {
+            Button(action: {
+              store.updateUserName = ""
+              store.isShowUpdateUserNameAlert = true
+            }) {
               Text("변경")
             }
           }
@@ -87,7 +90,10 @@ extension UpdateAuthPage: View {
       }
     }
     .overlay(alignment: .bottom) {
-      Button(action: { }) {
+      Button(action: {
+        store.passwordText = ""
+        store.isShowDeleteUserAlert = true
+      }) {
         Text("계정 탈퇴")
       }
       .padding(.bottom, 64)
@@ -124,6 +130,24 @@ extension UpdateAuthPage: View {
       }
     } message: {
       Text("로그아웃을 하려면 확인 버튼을 눌러주세요.")
+    }
+    .alert(
+      "계정을 탈퇴하시겟습니까?",
+      isPresented: $store.isShowDeleteUserAlert)
+    {
+      TextField("비밀번호", text: $store.passwordText)
+        .autocorrectionDisabled(true)
+        .textInputAutocapitalization(.never)
+
+      Button(action: { store.send(.onTapDeleteUser) }) {
+        Text("확인")
+      }
+
+      Button(role: .cancel, action: { store.isShowDeleteUserAlert = false }) {
+        Text("취소")
+      }
+    } message: {
+      Text("계정을 탈퇴 하려면 확인 버튼을 눌러주세요.")
     }
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)

@@ -6,7 +6,8 @@ import SwiftUI
 // MARK: - Focus
 
 private enum Focus {
-  case password
+  case currPassword
+  case newPassword
   case confirmPassword
 }
 
@@ -21,7 +22,7 @@ struct UpdatePasswordPage {
 extension UpdatePasswordPage {
 
   private var isActiveUpdatePassword: Bool {
-    Validator.validatePassword(password: store.passwordText)
+    Validator.validatePassword(password: store.newPasswordText)
       && isValidConfirmPassword(text: store.confirmPasswordText)
   }
 
@@ -30,7 +31,7 @@ extension UpdatePasswordPage {
   }
 
   private func isValidConfirmPassword(text: String) -> Bool {
-    store.passwordText == text
+    store.newPasswordText == text
   }
 }
 
@@ -50,27 +51,56 @@ extension UpdatePasswordPage: View {
       {
         VStack(spacing: 32) {
           VStack(alignment: .leading, spacing: 16) {
-            Text("변경할 비밀번호")
+            Text("현재 비밀번호")
 
             Group {
-              if store.isShowPassword {
+              if store.isShowCurrPassword {
                 TextField(
-                  "변경할 비밀번호",
-                  text: $store.passwordText)
+                  "현재 비밀번호",
+                  text: $store.currPasswordText)
               } else {
                 SecureField(
-                  "변경할 비밀번호",
-                  text: $store.passwordText)
+                  "현재 비밀번호",
+                  text: $store.currPasswordText)
               }
             }
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            .onChange(of: store.passwordText) { _, new in
+
+            Divider()
+              .overlay(isFocus == .currPassword ? .blue : .clear)
+          }
+          .focused($isFocus, equals: .currPassword)
+          .overlay(alignment: .trailing) {
+            Button(action: { store.isShowCurrPassword.toggle() }) {
+              Image(systemName: store.isShowCurrPassword ? "eye" : "eye.slash")
+                .foregroundStyle(.black)
+                .padding(.trailing, 12)
+            }
+          }
+
+          VStack(alignment: .leading, spacing: 16) {
+            Text("변경할 비밀번호")
+
+            Group {
+              if store.isShowNewPassword {
+                TextField(
+                  "변경할 비밀번호",
+                  text: $store.newPasswordText)
+              } else {
+                SecureField(
+                  "변경할 비밀번호",
+                  text: $store.newPasswordText)
+              }
+            }
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+            .onChange(of: store.newPasswordText) { _, new in
               store.isValidPassword = Validator.validatePassword(password: new)
             }
 
             Divider()
-              .overlay(!store.isValidPassword ? .red : isFocus == .password ? .blue : .clear)
+              .overlay(!store.isValidPassword ? .red : isFocus == .newPassword ? .blue : .clear)
 
             if !store.isValidPassword {
               HStack {
@@ -82,10 +112,10 @@ extension UpdatePasswordPage: View {
               }
             }
           }
-          .focused($isFocus, equals: .password)
+          .focused($isFocus, equals: .newPassword)
           .overlay(alignment: .trailing) {
-            Button(action: { store.isShowPassword.toggle() }) {
-              Image(systemName: store.isShowPassword ? "eye" : "eye.slash")
+            Button(action: { store.isShowNewPassword.toggle() }) {
+              Image(systemName: store.isShowNewPassword ? "eye" : "eye.slash")
                 .foregroundStyle(.black)
                 .padding(.trailing, 12)
             }
@@ -150,7 +180,9 @@ extension UpdatePasswordPage: View {
 
     .toolbar(.hidden, for: .navigationBar)
     .setRequestFlightView(isLoading: isLoading)
-    .onAppear { }
+    .onAppear {
+      isFocus = .currPassword
+    }
     .onDisappear {
       store.send(.teardown)
     }
