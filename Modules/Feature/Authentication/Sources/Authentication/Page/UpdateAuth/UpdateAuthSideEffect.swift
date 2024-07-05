@@ -65,7 +65,7 @@ extension UpdateAuthSideEffect {
         isAnimated: false)
     }
   }
-  
+
   var routeToUpdatePassword: () -> Void {
     {
       navigator.fullSheet(

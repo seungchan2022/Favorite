@@ -24,9 +24,9 @@ struct UpdateAuthReducer {
 
     var isShowUpdateUserNameAlert = false
     var isShowSignOutAlert = false
-    
+
     var updateUserName = ""
-    
+
     var item: Auth.Me.Response = .init(uid: "", userName: "", email: "", photoURL: "")
 
     var fetchUserInfo: FetchState.Data<Auth.Me.Response?> = .init(isLoading: false, value: .none)
@@ -132,7 +132,7 @@ struct UpdateAuthReducer {
       case .routeToUpdatePassword:
         sideEffect.routeToUpdatePassword()
         return .none
-        
+
       case .routeToBack:
         sideEffect.routeToBack()
         return .none

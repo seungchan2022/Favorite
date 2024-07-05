@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import DesignSystem
-import SwiftUI
 import Functor
+import SwiftUI
 
 // MARK: - Focus
 
@@ -185,4 +185,3 @@ extension SignUpPage: View {
 }
 
 // MARK: - Validator
-

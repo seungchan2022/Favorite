@@ -86,12 +86,11 @@ extension AuthUseCasePlatform: AuthUseCase {
       .eraseToAnyPublisher()
     }
   }
-  
+
   public var updatePassword: (String) -> AnyPublisher<Void, CompositeErrorRepository> {
     { newPassword in
       Future<Void, CompositeErrorRepository> { promise in
-    
-        
+
         Auth.auth().currentUser?.updatePassword(to: newPassword) { error in
           guard let error else { return promise(.success(Void())) }
 

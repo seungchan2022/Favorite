@@ -21,25 +21,24 @@ struct UpdatePasswordSideEffect {
 }
 
 extension UpdatePasswordSideEffect {
-  
+
   var updatePassword: (String) -> Effect<UpdatePasswordReducer.Action> {
     { newPassword in
-        .publisher {
-          useCase.authUseCase
-            .updatePassword(newPassword)
-            .map { _ in true }
-            .receive(on: main)
-            .mapToResult()
-            .map(UpdatePasswordReducer.Action.fetchUpdatePassword)
-        }
+      .publisher {
+        useCase.authUseCase
+          .updatePassword(newPassword)
+          .map { _ in true }
+          .receive(on: main)
+          .mapToResult()
+          .map(UpdatePasswordReducer.Action.fetchUpdatePassword)
+      }
     }
   }
-  
+
   var routeToClose: () -> Void {
     {
       navigator.close(isAnimated: true, completeAction: { })
     }
   }
-  
 
 }
