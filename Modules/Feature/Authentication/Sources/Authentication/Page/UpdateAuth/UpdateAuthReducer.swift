@@ -22,6 +22,9 @@ struct UpdateAuthReducer {
   struct State: Equatable, Identifiable {
     let id: UUID
 
+    var isShowUpdateUserNameAlert = false
+    var updateUserName = ""
+    
     var item: Auth.Me.Response = .init(uid: "", userName: "", email: "", photoURL: "")
 
     var fetchUserInfo: FetchState.Data<Auth.Me.Response?> = .init(isLoading: false, value: .none)
@@ -87,10 +90,11 @@ struct UpdateAuthReducer {
       case .onTapUpdateUserName:
         state.fetchUpdateUserName.isLoading = true
         return sideEffect
-          .updateUserName("test")
+          .updateUserName(state.updateUserName)
           .cancellable(pageID: pageID, id: CancelID.requestUpdateUserName, cancelInFlight: true)
 
       case .fetchUserInfo(let result):
+        print(result)
         state.fetchUserInfo.isLoading = false
         switch result {
         case .success(let item):
