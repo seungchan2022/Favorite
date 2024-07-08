@@ -93,7 +93,8 @@ struct SignInReducer {
 
         case .failure(let error):
           sideEffect.useCase.toastViewModel.send(message: "이메일 혹은 비밀번호가 잘못되었습니다.")
-          return .run { await $0(.throwError(error)) }
+//          return .run { await $0(.throwError(error)) }
+          return .none
         }
 
       case .fetchResetPassword(let result):

@@ -16,6 +16,7 @@ public enum CompositeErrorRepository: Error {
   case stopSpeech
   case webSocketDisconnect
   case currPasswordError
+  case incorrectUser
 
   // MARK: Public
 
@@ -30,6 +31,8 @@ public enum CompositeErrorRepository: Error {
       error.message
     case .currPasswordError:
       "현재 패스워드가 잘못되었습니다."
+    case .incorrectUser:
+      "잘못된 유저 정보입니다."
     default:
       localizedDescription
     }

@@ -33,6 +33,7 @@ let package = Package(
         "CombineExt",
         .product(name: "Logging", package: "swift-log"),
         .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+        .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
       ],
       resources: [
         .copy("Resources/Mock/dummy.json"),

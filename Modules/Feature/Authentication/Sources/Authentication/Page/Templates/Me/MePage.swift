@@ -64,6 +64,9 @@ extension MePage: View {
 
             Divider()
           }
+          .onTapGesture {
+            store.send(.routeToUpdateProfileImage)
+          }
 
           .frame(maxWidth: .infinity, alignment: .leading)
           .onTapGesture { }
@@ -109,6 +112,9 @@ extension MePage: View {
     .setRequestFlightView(isLoading: isLoading)
     .onAppear {
       store.send(.getUserInfo)
+    }
+    .onDisappear {
+      store.send(.teardown)
     }
   }
 }

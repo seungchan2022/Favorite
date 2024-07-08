@@ -63,6 +63,14 @@ extension MeSideEffect {
     }
   }
 
+  var routeToUpdateProfileImage: () -> Void {
+    {
+      navigator.next(
+        linkItem: .init(path: Link.Authentication.Path.updateProfileImage.rawValue),
+        isAnimated: true)
+    }
+  }
+
   var routeToTabBarItem: (String) -> Void {
     { path in
       guard path != Link.Me.Path.me.rawValue else { return }
