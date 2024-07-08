@@ -1,16 +1,17 @@
+import _PhotosUI_SwiftUI
 import Architecture
 import ComposableArchitecture
 import Domain
 import Foundation
 
 @Reducer
-struct MeReducer {
+struct UpdateProfileImageReducer {
 
   // MARK: Lifecycle
 
   init(
     pageID: String = UUID().uuidString,
-    sideEffect: MeSideEffect)
+    sideEffect: UpdateProfileImageSideEffect)
   {
     self.pageID = pageID
     self.sideEffect = sideEffect
@@ -22,10 +23,13 @@ struct MeReducer {
   struct State: Equatable, Identifiable {
     let id: UUID
 
+    var isShowPhotoPicker = false
+    var selectedImage: PhotosPickerItem?
+
     var item: Auth.Me.Response = .init(uid: "", userName: "", email: "", photoURL: "")
 
     var fetchUserInfo: FetchState.Data<Auth.Me.Response?> = .init(isLoading: false, value: .none)
-    var fetchSignOut: FetchState.Data<Bool> = .init(isLoading: false, value: false)
+    var fetchUpdateProfileImage: FetchState.Data<Bool> = .init(isLoading: false, value: false)
 
     init(id: UUID = UUID()) {
       self.id = id
@@ -38,15 +42,12 @@ struct MeReducer {
 
     case getUserInfo
 
-    case onTapSignOut
+    case updateProfileImage(Data)
 
     case fetchUserInfo(Result<Auth.Me.Response?, CompositeErrorRepository>)
-    case fetchSignOut(Result<Bool, CompositeErrorRepository>)
+    case fetchUpdateProfileImage(Result<Bool, CompositeErrorRepository>)
 
-    case routeToUpdateAuth
-    case routeToUpdateProfileImage
-
-    case routeToTabBarItem(String)
+    case routeToBack
 
     case throwError(CompositeErrorRepository)
   }
@@ -54,7 +55,7 @@ struct MeReducer {
   enum CancelID: Equatable, CaseIterable {
     case teardown
     case requestUserInfo
-    case requestSignOut
+    case requestUpdateProfileImage
   }
 
   var body: some Reducer<State, Action> {
@@ -74,11 +75,11 @@ struct MeReducer {
           .userInfo()
           .cancellable(pageID: pageID, id: CancelID.requestUserInfo, cancelInFlight: true)
 
-      case .onTapSignOut:
-        state.fetchSignOut.isLoading = true
+      case .updateProfileImage(let imageData):
+        state.fetchUpdateProfileImage.isLoading = true
         return sideEffect
-          .signOut()
-          .cancellable(pageID: pageID, id: CancelID.requestSignOut, cancelInFlight: true)
+          .updateProfileImage(imageData)
+          .cancellable(pageID: pageID, id: CancelID.requestUpdateProfileImage, cancelInFlight: true)
 
       case .fetchUserInfo(let result):
         state.fetchUserInfo.isLoading = false
@@ -91,32 +92,24 @@ struct MeReducer {
           return .run { await $0(.throwError(error)) }
         }
 
-      case .fetchSignOut(let result):
-        state.fetchSignOut.isLoading = false
+      case .fetchUpdateProfileImage(let result):
+        state.fetchUpdateProfileImage.isLoading = false
         switch result {
         case .success:
-          sideEffect.routeToSignIn()
+          sideEffect.routeToBack()
+          sideEffect.useCase.toastViewModel.send(message: "프로필 이미지가 변경되었습니다.")
           return .none
 
         case .failure(let error):
           return .run { await $0(.throwError(error)) }
         }
 
-      case .routeToUpdateAuth:
-        sideEffect.routeToUpdateAuth()
-        return .none
-
-      case .routeToUpdateProfileImage:
-        sideEffect.routeToUpdateProfileImage()
-        return .none
-
-      case .routeToTabBarItem(let matchPath):
-        sideEffect.routeToTabBarItem(matchPath)
+      case .routeToBack:
+        sideEffect.routeToBack()
         return .none
 
       case .throwError(let error):
-        sideEffect.useCase.toastViewModel.send(errorMessage: error.displayMessage)
-        return .none
+        return .run { await $0(.throwError(error)) }
       }
     }
   }
@@ -124,5 +117,5 @@ struct MeReducer {
   // MARK: Private
 
   private let pageID: String
-  private let sideEffect: MeSideEffect
+  private let sideEffect: UpdateProfileImageSideEffect
 }

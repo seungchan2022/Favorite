@@ -66,7 +66,9 @@ extension MePage: View {
           }
 
           .frame(maxWidth: .infinity, alignment: .leading)
-          .onTapGesture { }
+          .onTapGesture {
+            store.send(.routeToUpdateProfileImage)
+          }
 
           VStack(spacing: 32) {
             Button(action: { store.send(.routeToUpdateAuth) }) {
